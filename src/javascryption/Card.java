@@ -1,5 +1,9 @@
 package javascryption;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Card {
 	private String name; //name of the card
 	private int health; //amount of health. TODO: Delete card when it reaches 0.
@@ -30,15 +34,45 @@ public class Card {
 		setAttack(newAttack);
 		setBlood(newBlood);
 	}
+	/*I think it'd be easier to read and set from file within Card class
+	 * i.e. void makeCard() here and delete parameterized constructor
+	 * let me know if y'all think makeCard() should be a separate class
+	 */
 	
-	public void recieveAttack(int damageDealt) {
-		setHealth(getHealth()-damageDealt);
+	//Set card values from .txt file. id = line # - 1
+	public void makeCard(int id) {
+		try (BufferedReader br = new BufferedReader(new FileReader("CardLibrary.txt"))) {
+		    for (int i = 0; i < id; i++) {
+		        br.readLine();
+		    }
+		    String line = br.readLine();
+		    String[] split = line.split(",");
+
+		 	name = split[0];
+		 	blood = Integer.parseInt(split[1]);
+		 	health = Integer.parseInt(split[2]);
+		 	attack = Integer.parseInt(split[3]);
+
+		    br.close();
+		}
+		catch (IOException e) {	
+		}
 		
-		/*
-		 * later on we need to put something here stating to delete
-		 * the card if it no longer has enough health, we need to
-		 * build up more of a framework for it first though.
-		 */
+	}
+
+	/*changed to boolean "survivedAttack" from void "received" for easier 
+	 deletion check		*/
+	public boolean survivedAttack(int damageDealt) {
+		setHealth(getHealth()-damageDealt);
+		if(health > 0) {
+			//survived
+			return true;
+		}
+		else {
+			//dead
+			return false;
+		}
+		//Cards should be deleted from board when return false
 	}
 	
 	/* From here on out it's just the usual setters and getters.
