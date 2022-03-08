@@ -24,7 +24,7 @@ public class Card {
 	 * @param newAttack Amount of Attack.
 	 * @param newBlood Amount of blood which it costs to put card into play.
 	 */
-	public Card(String newName, int newHealth, int newAttack, int newBlood) {
+	public Card(String newName, int newBlood, int newHealth, int newAttack) {
 		setName(newName);
 		setHealth(newHealth);
 		setAttack(newAttack);
@@ -77,4 +77,18 @@ public class Card {
 	public int getBlood() {
 		return this.blood;
 	}
+
+	@Override
+	public String toString() {
+		return (this.getName() 
+				+ "\tBlood:" +this.getBlood() 
+				+ " Health:" +this.getHealth() 
+				+ " Attack:"+this.getAttack());
+	}
+	
+	/*
+	 * TODO:
+	 *  	- Add compareTo function that allows the cards to be compared to one another.
+	 *  	- Add an enum(? might want to discuss) to represent the numbered lane that a card is in.
+	 */
 }
