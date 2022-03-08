@@ -8,7 +8,7 @@ public class Deck {
 	 * Default constructor, not sure which one we'll end up using so I did both.
 	 */
 	public Deck() {
-		this.deck = new ArrayList();
+		this.deck = new ArrayList<Card>();
 	}
 	
 	/**
@@ -16,7 +16,7 @@ public class Deck {
 	 * @param newDeck Deck of cards to import.
 	 */
 	public Deck(ArrayList<Card> newDeck) {
-		this.deck = new ArrayList();
+		this.deck = new ArrayList<Card>();
 		setDeck(newDeck);
 	}
 	
@@ -48,8 +48,10 @@ public class Deck {
 
 	@Override
 	public String toString() {
+		if (this.getSize()<= 0)
+			System.out.println("Error: You have "+this.getSize()+" cards in your deck.");
 		String output = "";
-		output += "Number of cards: "+this.getSize();
+		output += "Number of cards: "+this.getSize()+"\n";
 		
 		for (Card newCard : this.deck)
 			output+= newCard.toString()+"\n";
