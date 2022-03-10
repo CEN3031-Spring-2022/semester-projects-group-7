@@ -12,7 +12,7 @@ public class Deck {
 	}
 	
 	/**
-	 * Parameterized constructor. Takes in a pre existing deck of cards
+	 * Parameterized constructor. Takes in a pre existing deck of cards.
 	 * @param newDeck Deck of cards to import.
 	 */
 	public Deck(ArrayList<Card> newDeck) {
