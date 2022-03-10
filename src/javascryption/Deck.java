@@ -49,7 +49,7 @@ public class Deck {
 	@Override
 	public String toString() {
 		if (this.getSize()<= 0)
-			System.out.println("Error: You have "+this.getSize()+" cards in your deck.");
+			return ("Error: You have "+this.getSize()+" cards in your deck.");
 		String output = "";
 		output += "Number of cards: "+this.getSize()+"\n";
 		
