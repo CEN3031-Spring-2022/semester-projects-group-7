@@ -1,0 +1,3 @@
+Squirrel,0,1,0
+Stoat,1,2,1
+Wolf,2,3,2
