@@ -1,35 +1,52 @@
 package javascryption;
 
 import java.util.ArrayList;
+import org.junit.jupiter.api.*;
+import static org.junit.Assert.assertEquals;
 
 public class DeckTester {
-
-	public static void main(String[] args) {
+	
+	@Test
+	void addingCardstoDeck() {
+		Deck sut = new Deck();
+		
 		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card raven = new Card("Raven", 3, 2, 1);
-		Card stout = new Card("Stout", 5, 6, 7);
+		Card badger = new Card("Badger", 1, 2, 3);
+		Card bee = new Card("Bee", 1, 2, 3);
 		
-		Deck deck = new Deck();
-		deck.addCard(wolf);
-		deck.addCard(raven);
-		deck.addCard(stout);
+		sut.addCard(wolf);
+		sut.addCard(badger);
+		sut.addCard(bee);		
+	}
+	
+	@Test
+	void checkingSizeOfDeck() {
+		Deck sut = new Deck();
 		
-		System.out.println(deck.toString());
+		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card badger = new Card("Badger", 1, 2, 3);
+		Card bee = new Card("Bee", 1, 2, 3);
 		
-		System.out.println("Testing if it works with an alrady existing array list as well as dealing damage: ");
-		stout.recieveAttack(wolf.getAttack());
+		sut.addCard(wolf);
+		sut.addCard(badger);
+		sut.addCard(bee);
 		
-		ArrayList<Card> cardList = new ArrayList<Card>();
-		cardList.add(wolf);
-		cardList.add(raven);
-		cardList.add(stout);
+		assertEquals(sut.getSize(), 3);
+	}
+	
+	@Test
+	void testingParameterizedConstructor() {
+		Card wolf = new Card("Wolf", 1, 2, 3);
+
+		ArrayList<Card> sampleList = new ArrayList<Card>();
 		
-		deck = new Deck(cardList);
-		System.out.println(deck.toString());
+		sampleList.add(wolf);
+		sampleList.add(wolf);
+		sampleList.add(wolf);
 		
-		System.out.println("Testing if a deck has zero cards: ");
-		deck = new Deck();
-		deck.toString();
+		Deck sut = new Deck(sampleList);
+		
+		assertEquals(sut.getSize(), 3);
 	}
 
 }
