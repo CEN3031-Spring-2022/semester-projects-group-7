@@ -1,7 +1,5 @@
 package javascryption;
 
-import static org.junit.Assert.assertEquals;
-
 public class main {
 
 	public static void main(String[] args) {

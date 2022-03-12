@@ -5,10 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 public class HandTester {
 	
-	// Test default constructor. This checks if the hand ArrayList is empty, if it is, then we know
-	// the ArrayList has been constructed.
 	@Test
-	void testDefaultConstructor() {
+	void testDefaultConstructorToSeeIfEmpty() {
 		Hand obj = new Hand();
 		assert(obj.getHand().isEmpty() == true);
 	}

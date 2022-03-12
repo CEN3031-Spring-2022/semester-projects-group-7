@@ -1,6 +1,5 @@
 package javascryption;
 
-import java.util.ArrayList;
 
 public class Player {
 	/*
@@ -48,7 +47,10 @@ public class Player {
 		playerHand.addCardToHand(newCard);
 		playerDeck.deleteCardByPosition(0);
 	}
-	
+	/**
+	 * removes health from player. 
+	 * @param damage how much health you want to remove from player.
+	 */
 	public void takeDamage(int damage) {
 		setPlayerHP((getPlayerHP() - damage));
 	}
