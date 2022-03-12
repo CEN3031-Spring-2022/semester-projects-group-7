@@ -23,7 +23,7 @@ public class Player {
 	 * @param deck
 	 */
 	public void setDeck(Deck deck) {
-		this.playerDeck.addMultipleCards(deck.getDeck());;
+		this.playerDeck = deck;
 	}
 
 	/**
