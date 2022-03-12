@@ -67,6 +67,10 @@ public class Deck {
 		}
 	}
 	
+	public ArrayList<Card> getDeck(){
+		return this.deck;
+	}
+	
 	/**
 	 * input a position in the deck to get that card
 	 * @param cardPos integer representing the position of the card. Starts at 0.
