@@ -13,7 +13,8 @@ import java.io.IOException;
 public class Board
 {
 	// The Board will just be a 2D array of cards.
-	Card[][] board;
+	//made public for testing purposes
+	public Card[][] board;
 	
 	//Default Constructor
 	public Board()
@@ -41,7 +42,7 @@ public class Board
 	{
 		if(IsValidRow(row) && IsValidCol(col))
 		{
-			return(this.board[row][col] = null);
+			return(true);
 		}
 		return false;
 	}
@@ -89,7 +90,7 @@ public class Board
 		if(IsValidRow(originRow) && IsValidCol(originCol) && IsValidRow(newRow) && IsValidCol(newCol))
 		{
 			this.board[newRow][newCol] = this.board[originRow][originCol];
-			RemoveCard([originRow][originCol]);
+			RemoveCard(originRow, originCol);
 			return true;
 		}
 		return false;
