@@ -5,22 +5,50 @@ import static org.junit.Assert.assertEquals;
 
 public class HandTester {
 	
-	// Test default constructor. This checks if the hand ArrayList is empty, if it is, then we know
-	// the ArrayList has been constructed.
 	@Test
-	void testDefaultConstructor() {
+	void testDefaultConstructorToSeeIfEmpty() {
 		Hand obj = new Hand();
 		assert(obj.getHand().isEmpty() == true);
 	}
 	
+	@Test
+	void testReturnHand() {
+		Deck sampleDeck = new Deck();		
+		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card badger = new Card("Badger", 1, 2, 3);
+		Card bee = new Card("Bee", 1, 2, 3);		
+		sampleDeck.addCard(wolf);
+		sampleDeck.addCard(badger);
+		sampleDeck.addCard(bee);		
+		Hand sut = new Hand();
+		
+		sut.setHand(sampleDeck.getDeck());
+		
+		assertEquals(sampleDeck.getDeck(), sut.getHand());	
+	}
 	
-	// TODO: Test add / "draw" method in bounds
-	// TODO: Test add / "draw" method out of bounds
+	@Test
+	void testGetCardByPosition() {
+		Hand sut = new Hand();
+		Card wolf = new Card("Wolf", 1, 2, 3);
+
+		sut.addCardToHand(wolf);
+		
+		assertEquals(wolf, sut.getCardByPos(0));
+	}
 	
-	// TODO: Test get(index) method
-	// TODO: Test get method/ check for a return of whole hand
-	
-	// TODO: Test remove / "place" method
-	// TODO: Test remove / "place" with empty hand
+	@Test
+	void removeCardByPosition() {
+		Hand sut = new Hand();
+		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card badger = new Card("Badger", 0, 0, 0);
+		
+		sut.addCardToHand(badger);
+		sut.addCardToHand(wolf);
+		
+		sut.removeCardbyPosition(0);
+		
+		assertEquals(wolf, sut.getCardByPos(0));
+	}
 	
 }

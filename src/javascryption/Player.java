@@ -1,6 +1,5 @@
 package javascryption;
 
-import java.util.ArrayList;
 
 public class Player {
 	/*
@@ -14,6 +13,8 @@ public class Player {
 		// start player with 10 hp, can be adjusted in the future
 		this.playerHP =  10;
 		this.playerDeck = new Deck();
+		playerHand = new Hand();
+		this.readPlayerDeck();
 	}
 
 	/**
@@ -31,4 +32,49 @@ public class Player {
 	public Hand getHand() {
 		return this.playerHand;
 	}
+	/**
+	 * This is where the game is gonna read the input for the player deck. We can start on this in sprint 2.
+	 */
+	public void readPlayerDeck() {
+		
+	}
+	
+	/**
+	 * Removes card from top of the deck and adds it to hand.
+	 */
+	public void drawCard() {
+		Card newCard = playerDeck.getCardByPosition(0);
+		playerHand.addCardToHand(newCard);
+		playerDeck.deleteCardByPosition(0);
+	}
+	/**
+	 * removes health from player. 
+	 * @param damage how much health you want to remove from player.
+	 */
+	public void takeDamage(int damage) {
+		setPlayerHP((getPlayerHP() - damage));
+	}
+
+	public int getPlayerHP() {
+		return playerHP;
+	}
+
+	public void setPlayerHP(int playerHP) {
+		this.playerHP = playerHP;
+	}
+
+	public Deck getPlayerDeck() {
+		return playerDeck;
+	}
+
+	public Hand getPlayerHand() {
+		return playerHand;
+	}
+
+	public void setPlayerHand(Hand playerHand) {
+		this.playerHand = playerHand;
+	}
+	
+	
+	
 }
