@@ -3,97 +3,74 @@ package javascryption;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
-/*
- * [] [] [] [] <- AI row
- * [] [] [] [] 
- * [] [] [] [] <- Player Row
- * Functions return booleans to attempt to show successful executions.
- */
 public class Board
 {
-	// The Board will just be a 2D array of cards.
-	Card[][] board;
+	private ArrayList<ArrayList<Card>> opponentBoard;
+	private ArrayList<Card> playerBoard;
 	
-	//Default Constructor
 	public Board()
 	{
-		board = new Card[3][4];
+		opponentBoard = new ArrayList<ArrayList<Card>>();
+		playerBoard = new ArrayList<Card>();
+		
 	}
-
-	//HELPER METHOD. Checks to see if the given value is a valid row on our board
-	private boolean IsValidRow(int row)
-	{
-		return (row <= 0 && row <= 2);
+	
+	public void addPlayerCardtoBoard(Card playerCard, int position) {
+		playerBoard.add(position, playerCard);
 	}
-
-	//HELPER METHOD. Checks to see if the given column is valid on our board.
-	private boolean IsValidCol(int col)
-	{
-		return (col <= 0 && col <= 3);
+	
+	public void removePlayerCardFromBoard(int position) {
+		playerBoard.set(position, null);
 	}
-	/**
-	 * Checks a position on the board to see if it is empty.
-	 * @ x is the row to check
-	 * @ y is the column to check
-	 */
-	public boolean IsOpen(int row, int col)
-	{
-		if(IsValidRow(row) && IsValidCol(col))
-		{
-			return(this.board[row][col] = null);
-		}
-		return false;
+	
+	public Card getPlayerCardByPos(int position) {
+		return playerBoard.get(position);
 	}
 	
 	/**
-	 * Given a card and a board placement, this method attempts to place the card.
-	 * @ _card is the card attempting to be placed
-	 * @ row is the row to place the card on.
-	 * @ col is the column to move the card too.
+	 * This loops through the opponent's board until
+	 * it finds somewhere empty. It then places the card 
+	 * on the open slot in the given x position.
+	 * 
+	 * @param enemyCard Card you want to add
+	 * @param positionX Position on the x-axis (lane) that you want to add it.
 	 */
-	public boolean PlaceCard(Card _card, int row, int col)
-	{
-		if(IsValidRow(row) && IsValidCol(col))
-		{
-			if(IsOpen(row, col))
-			{
-				board[row][col] = _card;
-				return true;
+	public void addEnemyCardtoBoard(Card enemyCard, int positionX) {
+		boolean locationContainsCard = true;
+		int positionY = 0;
+		while (locationContainsCard) {
+			if(opponentBoard.get(positionX).get(positionY) == null)
+				locationContainsCard = false;
+			else
+				positionY++;
+		}
+		opponentBoard.get(positionX).set(positionY, enemyCard);
+	}
+	
+	public void removeEnemyCardFromBoard(int positionX, int positionY) {
+		opponentBoard.get(positionX).set(positionY, null);
+	}
+	
+	public void removeEnemyCardFromBoard(int positionX) {
+		opponentBoard.get(positionX).set(0, null);
+	}
+	
+	public void moveOpponentCardsForward() {
+		for(int i=0; i<4; i++) {
+			for(int j=1; j<opponentBoard.get(j).size(); j++) {
+				if (opponentBoard.get(i).get(j) != null) { //if card exists
+					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
+						Card tempCard = opponentBoard.get(i).get(j).getCard();
+						opponentBoard.get(i).set(j, null);
+						opponentBoard.get(i).set(j-1, tempCard);
+					}
+				}
 			}
 		}
-		return false;
 	}
-	
-	/**
-	 * Given a valid location, this method removes a card from the board.
-	 * @ row is the row to place the card on.
-	 * @ col is the column to move the card too.
-	 */
-	public boolean RemoveCard(int row, int col)
-	{
-		if(IsValidRow(row) && IsValidCol(col))
-		{
-			this.board[row][col] = null;
-			return true;
-		}
-		return false;
-	}
-	
-	/*
-	 * Moves a coordinate point on the board to another coordinate.
-	 * Then removes the card at the original coordinate.
-	 */
-	public boolean MoveCard(int originRow, int originCol, int newRow, int newCol)
-	{
-		if(IsValidRow(originRow) && IsValidCol(originCol) && IsValidRow(newRow) && IsValidCol(newCol))
-		{
-			this.board[newRow][newCol] = this.board[originRow][originCol];
-			RemoveCard([originRow][originCol]);
-			return true;
-		}
-		return false;
-	}
+
 
 	//TODO probably with graphics.
 	/*@Override
