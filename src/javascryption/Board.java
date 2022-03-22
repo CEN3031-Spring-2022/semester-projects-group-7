@@ -70,6 +70,12 @@ public class Board
 			}
 		}
 	}
+	
+	public Card getOpponentCardByPosition(int positionX) {
+		return opponentBoard.get(positionX).get(0);
+	}
+	
+	
 
 
 	//TODO probably with graphics.
