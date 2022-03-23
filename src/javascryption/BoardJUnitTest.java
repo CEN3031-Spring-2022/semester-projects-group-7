@@ -71,7 +71,32 @@ class BoardJUnitTest {
 		sut.removeOpponentCardFromBoard(0);
 		
 		assertEquals(null, sut.getOpponentCardByPosition(0));
-
+	}
+	
+	@Test
+	void playerAttacks() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 2, 2);
+		Card wolf = new Card("Wolf", 3, 3, 3);	
+		sut.addPlayerCardtoBoard(weasel, 0);
+		sut.addOpponentCardtoBoard(wolf, 0);
+	
+		sut.damageOpponentCard(0, 0);
+		
+		assertEquals(1, wolf.getHealth());
+	}
+	
+	@Test
+	void opponentAttacks() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 2, 2);
+		Card wolf = new Card("Wolf", 3, 3, 3);	
+		sut.addPlayerCardtoBoard(wolf, 0);
+		sut.addOpponentCardtoBoard(weasel, 0);
+	
+		sut.damagePlayerCard(0, 0);
+		
+		assertEquals(1, wolf.getHealth());
 	}
 
 }
