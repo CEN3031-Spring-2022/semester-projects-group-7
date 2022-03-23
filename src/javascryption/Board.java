@@ -28,6 +28,26 @@ public class Board
 		}
 	}
 	
+	public void damageOpponentCard(int playerCardPos, int opponentPosX) {
+		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
+		int opposingCardHealth = opponentBoard.get(opponentPosX).get(0).getHealth();
+		
+		opponentBoard.get(opponentPosX).get(0).setHealth(opposingCardHealth - playerAttackStrength);
+		
+		if (opposingCardHealth <= 0)
+			removeOpponentCardFromBoard(opponentPosX);
+	}
+	
+	public void damageOpponentCard(int playerCardPos, int opponentPosX, int opponentPosY) {
+		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
+		int opposingCardHealth = opponentBoard.get(opponentPosX).get(opponentPosY).getHealth();
+		
+		opponentBoard.get(opponentPosX).get(opponentPosY).setHealth(opposingCardHealth - playerAttackStrength);
+		
+		if (opposingCardHealth <= 0)
+			removeOpponentCardFromBoard(opponentPosX, opponentPosY);
+	}
+	
 	public void addPlayerCardtoBoard(Card playerCard, int position) {
 		playerBoard.add(position, playerCard);
 	}
@@ -59,6 +79,17 @@ public class Board
 				positionY++;
 		}
 		opponentBoard.get(positionX).set(positionY, enemyCard);
+	}
+	
+	public void damagePlayerCard(int playerPosX, int opponentPosX) {
+		int playerCardHealth = playerBoard.get(playerPosX).getHealth();
+		int attackStrength = opponentBoard.get(opponentPosX).get(0).getAttack();
+		
+		playerCardHealth = playerCardHealth - attackStrength;
+		if(playerCardHealth <= 0)
+			removePlayerCardFromBoard(playerPosX);
+		else
+			playerBoard.get(playerPosX).setHealth(playerCardHealth);
 	}
 	
 	public void addOpponentCardtoSpecificLocation(Card enemyCard, int posX, int posY) {
