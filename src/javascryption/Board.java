@@ -14,7 +14,17 @@ public class Board
 	{
 		opponentBoard = new ArrayList<ArrayList<Card>>();
 		playerBoard = new ArrayList<Card>();
+		initializeOponentBoard();
 		
+	}
+	
+	private void initializeOponentBoard() {
+		for(int i=0; i<4; i++)
+			opponentBoard.add(new ArrayList<Card>());
+		for(int i=0; i<4; i++) {
+			for(int j=0; j<10; j++) //change this to more than 10 if you want more rows
+				opponentBoard.get(i).add(null);
+		}
 	}
 	
 	public void addPlayerCardtoBoard(Card playerCard, int position) {
@@ -47,6 +57,10 @@ public class Board
 				positionY++;
 		}
 		opponentBoard.get(positionX).set(positionY, enemyCard);
+	}
+	
+	public void addEnemytoSpecificLocation(Card enemyCard, int posX, int posY) {
+		opponentBoard.get(posX).set(posY, enemyCard);
 	}
 	
 	public void removeEnemyCardFromBoard(int positionX, int positionY) {

@@ -21,10 +21,12 @@ class BoardJUnitTest {
 		Card weasel = new Card();
 		Card wolf = new Card();
 		
-		sut.addEnemyCardtoBoard(weasel, 0);
-		sut.addEnemyCardtoBoard(weasel, 3);
+		sut.addEnemytoSpecificLocation(weasel, 0, 0);
+		//sut.addEnemyCardtoBoard(weasel, 3);
 		//sut.addEnemyCardtoBoard(wolf, 0);
 		
 		assertEquals(weasel, sut.getOpponentCardByPosition(0));
+		System.out.println("test won");
 	}
+
 }
