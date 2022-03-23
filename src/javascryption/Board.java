@@ -9,20 +9,21 @@ public class Board
 {
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
+	private int boardSizeY = 10; //we'll set this dynamically in the future.
 	
 	public Board()
 	{
 		opponentBoard = new ArrayList<ArrayList<Card>>();
 		playerBoard = new ArrayList<Card>();
-		initializeOponentBoard();
+		initializeOpponentBoard();
 		
 	}
 	
-	private void initializeOponentBoard() {
+	private void initializeOpponentBoard() {
 		for(int i=0; i<4; i++)
 			opponentBoard.add(new ArrayList<Card>());
 		for(int i=0; i<4; i++) {
-			for(int j=0; j<10; j++) //change this to more than 10 if you want more rows
+			for(int j=0; j<boardSizeY; j++)
 				opponentBoard.get(i).add(null);
 		}
 	}
@@ -39,6 +40,7 @@ public class Board
 		return playerBoard.get(position);
 	}
 	
+	
 	/**
 	 * This loops through the opponent's board until
 	 * it finds somewhere empty. It then places the card 
@@ -47,7 +49,7 @@ public class Board
 	 * @param enemyCard Card you want to add
 	 * @param positionX Position on the x-axis (lane) that you want to add it.
 	 */
-	public void addEnemyCardtoBoard(Card enemyCard, int positionX) {
+	public void addOpponentCardtoBoard(Card enemyCard, int positionX) {
 		boolean locationContainsCard = true;
 		int positionY = 0;
 		while (locationContainsCard) {
@@ -59,21 +61,22 @@ public class Board
 		opponentBoard.get(positionX).set(positionY, enemyCard);
 	}
 	
-	public void addEnemytoSpecificLocation(Card enemyCard, int posX, int posY) {
+	public void addOpponentCardtoSpecificLocation(Card enemyCard, int posX, int posY) {
 		opponentBoard.get(posX).set(posY, enemyCard);
 	}
 	
-	public void removeEnemyCardFromBoard(int positionX, int positionY) {
+	public void removeOpponentCardFromBoard(int positionX, int positionY) {
 		opponentBoard.get(positionX).set(positionY, null);
 	}
 	
-	public void removeEnemyCardFromBoard(int positionX) {
+	public void removeOpponentCardFromBoard(int positionX) {
 		opponentBoard.get(positionX).set(0, null);
 	}
 	
+	//This is a mess, we should refactor this later.
 	public void moveOpponentCardsForward() {
-		for(int i=0; i<4; i++) {
-			for(int j=1; j<opponentBoard.get(j).size(); j++) {
+		for(int i=0; i<4; i++) { 
+			for(int j=1; j<boardSizeY; j++) { //loops through all locations in 2d arraylist
 				if (opponentBoard.get(i).get(j) != null) { //if card exists
 					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
 						Card tempCard = opponentBoard.get(i).get(j).getCard();
@@ -89,16 +92,8 @@ public class Board
 		return opponentBoard.get(positionX).get(0);
 	}
 	
-	
-
-
-	//TODO probably with graphics.
-	/*@Override
-	public String toString() {
-		return (this.getName() 
-				+ "\tBlood:" +this.getBlood() 
-				+ " Health:" +this.getHealth() 
-				+ " Attack:"+this.getAttack());
-	}*/
+	public Card getOpponentCardByPosition(int posX, int posY) {
+		return opponentBoard.get(posX).get(posY);
+	}
 	
 }
