@@ -1,6 +1,9 @@
 package javascryption;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 class BoardJUnitTest {
@@ -97,6 +100,40 @@ class BoardJUnitTest {
 		sut.damagePlayerCard(0, 0);
 		
 		assertEquals(1, wolf.getHealth());
+	}
+	
+	@Test
+	void correctlyGrabsFrontRow() {
+		Board sut = new Board();
+		Card weasel = new Card();
+		Card beaver = new Card();
+		Card wolf = new Card();
+		
+		sut.addOpponentCardtoBoard(weasel, 0);
+		sut.addOpponentCardtoBoard(beaver, 1);
+		//intentionally not adding anything to row 2
+		sut.addOpponentCardtoBoard(wolf, 3);
+		
+		ArrayList<Card> frontRow = new ArrayList<Card>(sut.getFrontRow());
+		for (int i=0; i<4; i++) //loop to automatically check without typing it all
+			assertEquals(frontRow.get(i), sut.getOpponentCardByPosition(i));
+	}
+	
+	@Test
+	void correctlyGrabsSecondRow() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 1, 1, 1);
+		Card beaver = new Card();
+		Card wolf = new Card();
+		
+		sut.addOpponentCardtoSpecificLocation(weasel, 0, 1);
+		sut.addOpponentCardtoSpecificLocation(beaver, 1, 1);
+		//intentionally not adding anything to row 2
+		sut.addOpponentCardtoSpecificLocation(wolf, 3, 1);
+		
+		ArrayList<Card> secondRow = new ArrayList<Card>(sut.getSecondRow());
+		for (int i=0; i<4; i++) //loop to automatically check without typing it all
+			assertEquals(secondRow.get(i), sut.getOpponentCardByPosition(i, 1));
 	}
 
 }

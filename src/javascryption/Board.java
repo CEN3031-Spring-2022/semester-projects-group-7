@@ -10,6 +10,7 @@ public class Board
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
 	private int boardSizeY = 10; //we'll set this dynamically in the future.
+	private int boardSizeX = 4; //might be cool to change this as a feature.
 	
 	public Board()
 	{
@@ -20,9 +21,9 @@ public class Board
 	}
 	
 	private void initializeOpponentBoard() {
-		for(int i=0; i<4; i++)
+		for(int i=0; i<boardSizeX; i++)
 			opponentBoard.add(new ArrayList<Card>());
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<boardSizeX; i++) {
 			for(int j=0; j<boardSizeY; j++)
 				opponentBoard.get(i).add(null);
 		}
@@ -106,7 +107,7 @@ public class Board
 	
 	//This is a mess, we should refactor this later.
 	public void moveOpponentCardsForward() {
-		for(int i=0; i<4; i++) { 
+		for(int i=0; i<boardSizeX; i++) { 
 			for(int j=1; j<boardSizeY; j++) { //loops through all locations in 2d arraylist
 				if (opponentBoard.get(i).get(j) != null) { //if card exists
 					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
@@ -125,6 +126,26 @@ public class Board
 	
 	public Card getOpponentCardByPosition(int posX, int posY) {
 		return opponentBoard.get(posX).get(posY);
+	}
+	
+	public ArrayList<Card> getPlayerBoard(){
+		return playerBoard;
+	}
+	
+	public ArrayList<Card> getFrontRow(){
+		ArrayList<Card> frontRow = new ArrayList<Card>();
+		for (int i=0; i<boardSizeX; i++)
+			frontRow.add(opponentBoard.get(i).get(0));
+		
+		return frontRow;
+	}
+	
+	public ArrayList<Card> getSecondRow(){
+		ArrayList<Card> SecondRow = new ArrayList<Card>();
+		for (int i=0; i<boardSizeX; i++)
+			SecondRow.add(opponentBoard.get(i).get(1));
+		
+		return SecondRow;
 	}
 	
 }
