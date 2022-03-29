@@ -1,10 +1,10 @@
 package javascryption;
 	
+import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -18,9 +18,11 @@ public class Main extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         primaryStage.setTitle("Javascryption");
-                
+        
+        AdditionalGraphics additionalGraphics = new AdditionalGraphics();
+
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
         Button PlayerCardPosition1 = new Button();
@@ -30,13 +32,9 @@ public class Main extends Application {
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
-        
-        PlayerCardPosition1.setText("Position 1");
-        PlayerCardPosition2.setText("Position 2");
-        PlayerCardPosition3.setText("Position 3");
-        PlayerCardPosition4.setText("Position 4");
-        Deck.setText("Deck");
-        SquirrelDeck.setText("Squirrel Deck");
+  
+        additionalGraphics.setAttackDeckGraphic(Deck);
+        additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
         Bell.setText("Bell");
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
@@ -111,42 +109,52 @@ public class Main extends Application {
         PlayerCardPosition4.setPrefSize(100, 150);
         
         Deck.setTranslateX(275);
-        Deck.setTranslateY(75);
+        Deck.setTranslateY(275);
         Deck.setPrefSize(100, 150);
         
         SquirrelDeck.setTranslateX(425);
-        SquirrelDeck.setTranslateY(75);
+        SquirrelDeck.setTranslateY(275);
         SquirrelDeck.setPrefSize(100, 150);
         
         Bell.setTranslateX(350);
-        Bell.setTranslateY(250);
-        Bell.setPrefSize(100, 100);
-                
+        Bell.setTranslateY(120);
+        Bell.setPrefSize(150, 100);
+        
         //Window Creation ////////////////////////////////////////////////////////////
         
         StackPane root = new StackPane();
-        AdditionalGraphics additionalGraphics = new AdditionalGraphics();
         
-        ScrollPane scroll = new ScrollPane();
-        scroll.setPrefSize(700, 175);
-        scroll.setVbarPolicy(ScrollBarPolicy.NEVER);
-        scroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-                
-        Group scrollPanel = new Group(scroll);
-        scrollPanel.setTranslateX(-225);
-        scrollPanel.setTranslateY(275);
+        ScrollPane handScroll = new ScrollPane();
+        handScroll.setPrefSize(700, 175);
+        handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
+        handScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+        
+        ScrollPane gameLogScroll = new ScrollPane();
+        gameLogScroll.setPrefSize(500, 200);
+        gameLogScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        gameLogScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+        
+        Group handPanel = new Group(handScroll);
+        handPanel.setTranslateX(-225);
+        handPanel.setTranslateY(275);
+        
+        Group gameLogPanel = new Group(gameLogScroll);
+        gameLogPanel.setTranslateX(325);
+        gameLogPanel.setTranslateY(-250);
         
         root.getChildren().add(PlayerCardPosition1);
         root.getChildren().add(PlayerCardPosition2);
         root.getChildren().add(PlayerCardPosition3);
         root.getChildren().add(PlayerCardPosition4);
-        root.getChildren().add(Deck);
+        root.getChildren().addAll(Deck);
         root.getChildren().add(SquirrelDeck);
         root.getChildren().add(Bell);
         
         root.getChildren().add(additionalGraphics.setCardSlotGraphics());
         root.getChildren().add(additionalGraphics.scaleGraphics());
-        root.getChildren().add(scrollPanel);
+        root.getChildren().add(handPanel);
+        root.getChildren().add(gameLogPanel);
+
 
         primaryStage.setScene(new Scene(root, 1200, 750));
         primaryStage.show();

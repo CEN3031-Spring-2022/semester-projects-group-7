@@ -1,14 +1,17 @@
 package javascryption;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class AdditionalGraphics {
-	/* These are all placeholder graphics
-	 * They should either be modified or replaced by images
-	 */
 	
-	public Group setCardSlotGraphics() {
+	public Group setCardSlotGraphics() throws FileNotFoundException {
 		/* Idle Positions are the top line of the board, where enemy cards are
 		 * "idling" until they reach the middle line to attack.
 		 * 
@@ -16,65 +19,77 @@ public class AdditionalGraphics {
 		 * ready to attack when the bell is rung.
 		 */
 		
-		Rectangle enemyIdlePosition1 = new Rectangle();
-		Rectangle enemyIdlePosition2 = new Rectangle();
-		Rectangle enemyIdlePosition3 = new Rectangle();
-		Rectangle enemyIdlePosition4 = new Rectangle();
 		
-		Rectangle enemyPosition1 = new Rectangle();
-		Rectangle enemyPosition2 = new Rectangle();
-		Rectangle enemyPosition3 = new Rectangle();
-		Rectangle enemyPosition4 = new Rectangle();
-		
-		//Idle Position size and position //////////////////////////////////////////////////
+	    Image EnemySlot = new Image(new FileInputStream("assets/EnemyCardSlotEmpty.png"));
+	    
+	    ImageView enemyIdlePosition1 = new ImageView(EnemySlot); 
+	    ImageView enemyIdlePosition2 = new ImageView(EnemySlot); 
+	    ImageView enemyIdlePosition3 = new ImageView(EnemySlot); 
+	    ImageView enemyIdlePosition4 = new ImageView(EnemySlot); 
+	    
+	    ImageView enemyPosition1 = new ImageView(EnemySlot); 
+	    ImageView enemyPosition2 = new ImageView(EnemySlot); 
+	    ImageView enemyPosition3 = new ImageView(EnemySlot); 
+	    ImageView enemyPosition4 = new ImageView(EnemySlot); 
+	    
+	    Image PlayerSlot = new Image(new FileInputStream("assets/PlayerCardSlotEmpty.png"));
+
+	    ImageView playerPosition1 = new ImageView(PlayerSlot); 
+	    ImageView playerPosition2 = new ImageView(PlayerSlot);
+	    ImageView playerPosition3 = new ImageView(PlayerSlot);
+	    ImageView playerPosition4 = new ImageView(PlayerSlot);
+		//Idle Positions //////////////////////////////////////////////////////////////////////////////////////
 		
 		enemyIdlePosition1.setX(-225);
-		enemyIdlePosition1.setWidth(100); 
-		enemyIdlePosition1.setHeight(150);
-		
 		enemyIdlePosition2.setX(-75);
-		enemyIdlePosition2.setWidth(100); 
-		enemyIdlePosition2.setHeight(150);
-		
 		enemyIdlePosition3.setX(75);
-		enemyIdlePosition3.setWidth(100); 
-		enemyIdlePosition3.setHeight(150);
-		
 		enemyIdlePosition4.setX(225);
-		enemyIdlePosition4.setWidth(100); 
-		enemyIdlePosition4.setHeight(150);
 		
-		//Enemy Position size and position //////////////////////////////////////////////////
+		//Enemy Positions ///////////////////////////////////////////////////////////////////////////////////
 		
 		enemyPosition1.setX(-225);
-		enemyPosition1.setY(175);
-		enemyPosition1.setWidth(100); 
-		enemyPosition1.setHeight(150);
-		
+		enemyPosition1.setY(175);		
 		enemyPosition2.setX(-75);
 		enemyPosition2.setY(175);
-		enemyPosition2.setWidth(100); 
-		enemyPosition2.setHeight(150);
-		
 		enemyPosition3.setX(75);
 		enemyPosition3.setY(175);
-		enemyPosition3.setWidth(100); 
-		enemyPosition3.setHeight(150);
-		
 		enemyPosition4.setX(225);
 		enemyPosition4.setY(175);
-		enemyPosition4.setWidth(100); 
-		enemyPosition4.setHeight(150);
 		
+		//Player Positions ///////////////////////////////////////////////////////////////////////////////////
+		playerPosition1.setX(-225);
+		playerPosition1.setY(350);		
+		playerPosition2.setX(-75);
+		playerPosition2.setY(350);
+		playerPosition3.setX(75);
+		playerPosition3.setY(350);
+		playerPosition4.setX(225);
+		playerPosition4.setY(350);
+
 		//Board slots are grouped and moved to match Player card slots ////////////////////////////////////////
 				
 		Group enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
-										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4);
+										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4,
+										 playerPosition1, playerPosition2, playerPosition3, playerPosition4);
 		
 		enemyPositions.setTranslateX(-275);
-		enemyPositions.setTranslateY(-200);
+		enemyPositions.setTranslateY(-100);
 		
 		return enemyPositions;
+	}
+	
+	public void setAttackDeckGraphic(Button aButton) throws FileNotFoundException {
+	    Image attackDeckImage = new Image(new FileInputStream("assets/AttackCard.png"));
+	    ImageView attackDeck = new ImageView(attackDeckImage); 
+	    
+	    aButton.setGraphic(attackDeck);
+	}
+	
+	public void setSquirrelDeckGraphic(Button aButton) throws FileNotFoundException {
+	    Image squirrelDeckImage = new Image(new FileInputStream("assets/SquirrelCard.png"));
+	    ImageView squirrelDeck = new ImageView(squirrelDeckImage); 
+	    
+	    aButton.setGraphic(squirrelDeck);
 	}
 	
 	/* scaleGraphics() is of type "Rectangle" for placeholder purposes only
@@ -84,10 +99,10 @@ public class AdditionalGraphics {
 	public Rectangle scaleGraphics() {
 		Rectangle tempScalePlaceholder = new Rectangle();
 		
-		tempScalePlaceholder.setTranslateX(350);
-		tempScalePlaceholder.setTranslateY(-225);
-		tempScalePlaceholder.setWidth(450); 
-		tempScalePlaceholder.setHeight(250);
+		tempScalePlaceholder.setTranslateX(325);
+		tempScalePlaceholder.setTranslateY(-40);
+		tempScalePlaceholder.setWidth(500); 
+		tempScalePlaceholder.setHeight(175);
 		
 		return tempScalePlaceholder;
 	}

@@ -111,10 +111,6 @@ public class Card {
 	public int getBlood() {
 		return this.blood;
 	}
-	
-	public Card getCard() {
-		return this;
-	}
 
 	@Override
 	public String toString() {
