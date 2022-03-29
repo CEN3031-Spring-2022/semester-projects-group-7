@@ -33,6 +33,7 @@ public class Hand {
 		this.hand.add(newCard);
 	}
 	
+	
 	/**
 	 * Removes card from hand and returns it
 	 * @param cardPos position in the hand arraylist of the card you want to use.
