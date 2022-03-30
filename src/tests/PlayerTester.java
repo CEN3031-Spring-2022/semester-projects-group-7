@@ -1,6 +1,6 @@
 package tests;
 
-import javascryption.Player;
+import javascryption.*;
 import javascryption.Deck;
 import javascryption.Card;
 import org.junit.jupiter.api.*;

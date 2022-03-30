@@ -1,8 +1,6 @@
 package tests;
 
-import javascryption.Hand;
-import javascryption.Deck;
-import javascryption.Card;
+import javascryption.*;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 

@@ -1,5 +1,6 @@
 package tests;
 
+import javascryption.*;
 import java.util.ArrayList;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;

@@ -1,6 +1,6 @@
 package tests;
 
-import javascryption.Card;
+import javascryption.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
