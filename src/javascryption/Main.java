@@ -22,6 +22,15 @@ public class Main extends Application {
         primaryStage.setTitle("Javascryption");
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
+        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+
+        // REMOVE ME //
+        /*
+        Card card = new Card("Squirrel", 0, 1, 0);
+        Card card2 = new Card("Wolf", 2, 3, 2);
+        Card card3 = new Card("Stoat", 1, 2, 1);
+        */
+        
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
@@ -35,6 +44,8 @@ public class Main extends Application {
   
         additionalGraphics.setAttackDeckGraphic(Deck);
         additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
+        additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1, PlayerCardPosition2, 
+        											  PlayerCardPosition3, PlayerCardPosition4);
         Bell.setText("Bell");
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
@@ -42,30 +53,38 @@ public class Main extends Application {
         PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	/* Check if card in hand selected
-                 * if true, check if position is empty
-                 * if not empty and sacrifice threshold not met, delete card in position
-                 * if threshold met, copy selected card to position and delete from hand
-                 */
-            	System.out.println("Position 1 clicked!");
+            	//TODO Copy card in board object, Sacrifice Card
+            	
+            	
+            	//Set button graphic when pressed
+            	/*
+				try {
+					cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition1);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+            	 */
             }
         });
         PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Position 2 clicked!");
+				//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
+
             }
         });
         PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Position 3 clicked!");
+            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition3);
+
             }
         });
         PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Position 4 clicked!");
+            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition4);
+
             }
         });
         Deck.setOnAction(new EventHandler<ActionEvent>() {
@@ -93,7 +112,7 @@ public class Main extends Application {
         //Button size/position set ////////////////////////////////////////////////////
         
         PlayerCardPosition1.setTranslateX(-500);
-        PlayerCardPosition1.setTranslateY(75);
+        PlayerCardPosition1.setTranslateY(75);        
         PlayerCardPosition1.setPrefSize(100, 150);
         
         PlayerCardPosition2.setTranslateX(-350);
@@ -155,7 +174,14 @@ public class Main extends Application {
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
 
-
+        // REMOVE ME //
+        /*
+        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 0, 0));
+        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card3, 0, 2));
+        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
+        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
+		*/
+        
         primaryStage.setScene(new Scene(root, 1200, 750));
         primaryStage.show();
     }

@@ -32,12 +32,6 @@ public class AdditionalGraphics {
 	    ImageView enemyPosition3 = new ImageView(EnemySlot); 
 	    ImageView enemyPosition4 = new ImageView(EnemySlot); 
 	    
-	    Image PlayerSlot = new Image(new FileInputStream("assets/PlayerCardSlotEmpty.png"));
-
-	    ImageView playerPosition1 = new ImageView(PlayerSlot); 
-	    ImageView playerPosition2 = new ImageView(PlayerSlot);
-	    ImageView playerPosition3 = new ImageView(PlayerSlot);
-	    ImageView playerPosition4 = new ImageView(PlayerSlot);
 		//Idle Positions //////////////////////////////////////////////////////////////////////////////////////
 		
 		enemyIdlePosition1.setX(-225);
@@ -55,27 +49,30 @@ public class AdditionalGraphics {
 		enemyPosition3.setY(175);
 		enemyPosition4.setX(225);
 		enemyPosition4.setY(175);
-		
-		//Player Positions ///////////////////////////////////////////////////////////////////////////////////
-		playerPosition1.setX(-225);
-		playerPosition1.setY(350);		
-		playerPosition2.setX(-75);
-		playerPosition2.setY(350);
-		playerPosition3.setX(75);
-		playerPosition3.setY(350);
-		playerPosition4.setX(225);
-		playerPosition4.setY(350);
 
 		//Board slots are grouped and moved to match Player card slots ////////////////////////////////////////
 				
 		Group enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
-										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4,
-										 playerPosition1, playerPosition2, playerPosition3, playerPosition4);
+										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4);
 		
 		enemyPositions.setTranslateX(-275);
-		enemyPositions.setTranslateY(-100);
+		enemyPositions.setTranslateY(-200);
 		
 		return enemyPositions;
+	}
+	
+	public void setPlayerEmptySlotGraphics(Button pos1, Button pos2, Button pos3, Button pos4) throws FileNotFoundException {
+	    Image PlayerSlotImage = new Image(new FileInputStream("assets/PlayerCardSlotEmpty.png"));
+	    ImageView playerEmptySlot1 = new ImageView(PlayerSlotImage); 
+	    ImageView playerEmptySlot2 = new ImageView(PlayerSlotImage); 
+	    ImageView playerEmptySlot3 = new ImageView(PlayerSlotImage); 
+	    ImageView playerEmptySlot4 = new ImageView(PlayerSlotImage); 
+
+	    
+	    pos1.setGraphic(playerEmptySlot1);
+	    pos2.setGraphic(playerEmptySlot2);
+	    pos3.setGraphic(playerEmptySlot3);
+	    pos4.setGraphic(playerEmptySlot4);
 	}
 	
 	public void setAttackDeckGraphic(Button aButton) throws FileNotFoundException {
