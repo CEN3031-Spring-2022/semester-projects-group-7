@@ -147,5 +147,10 @@ public class Board
 		
 		return SecondRow;
 	}
+<<<<<<< HEAD
 }
 	
+=======
+	
+}
+>>>>>>> main
