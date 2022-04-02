@@ -11,6 +11,7 @@ public class Board
 	private ArrayList<Card> playerBoard;
 	private int boardSizeY = 10; //we'll set this dynamically in the future.
 	private int boardSizeX = 4; //might be cool to change this as a feature.
+	private int boardHealth = 5; //gonna assume the player wins if they get it up to 10.
 	
 	public Board()
 	{
@@ -93,6 +94,45 @@ public class Board
 			playerBoard.get(playerPosX).setHealth(playerCardHealth);
 	}
 	
+	public void attack(int attackerPos, boolean playerIsAttacking) {
+		int overkillDamage;
+		
+		if (playerIsAttacking && this.getOpponentCardByPosition(attackerPos) == null) {
+			dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+			return;
+		}
+		else if (!playerIsAttacking && this.getPlayerCardByPos(attackerPos) == null) {
+			dealBoardDamage((getOpponentCardByPosition(attackerPos).getAttack())*-1);
+			return;
+		}
+		
+		if(playerIsAttacking) { //if overkill damage is dealt, it is dealt to the card in the second row.
+			overkillDamage = playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getFrontRow(), attackerPos);
+			if(overkillDamage > 0 && getOpponentCardByPosition(attackerPos) != null)
+				playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getSecondRow(), attackerPos);
+		}
+		else { //player only has one row, so no overkill applies here
+			getOpponentCardByPosition(attackerPos).cardAttacks(getSecondRow(), playerBoard, attackerPos);
+		}
+		
+		deleteCardsWithoutHP();
+	}
+	
+	public void deleteCardsWithoutHP() {
+		//only looking throw the first two rows of opponentBoard.
+		//They are the only sources in the opponent's board that can take damage.
+		for (int i=0; i<boardSizeX; i++) {
+			if (this.playerBoard.get(i) != null && this.playerBoard.get(i).getHealth() <= 0)
+				this.removePlayerCardFromBoard(i);
+			
+			if (this.getFrontRow().get(i) != null && this.getOpponentCardByPosition(i).getHealth() <= 0)
+				this.removeOpponentCardFromBoard(i);
+			
+			if (this.getSecondRow().get(i) != null && this.getSecondRow().get(i).getHealth() <= 0)
+				this.removeOpponentCardFromBoard(i, 1);
+		}
+	}
+	
 	public void addOpponentCardtoSpecificLocation(Card enemyCard, int posX, int posY) {
 		opponentBoard.get(posX).set(posY, enemyCard);
 	}
@@ -146,6 +186,14 @@ public class Board
 			SecondRow.add(opponentBoard.get(i).get(1));
 		
 		return SecondRow;
+	}
+	
+	public void dealBoardDamage(int damage) {
+		boardHealth += damage;
+	}
+	
+	public int getBoardHealth() {
+		return boardHealth;
 	}
 }
 

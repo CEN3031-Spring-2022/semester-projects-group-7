@@ -136,5 +136,18 @@ class BoardJUnitTest {
 		for (int i=0; i<4; i++) //loop to automatically check without typing it all
 			assertEquals(secondRow.get(i), sut.getOpponentCardByPosition(i, 1));
 	}
-
+	
+	@Test
+	void defeatedCardsAreDestroyed() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 2, 2);
+		Card wolf = new Card("Wolf", 3, 3, 3);	
+		
+		sut.addPlayerCardtoBoard(weasel, 0);
+		sut.addOpponentCardtoBoard(wolf, 0);
+		
+		sut.attack(0, false); //lane 1, opponent is attacking
+		
+		assertEquals(null, sut.getPlayerCardByPos(0));
+	}
 }

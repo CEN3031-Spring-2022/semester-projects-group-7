@@ -77,6 +77,9 @@ public class Card {
 	}
 	
 	public int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX) {
+		if (defenderAL.get(positionX) == null || attackerAL.get(positionX) == null)
+			return 0;
+		
 		int overkillDamage = 0;
 		int damage = attackerAL.get(positionX).getAttack();
 		int defenderHealth = defenderAL.get(positionX).getHealth();
