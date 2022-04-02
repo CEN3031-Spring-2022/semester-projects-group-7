@@ -18,7 +18,7 @@ public class Board
 		opponentBoard = new ArrayList<ArrayList<Card>>();
 		playerBoard = new ArrayList<Card>();
 		initializeOpponentBoard();
-		
+		initializePlayerBoard();
 	}
 	
 	private void initializeOpponentBoard() {
@@ -28,6 +28,11 @@ public class Board
 			for(int j=0; j<boardSizeY; j++)
 				opponentBoard.get(i).add(null);
 		}
+	}
+	
+	private void initializePlayerBoard() {
+		for(int i=0; i< boardSizeX; i++)
+			playerBoard.add(i, null);
 	}
 	
 	public void damageOpponentCard(int playerCardPos, int opponentPosX) {
