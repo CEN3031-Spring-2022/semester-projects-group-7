@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 public class AdditionalGraphics {
@@ -93,15 +96,34 @@ public class AdditionalGraphics {
 	 * This either be removed or modified for the final product
 	 */
 	
-	public Rectangle scaleGraphics() {
+	public Slider scaleGraphics() {
+		VBox sliderBox = new VBox();
+		HBox sliderHBox = new HBox();
 		Rectangle tempScalePlaceholder = new Rectangle();
+
+		sliderBox.maxHeight(175);
+		sliderBox.maxWidth(500);
 		
 		tempScalePlaceholder.setTranslateX(325);
 		tempScalePlaceholder.setTranslateY(-40);
 		tempScalePlaceholder.setWidth(500); 
 		tempScalePlaceholder.setHeight(175);
 		
-		return tempScalePlaceholder;
+		Slider HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
+		HPSlider.setShowTickMarks(true);
+		HPSlider.setShowTickLabels(true);
+		HPSlider.setMajorTickUnit(1);
+		HPSlider.setMinorTickCount(0);
+		HPSlider.setBlockIncrement(1);
+		HPSlider.setValue(5);
+
+		HPSlider.setSnapToTicks(true);
+		
+		HPSlider.setMaxSize(500, 100);
+		HPSlider.setTranslateX(325);
+		HPSlider.setTranslateY(-40);
+
+		return HPSlider;
 	}
 
 }
