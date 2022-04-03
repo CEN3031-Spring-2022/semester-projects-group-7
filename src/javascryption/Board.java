@@ -22,7 +22,7 @@ public class Board
 		this.setBoardSizeY(10); //THIS WILL NEED TO BE CHANGED TO BE DYNAMIC.
 								//THERE WILL BE PROBLEMS WHEN READING INPUT FROM A FILE.
 								//WE HAVEN'T GOTTEN TO A READING INPUT FILES YET, BUT WE
-								//WILL NEED TO CHANGE THIS TO AT LEAST (NUMBER OF LINES + 1).
+								//WILL NEED TO CHANGE THIS TO AT LEAST (NUMBER OF LINES + 1 or 2).
 		initializeOpponentBoard();
 		initializePlayerBoard();
 		
