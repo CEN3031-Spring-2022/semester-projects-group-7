@@ -116,6 +116,20 @@ public class Board
 		}
 	}
 	
+	public void playerAttack() {
+		for (int i=0; i<boardSizeX; i++) {
+			if (playerBoard.get(i) != null)
+				this.attack(i, true);
+		}
+	}
+	
+	public void opponentAttack() {
+		for (int i=0; i<boardSizeX; i++) {
+			if (this.getFrontRow().get(i) != null)
+				this.attack(i, true);
+		}
+	}
+	
 	public void addOpponentCardtoSpecificLocation(Card enemyCard, int posX, int posY) {
 		opponentBoard.get(posX).set(posY, enemyCard);
 	}
@@ -136,7 +150,7 @@ public class Board
 					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
 						Card tempCard = opponentBoard.get(i).get(j).getCard(); //move card to temp variable
 						opponentBoard.get(i).set(j, null); //remove card from board
-						opponentBoard.get(i).set(j-1, tempCard); //place temp variable one up
+						opponentBoard.get(i).set(j-1, tempCard); //place card one up
 					}
 				}
 			}

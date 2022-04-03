@@ -78,32 +78,6 @@ class BoardJUnitTest {
 	}
 	
 	@Test
-	void playerAttacks() {
-		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 2, 2);
-		Card wolf = new Card("Wolf", 3, 3, 3);	
-		sut.addPlayerCardtoBoard(weasel, 0);
-		sut.addOpponentCardtoBoard(wolf, 0);
-	
-		sut.damageOpponentCard(0, 0);
-		
-		assertEquals(1, wolf.getHealth());
-	}
-	
-	@Test
-	void opponentAttacks() {
-		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 2, 2);
-		Card wolf = new Card("Wolf", 3, 3, 3);	
-		sut.addPlayerCardtoBoard(wolf, 0);
-		sut.addOpponentCardtoBoard(weasel, 0);
-	
-		sut.damagePlayerCard(0, 0);
-		
-		assertEquals(1, wolf.getHealth());
-	}
-	
-	@Test
 	void correctlyGrabsFrontRow() {
 		Board sut = new Board();
 		Card weasel = new Card();
@@ -171,7 +145,7 @@ class BoardJUnitTest {
 	}
 	
 	@Test
-	void OpponentCardsAreREmovedFromGameAfterHealthIsDepleted() {
+	void OpponentCardsAreRemovedFromGameAfterHealthIsDepleted() {
 		Board sut = new Board();
 		Card weasel = new Card("Weasel", 2, 1, 2); //one health
 		Card wolf = new Card("Wolf", 3, 3, 3);
@@ -185,5 +159,58 @@ class BoardJUnitTest {
 		assertEquals(null, sut.getOpponentCardByPosition(0));
 	}
 	
+	@Test
+	void OverkillDamageIsAppliedToSecondRow() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 2, 2); //two health
+		Card beaver = new Card("Beaver", 3, 3, 3); //three health
+		Card wolf = new Card("Wolf", 3, 3, 3); //three attack
+		sut.addPlayerCardtoBoard(wolf, 0);
+		sut.addOpponentCardtoBoard(weasel, 0);
+		sut.addOpponentCardtoBoard(beaver, 0); //beaver should be behind weasel
+
+		sut.attack(0, true); //lane 1, player (wolf) is attacking. Beaver should take 2 damage
+		
+		//beaver should take one damage, leaving it with 2 health
+		assertEquals(2, sut.getOpponentCardByPosition(0, 1).getHealth());
+	}
+	
+	@Test
+	void BoardHealthIsProperlyModifiedWhenPlayerAttacks() {
+		Board sut = new Board(); //Board defaults to five health
+		Card weasel = new Card("Weasel", 2, 2, 2); //two attack
+		sut.addPlayerCardtoBoard(weasel, 0);
+		int previousBoardHealth = sut.getBoardHealth();
+		
+		sut.attack(0, true);
+		
+		assertEquals(previousBoardHealth+2, sut.getBoardHealth());
+	}
+	
+	@Test
+	void BoardHealthIsProperlyModifiedWhenOpponentAttacks() {
+		Board sut = new Board(); //Board defaults to five health
+		Card weasel = new Card("Weasel", 2, 2, 2); //two attack
+		sut.addOpponentCardtoBoard(weasel, 0);
+		int previousBoardHealth = sut.getBoardHealth();
+		
+		sut.attack(0, false);
+		
+		assertEquals(previousBoardHealth-2, sut.getBoardHealth());
+	}
+	
+	@Test
+	void AllPlayerCardsAttackWhenPlayerAttackIsCalled() {
+		Board sut = new Board(); //will be attacking empty board
+		Card weasel = new Card("Weasel", 1, 1, 1); //all cards have one attack
+		int previousBoardHealth = sut.getBoardHealth();
+		
+		for (int i=0; i<sut.getBoardSizeX(); i++)
+			sut.addPlayerCardtoBoard(weasel, i);
+		
+		sut.playerAttack(); //board should now have +4 health, 9 total.
+		
+		assertEquals(previousBoardHealth+4, sut.getBoardHealth());
+	}
 	
 }
