@@ -75,8 +75,6 @@ public class Board
 		opponentBoard.get(positionX).set(positionY, enemyCard);
 	}
 	
-	//I'll break this up into a lot of helper functions later. This is a mess. 
-	//Just trying to get it going and it ballooned up as I was working on it.
 	public void attack(int attackerPos, boolean playerIsAttacking) {
 		int overkillDamage;
 		
