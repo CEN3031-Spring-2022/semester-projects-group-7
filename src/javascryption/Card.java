@@ -86,11 +86,15 @@ public class Card {
 		defenderHealth -= damage;
 		
 		defenderAL.get(positionX).setHealth(defenderHealth);
-		
+				
 		if(defenderHealth < 0)
 			overkillDamage = defenderHealth*-1;
 		
 		return overkillDamage;
+	}
+	
+	public void removeHealth(int damage) {
+		this.setHealth(this.getHealth()-damage);
 	}
 	
 	

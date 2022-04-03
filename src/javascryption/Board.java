@@ -35,26 +35,6 @@ public class Board
 			playerBoard.add(i, null);
 	}
 	
-	public void damageOpponentCard(int playerCardPos, int opponentPosX) {
-		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
-		int opposingCardHealth = opponentBoard.get(opponentPosX).get(0).getHealth();
-		
-		opponentBoard.get(opponentPosX).get(0).setHealth(opposingCardHealth - playerAttackStrength);
-		
-		if (opposingCardHealth <= 0)
-			removeOpponentCardFromBoard(opponentPosX);
-	}
-	
-	public void damageOpponentCard(int playerCardPos, int opponentPosX, int opponentPosY) {
-		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
-		int opposingCardHealth = opponentBoard.get(opponentPosX).get(opponentPosY).getHealth();
-		
-		opponentBoard.get(opponentPosX).get(opponentPosY).setHealth(opposingCardHealth - playerAttackStrength);
-		
-		if (opposingCardHealth <= 0)
-			removeOpponentCardFromBoard(opponentPosX, opponentPosY);
-	}
-	
 	public void addPlayerCardtoBoard(Card playerCard, int position) {
 		playerBoard.set(position, playerCard);
 	}
@@ -88,17 +68,8 @@ public class Board
 		opponentBoard.get(positionX).set(positionY, enemyCard);
 	}
 	
-	public void damagePlayerCard(int playerPosX, int opponentPosX) {
-		int playerCardHealth = playerBoard.get(playerPosX).getHealth();
-		int attackStrength = opponentBoard.get(opponentPosX).get(0).getAttack();
-		
-		playerCardHealth = playerCardHealth - attackStrength;
-		if(playerCardHealth <= 0)
-			removePlayerCardFromBoard(playerPosX);
-		else
-			playerBoard.get(playerPosX).setHealth(playerCardHealth);
-	}
-	
+	//I'll break this up into a lot of helper functions later. This is a mess. 
+	//Just trying to get it going and it ballooned up as I was working on it.
 	public void attack(int attackerPos, boolean playerIsAttacking) {
 		int overkillDamage;
 		
@@ -113,8 +84,8 @@ public class Board
 		
 		if(playerIsAttacking) { //if overkill damage is dealt, it is dealt to the card in the second row.
 			overkillDamage = playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getFrontRow(), attackerPos);
-			if(overkillDamage > 0 && getOpponentCardByPosition(attackerPos) != null)
-				playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getSecondRow(), attackerPos);
+			if(overkillDamage > 0 && this.getSecondRow().get(attackerPos) != null)
+				getSecondRow().get(attackerPos).removeHealth(overkillDamage);
 		}
 		else { //player only has one row, so no overkill applies here
 			getOpponentCardByPosition(attackerPos).cardAttacks(getFrontRow(), playerBoard, attackerPos);
@@ -156,9 +127,9 @@ public class Board
 			for(int j=1; j<boardSizeY; j++) { //loops through all locations in 2d arraylist
 				if (opponentBoard.get(i).get(j) != null) { //if card exists
 					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
-						Card tempCard = opponentBoard.get(i).get(j).getCard();
-						opponentBoard.get(i).set(j, null);
-						opponentBoard.get(i).set(j-1, tempCard);
+						Card tempCard = opponentBoard.get(i).get(j).getCard(); //move card to temp variable
+						opponentBoard.get(i).set(j, null); //remove card from board
+						opponentBoard.get(i).set(j-1, tempCard); //place temp variable one up
 					}
 				}
 			}
