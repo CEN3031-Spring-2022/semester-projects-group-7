@@ -3,27 +3,42 @@ package javascryption;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
  
 public class Main extends Application {
+	
+	private Stage primaryStage;
+	private Scene deckScene;
+	private Scene gameScene;
+	private StackPane root;
+	
     public static void main(String[] args) {
         launch(args);
     }
     
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        primaryStage.setTitle("Javascryption");
-        
+    	
+    	this.primaryStage = primaryStage;
+    	createPrimaryStage();
+    	primaryStage.show();
+         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
         CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
+        
+        
         // REMOVE ME //
         /*
         Card card = new Card("Squirrel", 0, 1, 0);
@@ -140,9 +155,7 @@ public class Main extends Application {
         Bell.setPrefSize(150, 100);
         
         //Window Creation ////////////////////////////////////////////////////////////
-        
-        StackPane root = new StackPane();
-        
+                
         ScrollPane handScroll = new ScrollPane();
         handScroll.setPrefSize(700, 175);
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
@@ -181,8 +194,55 @@ public class Main extends Application {
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
 		*/
+                
         
-        primaryStage.setScene(new Scene(root, 1200, 750));
-        primaryStage.show();
     }
+    
+    // used to test functionality of combo box 
+    private void printChoice(ComboBox comboBox){
+    	System.out.println(comboBox.getValue());
+    }
+    
+    private Stage createPrimaryStage(){
+    	//primaryStage =  new Stage(StageStyle.DECORATED);
+    	primaryStage.setTitle("Javascryption");
+    	
+    	createGameScene();
+    	deckScene = createDeckChoiceScene();
+    	
+    	primaryStage.setScene(deckScene);
+    	
+    	return primaryStage;
+    }
+    
+    private Scene createGameScene(){
+    	root = new StackPane();
+    	gameScene = new Scene(root,1200,750);
+    	return gameScene;
+    }
+    private Scene createDeckChoiceScene(){
+    	
+        Button button = new Button("Submit");
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll("Custom","Default");
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20,20,20,20));
+        layout.getChildren().addAll(comboBox, button);
+        
+        deckScene = new Scene(layout, 300, 250);
+        comboBox.setPromptText("Select Deck");
+        /*TODO
+         * if yes is selected, should be able to read input from the user,
+         * if no is selected, should provide a defualt deck.
+         */
+        button.setOnAction(e->printChoice(comboBox));
+        button.setOnAction(e->primaryStage.setScene(gameScene));
+        
+
+        
+    	return deckScene;
+    }
+
+    
+    
 }
