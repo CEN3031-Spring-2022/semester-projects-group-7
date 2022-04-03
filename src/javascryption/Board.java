@@ -9,18 +9,25 @@ public class Board
 {
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
-	private int boardSizeY = 10; //we'll set this dynamically in the future.
-	private int boardSizeX = 4; //might be cool to change this as a feature.
-	private int boardHealth = 5; //gonna assume the player wins if they get it up to 10.
+	private int boardSizeY; //SET DYNAMICALLY IN THE FUTURE AS IT READS ENEMY INPUTS.
+	private int boardSizeX; //might be cool to change this as a feature.
+	private int boardHealth; //gonna assume the player wins if they get it up to 10.
 	
 	public Board()
 	{
 		opponentBoard = new ArrayList<ArrayList<Card>>();
 		playerBoard = new ArrayList<Card>();
+		this.setBoardHealth(5); //starting board health at 5
+		this.setBoardSizeX(4);
+		this.setBoardSizeY(10); //THIS WILL NEED TO BE CHANGED TO BE DYNAMIC.
+								//THERE WILL BE PROBLEMS WHEN READING INPUT FROM A FILE.
+								//WE HAVEN'T GOTTEN TO A READING INPUT FILES YET, BUT WE
+								//WILL NEED TO CHANGE THIS TO AT LEAST (NUMBER OF LINES + 1).
 		initializeOpponentBoard();
 		initializePlayerBoard();
+		
 	}
-	
+
 	private void initializeOpponentBoard() {
 		for(int i=0; i<boardSizeX; i++)
 			opponentBoard.add(new ArrayList<Card>());
@@ -170,6 +177,26 @@ public class Board
 	
 	public int getBoardHealth() {
 		return boardHealth;
+	}
+	
+	public int getBoardSizeY() {
+		return boardSizeY;
+	}
+
+	public void setBoardSizeY(int boardSizeY) {
+		this.boardSizeY = boardSizeY;
+	}
+
+	public int getBoardSizeX() {
+		return boardSizeX;
+	}
+
+	public void setBoardSizeX(int boardSizeX) {
+		this.boardSizeX = boardSizeX;
+	}
+
+	public void setBoardHealth(int boardHealth) {
+		this.boardHealth = boardHealth;
 	}
 }
 

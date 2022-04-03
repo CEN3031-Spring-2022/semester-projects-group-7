@@ -76,6 +76,7 @@ public class Card {
 		//Cards should be deleted from board when return false
 	}
 	
+	
 	public int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX) {
 		if (defenderAL.get(positionX) == null || attackerAL.get(positionX) == null)
 			return 0;
