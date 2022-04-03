@@ -97,18 +97,6 @@ public class AdditionalGraphics {
 	 */
 	
 	public Slider scaleGraphics() {
-		VBox sliderBox = new VBox();
-		HBox sliderHBox = new HBox();
-		Rectangle tempScalePlaceholder = new Rectangle();
-
-		sliderBox.maxHeight(175);
-		sliderBox.maxWidth(500);
-		
-		tempScalePlaceholder.setTranslateX(325);
-		tempScalePlaceholder.setTranslateY(-40);
-		tempScalePlaceholder.setWidth(500); 
-		tempScalePlaceholder.setHeight(175);
-		
 		Slider HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
 		HPSlider.setShowTickMarks(true);
 		HPSlider.setShowTickLabels(true);
