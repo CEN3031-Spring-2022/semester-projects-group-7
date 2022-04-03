@@ -213,4 +213,18 @@ class BoardJUnitTest {
 		assertEquals(previousBoardHealth+4, sut.getBoardHealth());
 	}
 	
+	@Test
+	void AllOpponentCardsAttackWhenOpponentAttackIsCalled() {
+		Board sut = new Board(); //will be attacking empty board
+		Card weasel = new Card("Weasel", 1, 1, 1); //all cards have one attack
+		int previousBoardHealth = sut.getBoardHealth();
+		
+		for (int i=0; i<sut.getBoardSizeX(); i++)
+			sut.addOpponentCardtoBoard(weasel, i);
+		
+		sut.opponentAttack(); //board should now have -4 health, 1 total.
+		
+		assertEquals(previousBoardHealth-4, sut.getBoardHealth());
+	}
+	
 }

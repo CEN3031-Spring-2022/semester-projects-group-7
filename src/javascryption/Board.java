@@ -126,7 +126,7 @@ public class Board
 	public void opponentAttack() {
 		for (int i=0; i<boardSizeX; i++) {
 			if (this.getFrontRow().get(i) != null)
-				this.attack(i, true);
+				this.attack(i, false);
 		}
 	}
 	
