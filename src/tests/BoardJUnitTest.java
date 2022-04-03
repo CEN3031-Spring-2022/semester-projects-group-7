@@ -138,16 +138,52 @@ class BoardJUnitTest {
 	}
 	
 	@Test
-	void defeatedCardsAreDestroyed() {
+	void CardHealthIsRemovedCorrectly() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 2, 2);
+		Card weasel = new Card("Weasel", 2, 4, 2);
 		Card wolf = new Card("Wolf", 3, 3, 3);	
 		
 		sut.addPlayerCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(wolf, 0);
 		
-		sut.attack(0, false); //lane 1, opponent is attacking
+		sut.attack(0, true); //lane 1, player (weasel) is attacking
+		sut.attack(0, false); //lane 1, opponent (wolf) is attacking
 		
+		//wolf should have one remaining health. Has 3 health, took 2 damage.
+		assertEquals(1, sut.getOpponentCardByPosition(0).getHealth());
+		//weasel should have one remaining health. Has 4 health, took 3 damage.
+		assertEquals(1, sut.getPlayerCardByPos(0).getHealth());
+	}
+	
+	@Test
+	void PlayerCardsAreRemovedFromGameAfterHealthIsDepleted() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 1, 2); //one health
+		Card wolf = new Card("Wolf", 3, 3, 3);
+		
+		sut.addPlayerCardtoBoard(weasel, 0);
+		sut.addOpponentCardtoBoard(wolf, 0);
+		
+		sut.attack(0, false); //lane 1, opponent (wolf) is attacking
+		
+		//weasel took enough damage to deplete health. It should no longer exist.
 		assertEquals(null, sut.getPlayerCardByPos(0));
 	}
+	
+	@Test
+	void OpponentCardsAreREmovedFromGameAfterHealthIsDepleted() {
+		Board sut = new Board();
+		Card weasel = new Card("Weasel", 2, 1, 2); //one health
+		Card wolf = new Card("Wolf", 3, 3, 3);
+		
+		sut.addPlayerCardtoBoard(wolf, 0);
+		sut.addOpponentCardtoBoard(weasel, 0);
+		
+		sut.attack(0, true); //lane 1, player (wolf) is attacking
+		
+		//weasel took enough damage to deplete health. It should no longer exist.
+		assertEquals(null, sut.getOpponentCardByPosition(0));
+	}
+	
+	
 }

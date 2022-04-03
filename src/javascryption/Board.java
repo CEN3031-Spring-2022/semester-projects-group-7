@@ -56,7 +56,7 @@ public class Board
 	}
 	
 	public void addPlayerCardtoBoard(Card playerCard, int position) {
-		playerBoard.add(position, playerCard);
+		playerBoard.set(position, playerCard);
 	}
 	
 	public void removePlayerCardFromBoard(int position) {
@@ -117,9 +117,9 @@ public class Board
 				playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getSecondRow(), attackerPos);
 		}
 		else { //player only has one row, so no overkill applies here
-			getOpponentCardByPosition(attackerPos).cardAttacks(getSecondRow(), playerBoard, attackerPos);
+			getOpponentCardByPosition(attackerPos).cardAttacks(getFrontRow(), playerBoard, attackerPos);
 		}
-		
+
 		deleteCardsWithoutHP();
 	}
 	
