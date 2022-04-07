@@ -1,6 +1,9 @@
 package javascryption;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Deck {
 	private ArrayList<Card> deck; //Array List of card objects is stored here.
@@ -97,6 +100,42 @@ public class Deck {
 	}
 	
 
+	
+	public void readDeckFromFile(File file)
+	{
+		/*
+		 * TODO: Implement tests for this
+		 * 		 
+		 */
+		try (Scanner scanner = new Scanner(file)){
+			scanner.useDelimiter(",\n");
+			System.out.println(scanner.next() + "\n");			
+			String name;
+			Card card;
+			int blood;
+			int health;
+			int attack;
+			while(scanner.hasNext())
+			{
+				name = scanner.next();
+				blood = Integer.parseInt(scanner.next());
+				health = Integer.parseInt(scanner.next());
+				attack = Integer.parseInt(scanner.next());
+				card = new Card(name,blood,health,attack);
+				this.deck.add(card);
+				/*
+				System.out.println("name: " + card.getName());
+				System.out.println("blood: " + card.getBlood());
+				System.out.println("health: " + card.getHealth());
+				System.out.println("attack: " + card.getAttack());
+				*/			
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public String toString() {
 		if (this.getSize()<= 0)
