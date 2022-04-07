@@ -1,18 +1,25 @@
 package javascryption;
 	
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
  
@@ -22,6 +29,7 @@ public class Main extends Application {
 	private Scene deckScene;
 	private Scene gameScene;
 	private StackPane root;
+	private Deck selectedDeck;
 	
     public static void main(String[] args) {
         launch(args);
@@ -203,7 +211,15 @@ public class Main extends Application {
     	System.out.println(comboBox.getValue());
     }
     
-    private Stage createPrimaryStage(){
+    /*TODO
+     * validate input, write input to a file, and call read deck
+     */
+    private boolean writeDeckFile()
+    {
+    	return false;
+    }
+    
+    private Stage createPrimaryStage() {
     	//primaryStage =  new Stage(StageStyle.DECORATED);
     	primaryStage.setTitle("Javascryption");
     	
@@ -215,34 +231,72 @@ public class Main extends Application {
     	return primaryStage;
     }
     
-    private Scene createGameScene(){
+    private Scene createGameScene() {
     	root = new StackPane();
     	gameScene = new Scene(root,1200,750);
     	return gameScene;
     }
-    private Scene createDeckChoiceScene(){
+    private Scene createDeckChoiceScene() {
     	
         Button button = new Button("Submit");
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll("Custom","Default");
         VBox layout = new VBox(10);
+        TextField textField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(comboBox, button);
+        layout.getChildren().addAll(comboBox, textField, button);
+        
         
         deckScene = new Scene(layout, 300, 250);
         comboBox.setPromptText("Select Deck");
-        /*TODO
-         * if yes is selected, should be able to read input from the user,
-         * if no is selected, should provide a defualt deck.
-         */
-        button.setOnAction(e->printChoice(comboBox));
-        button.setOnAction(e->primaryStage.setScene(gameScene));
-        
+        // update text of text field
+        comboBox.addEventFilter(Event.ANY, e->textField.setText(comboBox.getSelectionModel().getSelectedItem()));
+        // handle deck selection
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectDeck(comboBox.getSelectionModel().getSelectedIndex(), "test"));
+        // change the scene
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
         
     	return deckScene;
     }
 
+    private void selectDeck(int choice, String uInput) {
+    	try{
+    		// write deck to file if default is not chosen
+    		File file;
+    		FileWriter fileWriter;
+    		Deck deckToSet;
+    		
+    		switch(choice){
+    		case 0:{
+    			file = new File("./CustomDeck.txt");
+    			file.createNewFile();
+    			uInput.split(",");
+    			fileWriter = new FileWriter(file);
+    			
+    			/*TODO:
+    			 *  finish implementation of custom deck
+    			 */
+
+    			fileWriter.write(uInput);
+    			deckToSet = new Deck();
+    			fileWriter.close();
+    			deckToSet.readDeckFromFile(file);
+    			break;
+    			}
+    		default:{
+    			// read default file.
+    			file = new File("./DefaultDeck.txt");
+    			deckToSet = new Deck();
+    			deckToSet.readDeckFromFile(file);
+    			}
+    			break;
+    			
+    		}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
     
     
 }
