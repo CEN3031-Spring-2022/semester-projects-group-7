@@ -110,7 +110,9 @@ public class AdditionalGraphics {
 		HPSlider.setMaxSize(500, 100);
 		HPSlider.setTranslateX(325);
 		HPSlider.setTranslateY(-40);
-
+		
+		HPSlider.setDisable(true); //stops user from being able to move slider
+		
 		return HPSlider;
 	}
 
