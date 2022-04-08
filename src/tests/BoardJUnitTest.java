@@ -227,4 +227,25 @@ class BoardJUnitTest {
 		assertEquals(previousBoardHealth-4, sut.getBoardHealth());
 	}
 	
+	@Test
+	void OverkillDamageCanDefeatCardInSecondRow() {
+		Board sut = new Board(); //will be attacking empty board
+		Card lowHPFront = new Card("Weasel", 1, 1, 1); //card in front has
+		Card lowHPBack = new Card ("Bird", 1, 1, 1); //card has one health
+		Card farInTheBack = new Card("Hawk", 1, 1, 1); //this card is placed far in the third row. It shouldn't take damage.
+		Card HighAtk = new Card ("Lion", 4, 4, 4); //card has 4 attack.
+		int previousboardHealth = sut.getBoardHealth();
+		
+		sut.addPlayerCardtoBoard(HighAtk, 2); //for attacking opponent
+		sut.addOpponentCardtoBoard(lowHPFront, 2); //card in front
+		sut.addOpponentCardtoSpecificLocation(lowHPBack, 2, 1); //card in back
+		sut.addOpponentCardtoSpecificLocation(farInTheBack, 2, 2);
+		sut.playerAttack();
+		
+		assertEquals(null, sut.getOpponentCardByPosition(2)); //opponent card in front does not exist
+		assertEquals(null, sut.getOpponentCardByPosition(2, 1)); //opponent card in back does not exist
+		assertEquals(farInTheBack, sut.getOpponentCardByPosition(2, 2)); //opponent card in the back was not dealt damage.
+		assertEquals(previousboardHealth, sut.getBoardHealth()); //no damage was dealt to the board
+	}
+	
 }
