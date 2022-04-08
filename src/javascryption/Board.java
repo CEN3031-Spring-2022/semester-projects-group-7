@@ -9,17 +9,25 @@ public class Board
 {
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
-	private int boardSizeY = 10; //we'll set this dynamically in the future.
-	private int boardSizeX = 4; //might be cool to change this as a feature.
+	private int boardSizeY; //SET DYNAMICALLY IN THE FUTURE AS IT READS ENEMY INPUTS.
+	private int boardSizeX; //might be cool to change this as a feature.
+	private int boardHealth; //gonna assume the player wins if they get it up to 10.
 	
 	public Board()
 	{
 		opponentBoard = new ArrayList<ArrayList<Card>>();
 		playerBoard = new ArrayList<Card>();
+		this.setBoardHealth(5); //starting board health at 5
+		this.setBoardSizeX(4);
+		this.setBoardSizeY(10); //THIS WILL NEED TO BE CHANGED TO BE DYNAMIC.
+								//THERE WILL BE PROBLEMS WHEN READING INPUT FROM A FILE.
+								//WE HAVEN'T GOTTEN TO A READING INPUT FILES YET, BUT WE
+								//WILL NEED TO CHANGE THIS TO AT LEAST (NUMBER OF LINES + 1 or 2).
 		initializeOpponentBoard();
+		initializePlayerBoard();
 		
 	}
-	
+
 	private void initializeOpponentBoard() {
 		for(int i=0; i<boardSizeX; i++)
 			opponentBoard.add(new ArrayList<Card>());
@@ -29,28 +37,13 @@ public class Board
 		}
 	}
 	
-	public void damageOpponentCard(int playerCardPos, int opponentPosX) {
-		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
-		int opposingCardHealth = opponentBoard.get(opponentPosX).get(0).getHealth();
-		
-		opponentBoard.get(opponentPosX).get(0).setHealth(opposingCardHealth - playerAttackStrength);
-		
-		if (opposingCardHealth <= 0)
-			removeOpponentCardFromBoard(opponentPosX);
-	}
-	
-	public void damageOpponentCard(int playerCardPos, int opponentPosX, int opponentPosY) {
-		int playerAttackStrength = playerBoard.get(playerCardPos).getAttack();
-		int opposingCardHealth = opponentBoard.get(opponentPosX).get(opponentPosY).getHealth();
-		
-		opponentBoard.get(opponentPosX).get(opponentPosY).setHealth(opposingCardHealth - playerAttackStrength);
-		
-		if (opposingCardHealth <= 0)
-			removeOpponentCardFromBoard(opponentPosX, opponentPosY);
+	private void initializePlayerBoard() {
+		for(int i=0; i< boardSizeX; i++)
+			playerBoard.add(i, null);
 	}
 	
 	public void addPlayerCardtoBoard(Card playerCard, int position) {
-		playerBoard.add(position, playerCard);
+		playerBoard.set(position, playerCard);
 	}
 	
 	public void removePlayerCardFromBoard(int position) {
@@ -82,15 +75,57 @@ public class Board
 		opponentBoard.get(positionX).set(positionY, enemyCard);
 	}
 	
-	public void damagePlayerCard(int playerPosX, int opponentPosX) {
-		int playerCardHealth = playerBoard.get(playerPosX).getHealth();
-		int attackStrength = opponentBoard.get(opponentPosX).get(0).getAttack();
+	public void attack(int attackerPos, boolean playerIsAttacking) {
+		int overkillDamage;
 		
-		playerCardHealth = playerCardHealth - attackStrength;
-		if(playerCardHealth <= 0)
-			removePlayerCardFromBoard(playerPosX);
-		else
-			playerBoard.get(playerPosX).setHealth(playerCardHealth);
+		if (playerIsAttacking && this.getOpponentCardByPosition(attackerPos) == null) {
+			dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+			return;
+		}
+		else if (!playerIsAttacking && this.getPlayerCardByPos(attackerPos) == null) {
+			dealBoardDamage((getOpponentCardByPosition(attackerPos).getAttack())*-1);
+			return;
+		}
+		
+		if(playerIsAttacking) { //if overkill damage is dealt, it is dealt to the card in the second row.
+			overkillDamage = playerBoard.get(attackerPos).cardAttacks(playerBoard, this.getFrontRow(), attackerPos);
+			if(overkillDamage > 0 && this.getSecondRow().get(attackerPos) != null)
+				getSecondRow().get(attackerPos).removeHealth(overkillDamage);
+		}
+		else { //player only has one row, so no overkill applies here
+			getOpponentCardByPosition(attackerPos).cardAttacks(getFrontRow(), playerBoard, attackerPos);
+		}
+
+		deleteCardsWithoutHP();
+	}
+	
+	public void deleteCardsWithoutHP() {
+		//only looking throw the first two rows of opponentBoard.
+		//They are the only sources in the opponent's board that can take damage.
+		for (int i=0; i<boardSizeX; i++) {
+			if (this.playerBoard.get(i) != null && this.playerBoard.get(i).getHealth() <= 0)
+				this.removePlayerCardFromBoard(i);
+			
+			if (this.getFrontRow().get(i) != null && this.getOpponentCardByPosition(i).getHealth() <= 0)
+				this.removeOpponentCardFromBoard(i);
+			
+			if (this.getSecondRow().get(i) != null && this.getSecondRow().get(i).getHealth() <= 0)
+				this.removeOpponentCardFromBoard(i, 1);
+		}
+	}
+	
+	public void playerAttack() {
+		for (int i=0; i<boardSizeX; i++) {
+			if (playerBoard.get(i) != null)
+				this.attack(i, true);
+		}
+	}
+	
+	public void opponentAttack() {
+		for (int i=0; i<boardSizeX; i++) {
+			if (this.getFrontRow().get(i) != null)
+				this.attack(i, false);
+		}
 	}
 	
 	public void addOpponentCardtoSpecificLocation(Card enemyCard, int posX, int posY) {
@@ -111,9 +146,9 @@ public class Board
 			for(int j=1; j<boardSizeY; j++) { //loops through all locations in 2d arraylist
 				if (opponentBoard.get(i).get(j) != null) { //if card exists
 					if(opponentBoard.get(i).get(j-1) == null) { //if empty space is in front of card
-						Card tempCard = opponentBoard.get(i).get(j).getCard();
-						opponentBoard.get(i).set(j, null);
-						opponentBoard.get(i).set(j-1, tempCard);
+						Card tempCard = opponentBoard.get(i).get(j).getCard(); //move card to temp variable
+						opponentBoard.get(i).set(j, null); //remove card from board
+						opponentBoard.get(i).set(j-1, tempCard); //place card one up
 					}
 				}
 			}
@@ -146,6 +181,34 @@ public class Board
 			SecondRow.add(opponentBoard.get(i).get(1));
 		
 		return SecondRow;
+	}
+	
+	public void dealBoardDamage(int damage) {
+		boardHealth += damage;
+	}
+	
+	public int getBoardHealth() {
+		return boardHealth;
+	}
+	
+	public int getBoardSizeY() {
+		return boardSizeY;
+	}
+
+	public void setBoardSizeY(int boardSizeY) {
+		this.boardSizeY = boardSizeY;
+	}
+
+	public int getBoardSizeX() {
+		return boardSizeX;
+	}
+
+	public void setBoardSizeX(int boardSizeX) {
+		this.boardSizeX = boardSizeX;
+	}
+
+	public void setBoardHealth(int boardHealth) {
+		this.boardHealth = boardHealth;
 	}
 }
 

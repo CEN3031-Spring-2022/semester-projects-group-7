@@ -3,6 +3,7 @@ package javascryption;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Card {
 	private String name; //name of the card
@@ -74,6 +75,29 @@ public class Card {
 		}
 		//Cards should be deleted from board when return false
 	}
+	
+	
+	public int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX) {
+		if (defenderAL.get(positionX) == null || attackerAL.get(positionX) == null)
+			return 0;
+		
+		int overkillDamage = 0;
+		int damage = attackerAL.get(positionX).getAttack();
+		int defenderHealth = defenderAL.get(positionX).getHealth();
+		defenderHealth -= damage;
+		
+		defenderAL.get(positionX).setHealth(defenderHealth);
+				
+		if(defenderHealth < 0)
+			overkillDamage = defenderHealth*-1;
+		
+		return overkillDamage;
+	}
+	
+	public void removeHealth(int damage) {
+		this.setHealth(this.getHealth()-damage);
+	}
+	
 	
 	/* From here on out it's just the usual setters and getters.
 	 * The setters will be useful once we start being able to modify cards,
