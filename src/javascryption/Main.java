@@ -55,7 +55,6 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
             	//TODO Copy card in board object, Sacrifice Card
             	
-            	
             	//Set button graphic when pressed
             	/*
 				try {

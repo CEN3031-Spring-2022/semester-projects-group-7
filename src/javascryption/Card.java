@@ -5,11 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Card {
+public abstract class Card {
 	private String name; //name of the card
 	private int health; //amount of health. TODO: Delete card when it reaches 0.
 	private int attack; //amount of attack power.
 	private int blood; //amount of blood required to put into play.
+	private boolean isUnkillable; //unkillable sigil
 	
 	/**
 	 * Default constructor. This is for testing, not intended for actual use.
@@ -19,8 +20,10 @@ public class Card {
 		setHealth(1);
 		setAttack(1);
 		setBlood(1);
+		setIsUnkillable(false);
 	}
 	
+
 	/**
 	 * Constructs new card using the assigned values from the start. These can be read from a file.
 	 * I called the setters here in case we desire to regulate these values more heavily later on.
@@ -34,6 +37,15 @@ public class Card {
 		setHealth(newHealth);
 		setAttack(newAttack);
 		setBlood(newBlood);
+		setIsUnkillable(false);
+	}
+	
+	public Card(String newName, int newBlood, int newHealth, int newAttack, boolean newIsUnkillable) {
+		setName(newName);
+		setHealth(newHealth);
+		setAttack(newAttack);
+		setBlood(newBlood);
+		setIsUnkillable(newIsUnkillable);
 	}
 	/*I think it'd be easier to read and set from file within Card class
 	 * i.e. void makeCard() here and delete parameterized constructor
@@ -53,6 +65,8 @@ public class Card {
 		 	blood = Integer.parseInt(split[1]);
 		 	health = Integer.parseInt(split[2]);
 		 	attack = Integer.parseInt(split[3]);
+		 	if(split.length >= 5)
+		 		isUnkillable = split[4].toLowerCase().equals("unkillable");
 
 		    br.close();
 		}
@@ -76,23 +90,7 @@ public class Card {
 		//Cards should be deleted from board when return false
 	}
 	
-	
-	public int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX) {
-		if (defenderAL.get(positionX) == null || attackerAL.get(positionX) == null)
-			return 0;
-		
-		int overkillDamage = 0;
-		int damage = attackerAL.get(positionX).getAttack();
-		int defenderHealth = defenderAL.get(positionX).getHealth();
-		defenderHealth -= damage;
-		
-		defenderAL.get(positionX).setHealth(defenderHealth);
-				
-		if(defenderHealth < 0)
-			overkillDamage = defenderHealth*-1;
-		
-		return overkillDamage;
-	}
+	public abstract int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX);
 	
 	public void removeHealth(int damage) {
 		this.setHealth(this.getHealth()-damage);
@@ -120,6 +118,10 @@ public class Card {
 		this.blood = newBlood;
 	}
 	
+	private void setIsUnkillable(boolean isUnkillable) {
+		this.isUnkillable = isUnkillable;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -136,6 +138,10 @@ public class Card {
 		return this.blood;
 	}
 	
+	public boolean getIsUnkillable() {
+		return this.isUnkillable;
+	}
+	
 	public Card getCard() {
 		return this;
 	}
@@ -144,7 +150,8 @@ public class Card {
 		return (this.getName() 
 				+ "\tBlood:" +this.getBlood() 
 				+ " Health:" +this.getHealth() 
-				+ " Attack:"+this.getAttack());
+				+ " Attack:"+this.getAttack()
+				+ " Unkillable:" + this.getIsUnkillable());
 	}
 	
 	/*

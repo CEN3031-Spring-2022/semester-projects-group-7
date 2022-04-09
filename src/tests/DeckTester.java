@@ -11,9 +11,9 @@ public class DeckTester {
 	void addingCardstoDeck() {
 		Deck sut = new Deck();
 		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);
 		
 		sut.addCard(wolf);
 		sut.addCard(badger);
@@ -24,9 +24,9 @@ public class DeckTester {
 	void checkingSizeOfDeck() {
 		Deck sut = new Deck();
 		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);
 		
 		sut.addCard(wolf);
 		sut.addCard(badger);
@@ -37,7 +37,7 @@ public class DeckTester {
 	
 	@Test
 	void testingParameterizedConstructor() {
-		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
 
 		ArrayList<Card> sampleList = new ArrayList<Card>();
 		
@@ -54,8 +54,8 @@ public class DeckTester {
 	void testDeletionOfCardsByPosition() {
 		//arrange
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
 		sut.addCard(obj1);
 		sut.addCard(obj2);
 
@@ -70,9 +70,9 @@ public class DeckTester {
 	void addingCardToFrontPosition() {
 		//arrange
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
-		Card obj3 = new Card("Cat", 0, 0, 0);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
+		Card obj3 = new NormalCard("Cat", 0, 0, 0);
 		sut.addCard(obj1);
 		sut.addCard(obj2);
 		
@@ -86,11 +86,11 @@ public class DeckTester {
 	@Test
 	void shuffleCardsKeepsAllCards() {
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
-		Card obj3 = new Card("Cat", 0, 0, 0);
-		Card obj4 = new Card("Badger", 0, 0, 0);
-		Card obj5 = new Card("Elephant", 0, 0, 0);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
+		Card obj3 = new NormalCard("Cat", 0, 0, 0);
+		Card obj4 = new NormalCard("Badger", 0, 0, 0);
+		Card obj5 = new NormalCard("Elephant", 0, 0, 0);
 		
 		sut.addCard(obj1);
 		sut.addCard(obj2);

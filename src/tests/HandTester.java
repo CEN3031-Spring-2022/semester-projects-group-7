@@ -4,6 +4,8 @@ import javascryption.*;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 public class HandTester {
 	
 	@Test
@@ -15,9 +17,9 @@ public class HandTester {
 	@Test
 	void testReturnHand() {
 		Deck sampleDeck = new Deck();		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);		
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);		
 		sampleDeck.addCard(wolf);
 		sampleDeck.addCard(badger);
 		sampleDeck.addCard(bee);		
@@ -31,7 +33,7 @@ public class HandTester {
 	@Test
 	void testGetCardByPosition() {
 		Hand sut = new Hand();
-		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
 
 		sut.addCardToHand(wolf);
 		
@@ -41,8 +43,8 @@ public class HandTester {
 	@Test
 	void removeCardByPosition() {
 		Hand sut = new Hand();
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 0, 0, 0);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 0, 0, 0);
 		
 		sut.addCardToHand(badger);
 		sut.addCardToHand(wolf);

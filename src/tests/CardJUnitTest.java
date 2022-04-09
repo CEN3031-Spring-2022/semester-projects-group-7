@@ -11,13 +11,13 @@ class CardJUnitTest {
 
 	@Test
 	void testDefaultConstructor() {
-		Card obj = new Card();
+		Card obj = new NormalCard();
 		assert(obj.getName() == "Not Assigned");
 	}
 	
 	@Test
 	void testFileReadAndSet() {
-		Card obj = new Card();
+		Card obj = new NormalCard();
 		
 		obj.makeCard(1);
 		assertEquals(obj.getName(), "Stoat");
@@ -28,7 +28,7 @@ class CardJUnitTest {
 	
 	@Test
 	void testFileReadAndResetWithNewID() {
-		Card obj = new Card();
+		Card obj = new NormalCard();
 		
 		obj.makeCard(1);
 		
@@ -41,8 +41,8 @@ class CardJUnitTest {
 	
 	@Test
 	void cardsAttackEachotherCorrectlyAndReturnOverkillDamage() {
-		Card attacker = new Card("weasel", 2, 2, 2); //card has 2 attack
-		Card defender = new Card("wolf", 1, 1, 1); //card has 1 health
+		Card attacker = new NormalCard("weasel", 2, 2, 2); //card has 2 attack
+		Card defender = new NormalCard("wolf", 1, 1, 1); //card has 1 health
 		int overkillDamage;
 		
 		ArrayList<Card> attackerAL = new ArrayList<Card>();

@@ -1,6 +1,7 @@
 package tests;
 
 import javascryption.*;
+
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 
@@ -23,9 +24,9 @@ public class PlayerTester {
 	void drawingCardFromPlayerObject() {
 		Deck deck = new Deck();
 		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);
 		
 		deck.addCard(wolf);
 		deck.addCard(badger);
