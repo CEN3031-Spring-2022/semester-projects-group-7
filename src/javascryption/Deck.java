@@ -104,8 +104,7 @@ public class Deck {
 	
 
 	
-	public void readDeckFromFile(String path)
-	{
+	public void readDeckFromFile(String path){
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(path));
 			String line = null;
@@ -115,8 +114,7 @@ public class Deck {
 			int attack;
 			Card currCard;
 			
-			while((line = in.readLine()) != null )
-			{
+			while((line = in.readLine()) != null ){
 				
 				String[] textArr = line.split(",");
 				for(int i = 0; i < textArr.length; ++i)
