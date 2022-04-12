@@ -11,7 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.StackPane;
- 
+import javafx.scene.layout.HBox;
+
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -23,14 +24,19 @@ public class Main extends Application {
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
         CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+        HBox handHBox = new HBox(20);
+
 
         // REMOVE ME //
-        /*
+        
         Card card = new Card("Squirrel", 0, 1, 0);
         Card card2 = new Card("Wolf", 2, 3, 2);
         Card card3 = new Card("Stoat", 1, 2, 1);
-        */
         
+        Deck deck = new Deck();
+        deck.addCard(card);
+        deck.addCard(card2);
+        deck.addCard(card3);  
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
@@ -97,8 +103,9 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add squirrel to hand
-            	System.out.println("Squirrel Deck clicked!");
+                    HandButtons handButtons2 = new HandButtons();
+                    handButtons2.addHandButton(card);
+                	handHBox.getChildren().add(handButtons2.getHandButton());	
             }
         });
         Bell.setOnAction(new EventHandler<ActionEvent>() {
@@ -147,6 +154,20 @@ public class Main extends Application {
         handScroll.setPrefSize(700, 175);
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
         handScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+        
+        Button[] arr = new Button[20];
+
+        for(int i = 0; i < 4; i++) {
+            HandButtons handButtons = new HandButtons();
+            handButtons.addHandButton(card);
+            arr[i] = handButtons.getHandButton();
+        }
+        for(int i = 0; i < 4; i++) {
+        	handHBox.getChildren().add(arr[i]);	
+        }
+
+        
+        handScroll.setContent(handHBox);
         
         ScrollPane gameLogScroll = new ScrollPane();
         gameLogScroll.setPrefSize(500, 200);
