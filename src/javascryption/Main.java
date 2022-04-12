@@ -252,7 +252,7 @@ public class Main extends Application {
         // update text of text field
         comboBox.addEventFilter(Event.ANY, e->textField.setText(comboBox.getSelectionModel().getSelectedItem()));
         // handle deck selection
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectDeck(comboBox.getSelectionModel().getSelectedIndex(), "test"));
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectDeck(comboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
@@ -264,35 +264,35 @@ public class Main extends Application {
     	try{
     		// write deck to file if default is not chosen
     		File file;
+    		String path;
     		FileWriter fileWriter;
+    		Player player = new Player();
     		Deck deckToSet;
     		
     		switch(choice){
     		case 0:{
     			file = new File("./CustomDeck.txt");
     			file.createNewFile();
+    			path = "./CustomDeck.txt";
     			uInput.split(",");
     			fileWriter = new FileWriter(file);
-    			
-    			/*TODO:
-    			 *  finish implementation of custom deck
-    			 */
-
     			fileWriter.write(uInput);
     			deckToSet = new Deck();
-    			fileWriter.close();
-    			deckToSet.readDeckFromFile(file);
+    			
+    			deckToSet.readDeckFromFile(path);
     			break;
     			}
     		default:{
     			// read default file.
-    			file = new File("./DefaultDeck.txt");
+    			path = "./DefaultDeck.txt";
     			deckToSet = new Deck();
-    			deckToSet.readDeckFromFile(file);
+    			deckToSet.readDeckFromFile(path);
     			}
     			break;
     			
     		}
+    		player.setDeck(deckToSet);
+    		
     	} catch (IOException e) {
     		e.printStackTrace();
     	}

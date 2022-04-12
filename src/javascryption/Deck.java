@@ -1,5 +1,8 @@
 package javascryption;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,38 +104,37 @@ public class Deck {
 	
 
 	
-	public void readDeckFromFile(File file)
+	public void readDeckFromFile(String path)
 	{
-		/*
-		 * TODO: Implement tests for this
-		 * 		 
-		 */
-		try (Scanner scanner = new Scanner(file)){
-			scanner.useDelimiter(",\n");
-			System.out.println(scanner.next() + "\n");			
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(path));
+			String line = null;
 			String name;
-			Card card;
 			int blood;
 			int health;
 			int attack;
-			while(scanner.hasNext())
+			Card currCard;
+			
+			while((line = in.readLine()) != null )
 			{
-				name = scanner.next();
-				blood = Integer.parseInt(scanner.next());
-				health = Integer.parseInt(scanner.next());
-				attack = Integer.parseInt(scanner.next());
-				card = new Card(name,blood,health,attack);
-				this.deck.add(card);
-				/*
-				System.out.println("name: " + card.getName());
-				System.out.println("blood: " + card.getBlood());
-				System.out.println("health: " + card.getHealth());
-				System.out.println("attack: " + card.getAttack());
-				*/			
+				
+				String[] textArr = line.split(",");
+				for(int i = 0; i < textArr.length; ++i)
+				{
+					name = textArr[i];
+					blood = Integer.parseInt(textArr[++i]);
+					health = Integer.parseInt(textArr[++i]);
+					attack = Integer.parseInt(textArr[++i]);
+					currCard = new Card(name,blood,health,attack);
+					addCard(currCard);
+				}
 			}
-		}catch(IOException e) {
+	
+		}
+		catch(IOException e){
 			e.printStackTrace();
 		}
+		
 	}
 	
 	

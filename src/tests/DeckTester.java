@@ -1,6 +1,9 @@
 package tests;
 
 import javascryption.*;
+
+//import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
@@ -104,5 +107,37 @@ public class DeckTester {
 		//System.out.println("--------------\n"+sut.toString());
 		
 		assertEquals(sut.getSize(), beforeShuffle);
+	}
+	
+	@Test
+	void readingFromFile() {
+		// read deck file in
+		String path = "./DefaultDeck.txt";
+		Deck sut = new Deck();
+		sut.readDeckFromFile(path);
+		// Card objects to compare to
+		Card Wolf = new Card("Wolf",2,3,2);
+		Card Wolf2 = new Card("Wolf",2,3,2);
+		Card Adder = new Card("Adder",2,1,1);
+		Card RiverSnapper = new Card("River Snapper", 2,6,1);
+		Card Stoat = new Card("Stoat",1,2,1);
+		Card Squirrel = new Card("Squirrel",0,1,0);
+		// Add cards to a new deck
+		Deck compareDeck = new Deck();
+		compareDeck.addCard(Wolf);
+		compareDeck.addCard(Wolf2);
+		compareDeck.addCard(Adder);
+		compareDeck.addCard(RiverSnapper);
+		compareDeck.addCard(Stoat);
+		compareDeck.addCard(Squirrel);
+
+		assertEquals(sut.getCardByPosition(0).toString(), compareDeck.getCardByPosition(0).toString());
+		assertEquals(sut.getCardByPosition(1).toString(), compareDeck.getCardByPosition(1).toString());
+		assertEquals(sut.getCardByPosition(2).toString(), compareDeck.getCardByPosition(2).toString());
+		assertEquals(sut.getCardByPosition(3).toString(), compareDeck.getCardByPosition(3).toString());
+		assertEquals(sut.getCardByPosition(4).toString(), compareDeck.getCardByPosition(4).toString());
+		assertEquals(sut.getCardByPosition(5).toString(), compareDeck.getCardByPosition(5).toString());
+
+		
 	}
 }
