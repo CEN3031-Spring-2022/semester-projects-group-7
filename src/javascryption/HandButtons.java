@@ -6,11 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
-public class HandButtons {
+public class HandButtons{
 	
 	Button CardInHand = new Button();
 	Card handCard = new Card();
 	CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+	BoardButtons boardButtons;
+	
+	HandButtons(BoardButtons someBoardButtons) {
+		boardButtons = someBoardButtons;
+	}
 	
 	void addHandButton(Card card) {
 		handCard = card;
@@ -25,8 +30,7 @@ public class HandButtons {
     	CardInHand.setOnAction(new EventHandler<ActionEvent>() {
     		@Override
     		public void handle(ActionEvent event) {
-    			//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
-
+    			boardButtons.enableBoardButtons();
     		}
     	});	
     }

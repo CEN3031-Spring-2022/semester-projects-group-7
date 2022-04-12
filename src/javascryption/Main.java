@@ -24,9 +24,7 @@ public class Main extends Application {
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
         // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
-        Hand hand = new Hand();
         Card card = new Card("Squirrel", 0, 1, 0);
-
 
         // REMOVE ME //
         
@@ -40,97 +38,49 @@ public class Main extends Application {
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
-        Button PlayerCardPosition1 = new Button();
-        Button PlayerCardPosition2 = new Button();
-        Button PlayerCardPosition3 = new Button();
-        Button PlayerCardPosition4 = new Button();
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
+        BoardButtons boardButtons = new BoardButtons();
+        boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
         additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
-        additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1, PlayerCardPosition2, 
-        											  PlayerCardPosition3, PlayerCardPosition4);
         Bell.setText("Bell");
+        
+        Hand hand = new Hand(boardButtons);
+        Group boardButtonsDisplay = new Group();
+        boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
         
-        PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//TODO Copy card in board object, Sacrifice Card
-            	
-            	
-            	//Set button graphic when pressed
-            	/*
-				try {
-					cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition1);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-            	 */
-            }
-        });
-        PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-				//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
-
-            }
-        });
-        PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition3);
-
-            }
-        });
-        PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition4);
-
-            }
-        });
         Deck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add random card from deck into hand
-            	System.out.println("Deck clicked!");
+            		hand.addCardToHand(card2);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	hand.addCardToHand(card);
+            		hand.addCardToHand(card);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Call battle function
-            	System.out.println("Bell clicked!");
+        		Deck.setDisable(false);
+        		SquirrelDeck.setDisable(false);
+        		boardButtons.disableBoardButtons();
+            	//Call battle function
             }
         });
         
         //Button size/position set ////////////////////////////////////////////////////
-        
-        PlayerCardPosition1.setTranslateX(-500);
-        PlayerCardPosition1.setTranslateY(75);        
-        PlayerCardPosition1.setPrefSize(100, 150);
-        
-        PlayerCardPosition2.setTranslateX(-350);
-        PlayerCardPosition2.setTranslateY(75);
-        PlayerCardPosition2.setPrefSize(100, 150);
-        
-        PlayerCardPosition3.setTranslateX(-200);
-        PlayerCardPosition3.setTranslateY(75);
-        PlayerCardPosition3.setPrefSize(100, 150);
-        
-        PlayerCardPosition4.setTranslateX(-50);
-        PlayerCardPosition4.setTranslateY(75);
-        PlayerCardPosition4.setPrefSize(100, 150);
         
         Deck.setTranslateX(275);
         Deck.setTranslateY(275);
@@ -143,6 +93,9 @@ public class Main extends Application {
         Bell.setTranslateX(350);
         Bell.setTranslateY(120);
         Bell.setPrefSize(150, 100);
+        
+        boardButtonsDisplay.setTranslateX(-276);
+        boardButtonsDisplay.setTranslateY(68);
         
         //Window Creation ////////////////////////////////////////////////////////////
         
@@ -168,10 +121,7 @@ public class Main extends Application {
         gameLogPanel.setTranslateX(325);
         gameLogPanel.setTranslateY(-250);
         
-        root.getChildren().add(PlayerCardPosition1);
-        root.getChildren().add(PlayerCardPosition2);
-        root.getChildren().add(PlayerCardPosition3);
-        root.getChildren().add(PlayerCardPosition4);
+        root.getChildren().add(boardButtonsDisplay);
         root.getChildren().addAll(Deck);
         root.getChildren().add(SquirrelDeck);
         root.getChildren().add(Bell);

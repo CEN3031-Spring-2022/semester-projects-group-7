@@ -7,6 +7,7 @@ public class Hand {
 	private ArrayList<HandButtons> hand;
 	HBox handHBox = new HBox(20);
 	private Deck playerDeck;
+	BoardButtons boardButtons;
 	
 	/*
 	 * Default constructor. Initializes an empty ArrayList of cards.
@@ -16,13 +17,20 @@ public class Hand {
 		playerDeck = new Deck();
 	}
 	
+	public Hand(BoardButtons someBoardButtons) {
+		this.hand = new ArrayList<HandButtons>();
+		playerDeck = new Deck();
+		boardButtons = someBoardButtons;
+	}
+	
 	/*
 	 * Parameterized constructor used to set a player's hand, may be useful at initialization
 	 * or maybe not useful.
 	 * @param newHand an ArrayList of cards that make up a hand
 	 */
-	public void setHand(ArrayList<HandButtons> newHand) {
+	public void setHand(ArrayList<HandButtons> newHand, BoardButtons someBoardButtons) {
 		this.hand = newHand;
+		boardButtons = someBoardButtons;
 	}
 	
 	/*
@@ -38,7 +46,7 @@ public class Hand {
 	}
 		
 	public void addCardToHand(Card newCard) {
-        HandButtons handButtons = new HandButtons();
+        HandButtons handButtons = new HandButtons(boardButtons);
         handButtons.addHandButton(newCard);
         handHBox.getChildren().add(handButtons.getHandButton());
 		this.hand.add(handButtons);
@@ -78,4 +86,5 @@ public class Hand {
 			return null;
 		return hand.get(cardPos).getHandCard();
 	}
+	
 }
