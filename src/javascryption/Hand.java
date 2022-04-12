@@ -1,15 +1,18 @@
 package javascryption;
 import java.util.ArrayList;
 
+import javafx.scene.layout.HBox;
+
 public class Hand {
-	private ArrayList<Card> hand;
+	private ArrayList<HandButtons> hand;
+	HBox handHBox = new HBox(20);
 	private Deck playerDeck;
 	
 	/*
 	 * Default constructor. Initializes an empty ArrayList of cards.
 	 */
 	public Hand() {
-		this.hand = new ArrayList<Card>();
+		this.hand = new ArrayList<HandButtons>();
 		playerDeck = new Deck();
 	}
 	
@@ -18,19 +21,27 @@ public class Hand {
 	 * or maybe not useful.
 	 * @param newHand an ArrayList of cards that make up a hand
 	 */
-	public void setHand(ArrayList<Card> newHand) {
+	public void setHand(ArrayList<HandButtons> newHand) {
 		this.hand = newHand;
 	}
 	
 	/*
 	 * @return an ArrayList representing the hand
 	 */
-	public ArrayList<Card> getHand() {
+	public ArrayList<HandButtons> getHand() {
 		return this.hand;
+	}
+	
+	//return buttons aligned horizontally
+	public HBox getHandHBox() {
+		return handHBox;
 	}
 		
 	public void addCardToHand(Card newCard) {
-		this.hand.add(newCard);
+        HandButtons handButtons = new HandButtons();
+        handButtons.addHandButton(newCard);
+        handHBox.getChildren().add(handButtons.getHandButton());
+		this.hand.add(handButtons);
 	}
 	
 	
@@ -50,9 +61,11 @@ public class Hand {
 	 * @param cardPos position of card you wish to remove
 	 */
 	public void removeCardbyPosition(int cardPos) {
-		if(playerDeck.getSize() < cardPos)
+		if(playerDeck.getSize() < cardPos) {
 			return;
-		hand.remove(cardPos);
+		}
+			hand.remove(cardPos);
+			handHBox.getChildren().remove(cardPos);
 	}
 	
 	/**
@@ -63,7 +76,6 @@ public class Hand {
 	public Card getCardByPos(int cardPos) {
 		if(playerDeck.getSize() < cardPos)
 			return null;
-		return hand.get(cardPos);
+		return hand.get(cardPos).getHandCard();
 	}
-			
 }

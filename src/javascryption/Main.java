@@ -23,13 +23,13 @@ public class Main extends Application {
         primaryStage.setTitle("Javascryption");
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
-        HBox handHBox = new HBox(20);
+        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+        Hand hand = new Hand();
+        Card card = new Card("Squirrel", 0, 1, 0);
 
 
         // REMOVE ME //
         
-        Card card = new Card("Squirrel", 0, 1, 0);
         Card card2 = new Card("Wolf", 2, 3, 2);
         Card card3 = new Card("Stoat", 1, 2, 1);
         
@@ -103,9 +103,7 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    HandButtons handButtons2 = new HandButtons();
-                    handButtons2.addHandButton(card);
-                	handHBox.getChildren().add(handButtons2.getHandButton());	
+            	hand.addCardToHand(card);
             }
         });
         Bell.setOnAction(new EventHandler<ActionEvent>() {
@@ -155,19 +153,7 @@ public class Main extends Application {
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
         handScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
         
-        Button[] arr = new Button[20];
-
-        for(int i = 0; i < 4; i++) {
-            HandButtons handButtons = new HandButtons();
-            handButtons.addHandButton(card);
-            arr[i] = handButtons.getHandButton();
-        }
-        for(int i = 0; i < 4; i++) {
-        	handHBox.getChildren().add(arr[i]);	
-        }
-
-        
-        handScroll.setContent(handHBox);
+        handScroll.setContent(hand.getHandHBox());
         
         ScrollPane gameLogScroll = new ScrollPane();
         gameLogScroll.setPrefSize(500, 200);

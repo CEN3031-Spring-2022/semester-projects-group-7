@@ -9,9 +9,11 @@ import javafx.scene.control.Button;
 public class HandButtons {
 	
 	Button CardInHand = new Button();
+	Card handCard = new Card();
 	CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 	
 	void addHandButton(Card card) {
+		handCard = card;
 		try {
 			cardGraphic.setPlayerCardGraphic(card, CardInHand);
 		} catch (FileNotFoundException e) {
@@ -31,5 +33,9 @@ public class HandButtons {
 	
 	Button getHandButton() {
 		return CardInHand;
+	}
+	
+	Card getHandCard() {
+		return handCard;
 	}
 }
