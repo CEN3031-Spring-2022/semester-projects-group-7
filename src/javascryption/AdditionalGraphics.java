@@ -61,18 +61,12 @@ public class AdditionalGraphics {
 		return enemyPositions;
 	}
 	
-	public void setPlayerEmptySlotGraphics(Button pos1, Button pos2, Button pos3, Button pos4) throws FileNotFoundException {
+	public void setPlayerEmptySlotGraphics(Button pos) throws FileNotFoundException {
 	    Image PlayerSlotImage = new Image(new FileInputStream("assets/PlayerCardSlotEmpty.png"));
-	    ImageView playerEmptySlot1 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot2 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot3 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot4 = new ImageView(PlayerSlotImage); 
+	    ImageView playerEmptySlot = new ImageView(PlayerSlotImage); 
+    
+	    pos.setGraphic(playerEmptySlot);
 
-	    
-	    pos1.setGraphic(playerEmptySlot1);
-	    pos2.setGraphic(playerEmptySlot2);
-	    pos3.setGraphic(playerEmptySlot3);
-	    pos4.setGraphic(playerEmptySlot4);
 	}
 	
 	public void setAttackDeckGraphic(Button aButton) throws FileNotFoundException {
