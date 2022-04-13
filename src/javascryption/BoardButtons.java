@@ -21,9 +21,10 @@ public class BoardButtons {
     Hand hand;
     int cardPos;
     int bloodBank = 0;
+    AdditionalGraphics additionalGraphics;
 	
 	public void makeBoardButtons() throws FileNotFoundException {
-		AdditionalGraphics additionalGraphics = new AdditionalGraphics();
+		additionalGraphics = new AdditionalGraphics();
 
 	    additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1);
 	    additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition2);
@@ -37,112 +38,40 @@ public class BoardButtons {
 	    PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent event) {	            	
-				try {
-					if (activeCard != null) {
-						if(board.getPlayerCardByPos(0) == null && bloodBank >= activeCard.getBlood()) {
-							cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition1);
-							board.addPlayerCardtoBoard(activeCard, 0);
-							hand.removeCardbyPosition(cardPos);
-							bloodBank = bloodBank - activeCard.getBlood();
-							activeCard = null;
-							}
-							else if(board.getPlayerCardByPos(0) != null && bloodBank < activeCard.getBlood()) {
-								additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1);
-								board.removePlayerCardFromBoard(0);
-								bloodBank++;
-							}
-						}
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-						}
+	        	sacrificeOrPlaceCard(PlayerCardPosition1, 0);
 	         }
 	     });
 	     PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	        	 try {
-	        		 if (activeCard != null) {
-						if(board.getPlayerCardByPos(1) == null && bloodBank >= activeCard.getBlood()) {
-							cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition2);
-							board.addPlayerCardtoBoard(activeCard, 1);
-							hand.removeCardbyPosition(cardPos);
-							bloodBank = bloodBank - activeCard.getBlood();
-							activeCard = null;
-							}
-							else if(board.getPlayerCardByPos(1) != null && bloodBank < activeCard.getBlood()) {
-									additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition2);
-									board.removePlayerCardFromBoard(1);
-									bloodBank++;
-								}
-	        		 		}
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-							}
+		        sacrificeOrPlaceCard(PlayerCardPosition2, 1);
 	         }
 	     });
 	     PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	        	 try {
-	        		 if (activeCard != null) {
-						if(board.getPlayerCardByPos(2) == null && bloodBank >= activeCard.getBlood()) {
-							cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition3);
-							board.addPlayerCardtoBoard(activeCard, 2);
-							hand.removeCardbyPosition(cardPos);
-							bloodBank = bloodBank - activeCard.getBlood();
-							activeCard = null;
-							}
-							else if(board.getPlayerCardByPos(2) != null && bloodBank < activeCard.getBlood()) {
-									additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition3);
-									board.removePlayerCardFromBoard(2);
-									bloodBank++;
-								} 
-	        		 		}
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-							}
+		        sacrificeOrPlaceCard(PlayerCardPosition3, 2);
 	         }
 	     });
 	     PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	        	 try {
-	        		 if (activeCard != null) {
-						if(board.getPlayerCardByPos(3) == null && bloodBank >= activeCard.getBlood()) {
-							cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition4);
-							board.addPlayerCardtoBoard(activeCard, 3);
-							hand.removeCardbyPosition(cardPos);
-							bloodBank = bloodBank - activeCard.getBlood();
-							activeCard = null;
-							}
-							else if(board.getPlayerCardByPos(3) != null && bloodBank < activeCard.getBlood()) {
-									additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition4);
-									board.removePlayerCardFromBoard(3);
-									bloodBank++;
-								}
-	        		 		}
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-							}
+		        sacrificeOrPlaceCard(PlayerCardPosition4, 3);
 	         }
 	     });
 	        
 	     //Button size/position set ////////////////////////////////////////////////////
 	        
 	     PlayerCardPosition1.setTranslateX(-500);
-	     PlayerCardPosition1.setTranslateY(75);        
 	     PlayerCardPosition1.setPrefSize(100, 150);
 	        
 	     PlayerCardPosition2.setTranslateX(-350);
-	     PlayerCardPosition2.setTranslateY(75);
 	     PlayerCardPosition2.setPrefSize(100, 150);
 	        
 	     PlayerCardPosition3.setTranslateX(-200);
-	     PlayerCardPosition3.setTranslateY(75);
 	     PlayerCardPosition3.setPrefSize(100, 150);
 	        
 	     PlayerCardPosition4.setTranslateX(-50);
-	     PlayerCardPosition4.setTranslateY(75);
 	     PlayerCardPosition4.setPrefSize(100, 150);
 	     
 	     boardButtonGroup.getChildren().add(PlayerCardPosition1);
@@ -176,6 +105,27 @@ public class BoardButtons {
 	public void setCardToCopy(Card aCard, int aPos) {
 		activeCard = aCard;
 		cardPos = aPos;
+	}
+	
+	private void sacrificeOrPlaceCard(Button aButton, int aPos) {
+		try {
+			if (activeCard != null) {
+				if(board.getPlayerCardByPos(aPos) == null && bloodBank >= activeCard.getBlood()) {
+					cardGraphic.setPlayerCardGraphic(activeCard, aButton);
+					board.addPlayerCardtoBoard(activeCard, aPos);
+					hand.removeCardbyPosition(cardPos);
+					bloodBank = bloodBank - activeCard.getBlood();
+					activeCard = null;
+					}
+					else if(board.getPlayerCardByPos(aPos) != null && bloodBank < activeCard.getBlood()) {
+						additionalGraphics.setPlayerEmptySlotGraphics(aButton);
+						board.removePlayerCardFromBoard(aPos);
+						bloodBank++;
+					}
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				}
 	}
 
 }

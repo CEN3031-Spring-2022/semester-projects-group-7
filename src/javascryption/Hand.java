@@ -70,13 +70,9 @@ public class Hand {
 	 * @param cardPos position of card you wish to remove
 	 */
 	public void removeCardbyPosition(int cardPos) {
-		//This should be uncommented when deck is finished
-		/*if(playerDeck.getSize() < cardPos) {
-			return;
-		}*/
 			hand.remove(cardPos);
 			handHBox.getChildren().remove(cardPos);
-			for(int i = 0; i < hand.size(); i++) {
+			for(int i = cardPos; i < hand.size(); i++) {
 				hand.get(i).setCardPos(i);
 			}
 	}

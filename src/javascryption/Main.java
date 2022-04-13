@@ -26,8 +26,9 @@ public class Main extends Application {
 
         // REMOVE ME //
         
-        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
         Card card2 = new Card("Wolf", 2, 3, 2);
+        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
