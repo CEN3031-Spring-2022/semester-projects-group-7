@@ -14,6 +14,12 @@ public class BoardButtons {
     Button PlayerCardPosition4 = new Button();
     
     Group boardButtonGroup = new Group();
+    
+    Board board = new Board();
+    CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+    Card activeCard;
+    Hand hand;
+    int cardPos;
 	
 	public void makeBoardButtons() throws FileNotFoundException {
 		AdditionalGraphics additionalGraphics = new AdditionalGraphics();
@@ -26,38 +32,51 @@ public class BoardButtons {
 	        
 	    PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
-	        public void handle(ActionEvent event) {
-	        	//TODO Copy card in board object, Sacrifice Card
-	            	
-	           
-	            //Set button graphic when pressed
-	            /*
+	        public void handle(ActionEvent event) {	            	
 				try {
-					cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition1);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-	             */
+					cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition1);
+		            board.addPlayerCardtoBoard(activeCard, 0);
+		            hand.removeCardbyPosition(cardPos);		            
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+						}
 	         }
 	     });
 	     PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	        	 //cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
-
+	        	 try {
+						cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition2);
+			            board.addPlayerCardtoBoard(activeCard, 1);
+			            hand.removeCardbyPosition(cardPos);		            
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							}
 	         }
 	     });
 	     PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	            //cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition3);
+	        	 try {
+						cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition3);
+			            board.addPlayerCardtoBoard(activeCard, 2);
+			            hand.removeCardbyPosition(cardPos);		            
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							}
 
 	         }
 	     });
 	     PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
 	         @Override
 	         public void handle(ActionEvent event) {
-	            //cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition4);
+	        	 try {
+						cardGraphic.setPlayerCardGraphic(activeCard, PlayerCardPosition4);
+			            board.addPlayerCardtoBoard(activeCard, 3);
+			            hand.removeCardbyPosition(cardPos);		            
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							}
 
 	         }
 	     });
@@ -102,6 +121,15 @@ public class BoardButtons {
 	
 	public Group getBoardButtons( ) {
 		return boardButtonGroup;
+	}
+	
+	public void setHandToModify(Hand aHand) {
+		hand = aHand;
+	}
+	
+	public void setCardToCopy(Card aCard, int aPos) {
+		activeCard = aCard;
+		cardPos = aPos;
 	}
 
 }

@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.HBox;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -23,18 +22,12 @@ public class Main extends Application {
         primaryStage.setTitle("Javascryption");
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
         Card card = new Card("Squirrel", 0, 1, 0);
 
         // REMOVE ME //
         
+        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
         Card card2 = new Card("Wolf", 2, 3, 2);
-        Card card3 = new Card("Stoat", 1, 2, 1);
-        
-        Deck deck = new Deck();
-        deck.addCard(card);
-        deck.addCard(card2);
-        deck.addCard(card3);  
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         
@@ -49,6 +42,7 @@ public class Main extends Application {
         Bell.setText("Bell");
         
         Hand hand = new Hand(boardButtons);
+        boardButtons.setHandToModify(hand);
         Group boardButtonsDisplay = new Group();
         boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
 
@@ -57,6 +51,7 @@ public class Main extends Application {
         Deck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            		//card2 should be replaced with a get next card from deck function
             		hand.addCardToHand(card2);
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
@@ -75,8 +70,9 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
         		Deck.setDisable(false);
         		SquirrelDeck.setDisable(false);
-        		boardButtons.disableBoardButtons();
             	//Call battle function
+
+        		boardButtons.disableBoardButtons();
             }
         });
         

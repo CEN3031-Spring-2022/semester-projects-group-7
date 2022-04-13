@@ -12,8 +12,9 @@ public class HandButtons{
 	Card handCard = new Card();
 	CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 	BoardButtons boardButtons;
+	int cardPos;
 	
-	HandButtons(BoardButtons someBoardButtons) {
+	public HandButtons(BoardButtons someBoardButtons) {
 		boardButtons = someBoardButtons;
 	}
 	
@@ -31,15 +32,21 @@ public class HandButtons{
     		@Override
     		public void handle(ActionEvent event) {
     			boardButtons.enableBoardButtons();
+    			boardButtons.setCardToCopy(handCard, cardPos);
     		}
     	});	
     }
 	
-	Button getHandButton() {
+	public Button getHandButton() {
 		return CardInHand;
 	}
 	
-	Card getHandCard() {
+	public Card getHandCard() {
 		return handCard;
 	}
+	
+	public void setCardPos(int aCardPos) {
+		cardPos = aCardPos;
+	}
+	
 }

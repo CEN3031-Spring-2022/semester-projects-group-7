@@ -17,20 +17,20 @@ public class Hand {
 		playerDeck = new Deck();
 	}
 	
+	/*
+	 * Parameterized constructor used to set a player's hand, may be useful at initialization
+	 * or maybe not useful.
+	 * @param newHand an ArrayList of cards that make up a hand
+	 */
 	public Hand(BoardButtons someBoardButtons) {
 		this.hand = new ArrayList<HandButtons>();
 		playerDeck = new Deck();
 		boardButtons = someBoardButtons;
 	}
 	
-	/*
-	 * Parameterized constructor used to set a player's hand, may be useful at initialization
-	 * or maybe not useful.
-	 * @param newHand an ArrayList of cards that make up a hand
-	 */
-	public void setHand(ArrayList<HandButtons> newHand, BoardButtons someBoardButtons) {
+	
+	public void setHand(ArrayList<HandButtons> newHand) {
 		this.hand = newHand;
-		boardButtons = someBoardButtons;
 	}
 	
 	/*
@@ -47,6 +47,7 @@ public class Hand {
 		
 	public void addCardToHand(Card newCard) {
         HandButtons handButtons = new HandButtons(boardButtons);
+        handButtons.setCardPos(hand.size());
         handButtons.addHandButton(newCard);
         handHBox.getChildren().add(handButtons.getHandButton());
 		this.hand.add(handButtons);
@@ -69,11 +70,15 @@ public class Hand {
 	 * @param cardPos position of card you wish to remove
 	 */
 	public void removeCardbyPosition(int cardPos) {
-		if(playerDeck.getSize() < cardPos) {
+		//This should be uncommented when deck is finished
+		/*if(playerDeck.getSize() < cardPos) {
 			return;
-		}
+		}*/
 			hand.remove(cardPos);
 			handHBox.getChildren().remove(cardPos);
+			for(int i = 0; i < hand.size(); i++) {
+				hand.get(i).setCardPos(i);
+			}
 	}
 	
 	/**
