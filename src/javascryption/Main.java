@@ -1,9 +1,14 @@
 package javascryption;
 	
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -265,27 +270,27 @@ public class Main extends Application {
     		// write deck to file if default is not chosen
     		File file;
     		String path;
-    		FileWriter fileWriter;
+    		PrintWriter pWriter;
     		Player player = new Player();
-    		Deck deckToSet;
+    		Deck deckToSet = new Deck();
     		
     		switch(choice){
     		case 0:{
+    			/*
     			file = new File("./CustomDeck.txt");
+    			if(!file.exists()) {
     			file.createNewFile();
+    			}*/
     			path = "./CustomDeck.txt";
-    			uInput.split(",");
-    			fileWriter = new FileWriter(file);
-    			fileWriter.write(uInput);
-    			deckToSet = new Deck();
-    			
+    			pWriter = new PrintWriter(path);
+    			handleCustomDeckInput(pWriter,uInput);
     			deckToSet.readDeckFromFile(path);
+    			pWriter.close();
     			break;
     			}
     		default:{
     			// read default file.
     			path = "./DefaultDeck.txt";
-    			deckToSet = new Deck();
     			deckToSet.readDeckFromFile(path);
     			}
     			break;
@@ -298,5 +303,23 @@ public class Main extends Application {
     	}
     }
     
+    private void handleCustomDeckInput(PrintWriter pW, String uInput) {
+		String[] splitText = uInput.split(",");
+		// map the card library to a deck
+		Deck cardLib = new Deck();
+		cardLib.readDeckFromFile("./CardLibrary.txt");
+		for(Card card : cardLib.getDeck()) {
+				//TODO: validate user input
+			for(String str : splitText) {
+				if(str.trim().toLowerCase().equals(card.getName().trim().toLowerCase())) {
+					pW.print(card.getName()+",");
+					pW.print(card.getBlood()+",");
+					pW.print(card.getHealth()+",");
+					pW.print(card.getAttack()+"\n");
+				}
+			}
+			
+		}
+    }
     
 }
