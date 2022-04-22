@@ -1,6 +1,12 @@
 package javascryption;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Deck {
 	private ArrayList<Card> deck; //Array List of card objects is stored here.
@@ -97,6 +103,39 @@ public class Deck {
 	}
 	
 
+	
+	public void readDeckFromFile(String path){
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(path));
+			String line = null;
+			String name;
+			int blood;
+			int health;
+			int attack;
+			Card currCard;
+			
+			while((line = in.readLine()) != null ){
+				
+				String[] textArr = line.split(",");
+				for(int i = 0; i < textArr.length; ++i)
+				{
+					name = textArr[i];
+					blood = Integer.parseInt(textArr[++i]);
+					health = Integer.parseInt(textArr[++i]);
+					attack = Integer.parseInt(textArr[++i]);
+					currCard = new Card(name,blood,health,attack);
+					addCard(currCard);
+				}
+			}
+	
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	@Override
 	public String toString() {
 		if (this.getSize()<= 0)
