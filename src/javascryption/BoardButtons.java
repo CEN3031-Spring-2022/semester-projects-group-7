@@ -127,5 +127,17 @@ public class BoardButtons {
 				e.printStackTrace();
 				}
 	}
+	
+	public void guiPlayerAttacks() { //returns current health of board
+		board.playerAttack();
+	}
+	
+	public void guiOpponentAttacks() { //returns current health of board
+		board.opponentAttack();
+	}
+	
+	public int getBoardHealth() {
+		return board.getBoardHealth();
+	}
 
 }

@@ -1,6 +1,9 @@
 package javascryption;
 	
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -31,7 +34,6 @@ public class Main extends Application {
 
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
-        
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
@@ -66,16 +68,7 @@ public class Main extends Application {
             		SquirrelDeck.setDisable(true);
             }
         });
-        Bell.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-        		Deck.setDisable(false);
-        		SquirrelDeck.setDisable(false);
-            	//Call battle function
 
-        		boardButtons.disableBoardButtons();
-            }
-        });
         
         //Button size/position set ////////////////////////////////////////////////////
         
@@ -124,7 +117,8 @@ public class Main extends Application {
         root.getChildren().add(Bell);
         
         root.getChildren().add(additionalGraphics.setCardSlotGraphics());
-        root.getChildren().add(additionalGraphics.scaleGraphics());
+        additionalGraphics.initializeScaleGraphics();
+        root.getChildren().add(additionalGraphics.getScale());
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
 
@@ -138,5 +132,25 @@ public class Main extends Application {
         
         primaryStage.setScene(new Scene(root, 1200, 750));
         primaryStage.show();
+        
+        Bell.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+        		Deck.setDisable(false);
+        		SquirrelDeck.setDisable(false);
+            	//Call battle function
+        		boardButtons.guiPlayerAttacks();
+        		int currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+        		
+        		//we may want to find a way to cause a delay here.
+        		//this could be confusing for the player.
+        		boardButtons.guiOpponentAttacks();
+        		currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+        		
+        		boardButtons.disableBoardButtons();
+            }
+        });
     }
 }

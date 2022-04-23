@@ -11,15 +11,15 @@ import javafx.scene.image.ImageView;
 
 public class AdditionalGraphics {
 	
+		Slider HPSlider;
+		
 	public Group setCardSlotGraphics() throws FileNotFoundException {
 		/* Idle Positions are the top line of the board, where enemy cards are
 		 * "idling" until they reach the middle line to attack.
 		 * 
 		 * enemyPositions are the middle line of the board where enemy cards are
 		 * ready to attack when the bell is rung.
-		 */
-		
-		
+		 */		
 	    Image EnemySlot = new Image(new FileInputStream("assets/EnemyCardSlotEmpty.png"));
 	    
 	    ImageView enemyIdlePosition1 = new ImageView(EnemySlot); 
@@ -87,8 +87,8 @@ public class AdditionalGraphics {
 	 * This either be removed or modified for the final product
 	 */
 	
-	public Slider scaleGraphics() {
-		Slider HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
+	public void initializeScaleGraphics() {
+		HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
 		HPSlider.setShowTickMarks(true);
 		HPSlider.setShowTickLabels(true);
 		HPSlider.setMajorTickUnit(1);
@@ -103,7 +103,13 @@ public class AdditionalGraphics {
 		HPSlider.setTranslateY(-40);
 		
 		HPSlider.setDisable(true); //stops user from being able to move slider
-		
+		}
+	
+	public void updateScale(int currentHealth) {
+		HPSlider.setValue(currentHealth);
+	}
+	
+	public Slider getScale() {
 		return HPSlider;
 	}
 
