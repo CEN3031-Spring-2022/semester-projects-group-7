@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -143,14 +145,30 @@ public class Main extends Application {
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
         		
+        		if (currentHealth >= 10) {
+        			winMessage();
+        		}
         		//we may want to find a way to cause a delay here.
         		//this could be confusing for the player.
         		boardButtons.guiOpponentAttacks();
         		currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
         		
+        		if (currentHealth <= 0) {
+        			loseMessage();
+        		}
         		boardButtons.disableBoardButtons();
             }
         });
+    }
+    
+    public void winMessage() {
+    	JOptionPane.showMessageDialog(null, "You win. Click 'OK' to exit.");
+    	System.exit(0);
+    }
+    
+    public void loseMessage() {
+    	JOptionPane.showMessageDialog(null, "You lose. Click 'OK' to exit.");
+    	System.exit(0);
     }
 }
