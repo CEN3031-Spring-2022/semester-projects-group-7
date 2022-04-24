@@ -32,6 +32,8 @@ public class Board
 			for(int j=0; j<boardSizeY; j++)
 				opponentBoard.get(i).add(null);
 		}
+		Card sampleCard = new Card("sample", 1, 1, 1);
+		addOpponentCardtoBoard(sampleCard, 0);
 	}
 	
 	private void initializePlayerBoard() {

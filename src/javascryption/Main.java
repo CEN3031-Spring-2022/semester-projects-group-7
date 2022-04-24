@@ -27,7 +27,6 @@ public class Main extends Application {
         primaryStage.setTitle("Javascryption");
         
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        Card card = new Card("Squirrel", 0, 1, 0);
 
         // REMOVE ME //
         
@@ -65,6 +64,7 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            		Card card = new Card("Squirrel", 0, 1, 0);
             		hand.addCardToHand(card);
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
