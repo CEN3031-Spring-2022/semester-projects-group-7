@@ -2,10 +2,7 @@ package javascryption;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 
 import java.util.concurrent.TimeUnit;
@@ -152,14 +149,6 @@ public class Main extends Application {
         root.getChildren().add(additionalGraphics.getScale());
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
-
-        // REMOVE ME //
-        /*
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 0, 0));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card3, 0, 2));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
-		*/
         
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -196,19 +185,6 @@ public class Main extends Application {
     public void loseMessage() {
     	JOptionPane.showMessageDialog(null, "You lose. Click 'OK' to exit.");
     	System.exit(0);
-    }
-    
-    // used to test functionality of combo box 
-    private void printChoice(ComboBox comboBox){
-    	System.out.println(comboBox.getValue());
-    }
-    
-    /*TODO
-     * validate input, write input to a file, and call read deck
-     */
-    private boolean writeDeckFile()
-    {
-    	return false;
     }
     
     private Stage createPrimaryStage() {
