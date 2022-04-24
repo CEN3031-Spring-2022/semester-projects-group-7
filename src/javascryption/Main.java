@@ -35,8 +35,11 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private Scene deckScene;
 	private Scene gameScene;
-	private StackPane root;
+	private StackPane root = new StackPane();
 	private Deck selectedDeck;
+	private int cardPos;
+	private Player player = new Player();
+	private Player enemy = new Player();
 	
     public static void main(String[] args) {
         launch(args);
@@ -76,48 +79,17 @@ public class Main extends Application {
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
         
-        PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//TODO Copy card in board object, Sacrifice Card
-            	
-            	
-            	//Set button graphic when pressed
-            	/*
-				try {
-					cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition1);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-            	 */
-            }
-        });
-        PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-				//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
-
-            }
-        });
-        PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition3);
-
-            }
-        });
-        PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition4);
-
-            }
-        });
         Deck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            		cardPos++;
             		//card2 should be replaced with a get next card from deck function
-            		hand.addCardToHand(card2);
+            		if(cardPos < player.getPlayerDeck().getSize()) {
+            			hand.addCardToHand(player.getPlayerDeck().getCardByPosition(cardPos));
+            		}
+            		else {
+            			JOptionPane.showMessageDialog(null, "You are out of cards!");
+            		}
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
             }
@@ -131,7 +103,6 @@ public class Main extends Application {
             }
         });
 
-        
         //Button size/position set ////////////////////////////////////////////////////
         
         Deck.setTranslateX(275);
@@ -150,9 +121,7 @@ public class Main extends Application {
         boardButtonsDisplay.setTranslateY(68);
         
         //Window Creation ////////////////////////////////////////////////////////////
-        
-        StackPane root = new StackPane();
-        
+                
         ScrollPane handScroll = new ScrollPane();
         handScroll.setPrefSize(700, 175);
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
@@ -191,9 +160,6 @@ public class Main extends Application {
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
 		*/
-        
-        primaryStage.setScene(new Scene(root, 1200, 750));
-        primaryStage.show();
         
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -258,7 +224,6 @@ public class Main extends Application {
     }
     
     private Scene createGameScene() {
-    	root = new StackPane();
     	gameScene = new Scene(root,1200,750);
     	return gameScene;
     }
@@ -292,32 +257,30 @@ public class Main extends Application {
     		File file;
     		String path;
     		PrintWriter pWriter;
-    		Player player = new Player();
-    		Deck deckToSet = new Deck();
+    		selectedDeck = new Deck();
     		
     		switch(choice){
     		case 0:{
-    			/*
     			file = new File("./CustomDeck.txt");
     			if(!file.exists()) {
     			file.createNewFile();
-    			}*/
+    			}
     			path = "./CustomDeck.txt";
     			pWriter = new PrintWriter(path);
     			handleCustomDeckInput(pWriter,uInput);
-    			deckToSet.readDeckFromFile(path);
+    			selectedDeck.readDeckFromFile(path);
     			pWriter.close();
     			break;
     			}
     		default:{
     			// read default file.
     			path = "./DefaultDeck.txt";
-    			deckToSet.readDeckFromFile(path);
+    			selectedDeck.readDeckFromFile(path);
     			}
     			break;
     			
     		}
-    		player.setDeck(deckToSet);
+    		player.setDeck(selectedDeck);
     		
     	} catch (IOException e) {
     		e.printStackTrace();
