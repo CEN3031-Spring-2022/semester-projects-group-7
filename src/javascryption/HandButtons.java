@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package javascryption;
 
 import java.io.FileNotFoundException;
@@ -103,3 +104,4 @@ public class HandButtons{
 	}
 	
 }
+>>>>>>> refs/remotes/origin/creatingWinConditions
