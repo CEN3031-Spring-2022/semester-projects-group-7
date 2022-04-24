@@ -186,17 +186,17 @@ public class Main extends Application {
     	//add front row
     	for (int i = 0; i < 4; i++) {
     		if (frontRow.get(i) == null) {
-    			//set card slot to empty
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
     		}
     		else {
     			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
     		}
     	}
-    	//add second row
     	
+    	//add second row
     	for (int i = 0; i < 4; i++) {
     		if (secondRow.get(i) == null) {
-    			//set card slot to empty
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
     		}
     		else {
     			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));

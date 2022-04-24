@@ -40,6 +40,33 @@ public class CardGraphicBuilder {
 		return enemyCardPosition;
 	}
 	
+	public Group setEnemyCardEmpty(int row, int column) throws FileNotFoundException {
+		Image blankImg = new Image(new FileInputStream("assets/EnemyCardSlotEmpty.png"));
+		ImageView cardView = new ImageView(blankImg);
+		Group cardGroup = new Group(cardView);
+		
+		if(row == 0) {
+			cardGroup.setTranslateY(-287);
+		}
+			else {
+				cardGroup.setTranslateY(-112);
+			}
+		
+		if(column == 0) {
+			cardGroup.setTranslateX(-501);
+			}
+			else if(column == 1) {
+				cardGroup.setTranslateX(-350);
+			}
+			else if(column == 2) {
+				cardGroup.setTranslateX(-201);
+			}
+			else {
+				cardGroup.setTranslateX(-50);
+			}	
+		
+		return cardGroup;
+	}
 	
 	public void setPlayerCardGraphic(Card aCard, Button aButton) throws FileNotFoundException {
 		aButton.setGraphic(setCardGraphic(aCard));
