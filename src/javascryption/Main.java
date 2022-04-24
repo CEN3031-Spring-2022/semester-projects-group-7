@@ -1,8 +1,5 @@
 package javascryption;
 	
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,24 +7,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
+
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
- 
+
 public class Main extends Application {
 	
 	private Stage primaryStage;
@@ -48,33 +43,29 @@ public class Main extends Application {
     	primaryStage.show();
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
-
-        
-        
-        // REMOVE ME //
-        /*
         Card card = new Card("Squirrel", 0, 1, 0);
-        Card card2 = new Card("Wolf", 2, 3, 2);
-        Card card3 = new Card("Stoat", 1, 2, 1);
-        */
+
+        // REMOVE ME //
         
+        Card card2 = new Card("Wolf", 2, 3, 2);
+        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
-        
-        Button PlayerCardPosition1 = new Button();
-        Button PlayerCardPosition2 = new Button();
-        Button PlayerCardPosition3 = new Button();
-        Button PlayerCardPosition4 = new Button();
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
+        BoardButtons boardButtons = new BoardButtons();
+        boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
         additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
-        additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1, PlayerCardPosition2, 
-        											  PlayerCardPosition3, PlayerCardPosition4);
         Bell.setText("Bell");
+        
+        Hand hand = new Hand(boardButtons);
+        boardButtons.setHandToModify(hand);
+        Group boardButtonsDisplay = new Group();
+        boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
         
@@ -118,42 +109,23 @@ public class Main extends Application {
         Deck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add random card from deck into hand
-            	System.out.println("Deck clicked!");
+            		//card2 should be replaced with a get next card from deck function
+            		hand.addCardToHand(card2);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add squirrel to hand
-            	System.out.println("Squirrel Deck clicked!");
+            		hand.addCardToHand(card);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
-        Bell.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //Call battle function
-            	System.out.println("Bell clicked!");
-            }
-        });
+
         
         //Button size/position set ////////////////////////////////////////////////////
-        
-        PlayerCardPosition1.setTranslateX(-500);
-        PlayerCardPosition1.setTranslateY(75);        
-        PlayerCardPosition1.setPrefSize(100, 150);
-        
-        PlayerCardPosition2.setTranslateX(-350);
-        PlayerCardPosition2.setTranslateY(75);
-        PlayerCardPosition2.setPrefSize(100, 150);
-        
-        PlayerCardPosition3.setTranslateX(-200);
-        PlayerCardPosition3.setTranslateY(75);
-        PlayerCardPosition3.setPrefSize(100, 150);
-        
-        PlayerCardPosition4.setTranslateX(-50);
-        PlayerCardPosition4.setTranslateY(75);
-        PlayerCardPosition4.setPrefSize(100, 150);
         
         Deck.setTranslateX(275);
         Deck.setTranslateY(275);
@@ -167,12 +139,19 @@ public class Main extends Application {
         Bell.setTranslateY(120);
         Bell.setPrefSize(150, 100);
         
+        boardButtonsDisplay.setTranslateX(-276);
+        boardButtonsDisplay.setTranslateY(68);
+        
         //Window Creation ////////////////////////////////////////////////////////////
-                
+        
+        StackPane root = new StackPane();
+        
         ScrollPane handScroll = new ScrollPane();
         handScroll.setPrefSize(700, 175);
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
         handScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+        
+        handScroll.setContent(hand.getHandHBox());
         
         ScrollPane gameLogScroll = new ScrollPane();
         gameLogScroll.setPrefSize(500, 200);
@@ -187,16 +166,14 @@ public class Main extends Application {
         gameLogPanel.setTranslateX(325);
         gameLogPanel.setTranslateY(-250);
         
-        root.getChildren().add(PlayerCardPosition1);
-        root.getChildren().add(PlayerCardPosition2);
-        root.getChildren().add(PlayerCardPosition3);
-        root.getChildren().add(PlayerCardPosition4);
+        root.getChildren().add(boardButtonsDisplay);
         root.getChildren().addAll(Deck);
         root.getChildren().add(SquirrelDeck);
         root.getChildren().add(Bell);
         
         root.getChildren().add(additionalGraphics.setCardSlotGraphics());
-        root.getChildren().add(additionalGraphics.scaleGraphics());
+        additionalGraphics.initializeScaleGraphics();
+        root.getChildren().add(additionalGraphics.getScale());
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
 
@@ -207,8 +184,45 @@ public class Main extends Application {
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
         root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
 		*/
-                
         
+        primaryStage.setScene(new Scene(root, 1200, 750));
+        primaryStage.show();
+        
+        Bell.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+        		Deck.setDisable(false);
+        		SquirrelDeck.setDisable(false);
+            	//Call battle function
+        		boardButtons.guiPlayerAttacks();
+        		int currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+        		
+        		if (currentHealth >= 10) {
+        			winMessage();
+        		}
+        		//we may want to find a way to cause a delay here.
+        		//this could be confusing for the player.
+        		boardButtons.guiOpponentAttacks();
+        		currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+        		
+        		if (currentHealth <= 0) {
+        			loseMessage();
+        		}
+        		boardButtons.disableBoardButtons();
+            }
+        });
+    }
+    
+    public void winMessage() {
+    	JOptionPane.showMessageDialog(null, "You win. Click 'OK' to exit.");
+    	System.exit(0);
+    }
+    
+    public void loseMessage() {
+    	JOptionPane.showMessageDialog(null, "You lose. Click 'OK' to exit.");
+    	System.exit(0);
     }
     
     // used to test functionality of combo box 
