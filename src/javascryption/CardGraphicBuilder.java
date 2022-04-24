@@ -40,6 +40,7 @@ public class CardGraphicBuilder {
 		return enemyCardPosition;
 	}
 	
+	
 	public void setPlayerCardGraphic(Card aCard, Button aButton) throws FileNotFoundException {
 		aButton.setGraphic(setCardGraphic(aCard));
 	}

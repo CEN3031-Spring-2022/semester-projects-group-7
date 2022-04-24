@@ -1,6 +1,7 @@
 package javascryption;
 	
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -31,7 +32,7 @@ public class Main extends Application {
         // REMOVE ME //
         
         Card card2 = new Card("Wolf", 2, 3, 2);
-        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
@@ -144,7 +145,13 @@ public class Main extends Application {
         		boardButtons.guiPlayerAttacks();
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
-        		
+        		//TESTING THIS
+        		try {
+					updateEnemyCards(root, cardGraphic, boardButtons);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
         		
         		if (currentHealth >= 10) {
         			winMessage();
@@ -167,9 +174,35 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
         		
+        		boardButtons.moveOpponentCardsUp();
         		boardButtons.disableBoardButtons();
             }
         });
+    }
+    
+    public void updateEnemyCards(StackPane root, CardGraphicBuilder cardGraphic, BoardButtons boardButtons) throws FileNotFoundException {
+    	ArrayList<Card> frontRow = new ArrayList<Card>(boardButtons.getFrontRowFromBoard());
+    	ArrayList<Card> secondRow = new ArrayList<Card>(boardButtons.getSecondRowFromBoard());
+    	//add front row
+    	for (int i = 0; i < 4; i++) {
+    		if (frontRow.get(i) == null) {
+    			//set card slot to empty
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
+    		}
+    	}
+    	//add second row
+    	
+    	for (int i = 0; i < 4; i++) {
+    		if (secondRow.get(i) == null) {
+    			//set card slot to empty
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
+    		}
+    	}
+    		
     }
     
     public void winMessage() {

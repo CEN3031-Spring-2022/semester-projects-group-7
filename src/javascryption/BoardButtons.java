@@ -168,21 +168,9 @@ public class BoardButtons {
 			cardGraphic.setPlayerCardGraphic(board.getPlayerCardByPos(3), PlayerCardPosition4);
 	}
 	
-	public void updateOpponentBoard() {
-		updateOpponentFrontRow();
-		updateOpponentSecondRow();
+	public void moveOpponentCardsUp() {
+		board.moveOpponentCardsForward();
 	}
-	
-	private void updateOpponentFrontRow() {
-		ArrayList<Card> frontRow = new ArrayList<Card>(getFrontRowFromBoard());
-		//if (frontRow.get(0) == null)
-			//additionalGraphics
-	}
-	
-	private void updateOpponentSecondRow() {
-		
-	}
-	
 	public ArrayList<Card> getFrontRowFromBoard(){
 		return board.getFrontRow();
 	}
