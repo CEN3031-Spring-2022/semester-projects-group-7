@@ -1,10 +1,10 @@
 package javascryption;
-
-import java.io.File;
+	
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -50,12 +50,11 @@ public class Main extends Application {
     	primaryStage.show();
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        Card card = new Card("Squirrel", 0, 1, 0);
 
         // REMOVE ME //
         
         Card card2 = new Card("Wolf", 2, 3, 2);
-        // CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
@@ -94,12 +93,14 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            		Card card = new Card("Squirrel", 0, 1, 0);
             		hand.addCardToHand(card);
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
             }
         });
 
+        
         //Button size/position set ////////////////////////////////////////////////////
         
         Deck.setTranslateX(275);
@@ -150,6 +151,13 @@ public class Main extends Application {
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
         
+        try {
+			updateEnemyCards(root, cardGraphic, boardButtons);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -159,10 +167,18 @@ public class Main extends Application {
         		boardButtons.guiPlayerAttacks();
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
+        		//TESTING THIS
+        		try {
+					updateEnemyCards(root, cardGraphic, boardButtons);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
         		
         		if (currentHealth >= 10) {
         			winMessage();
         		}
+        		
         		//we may want to find a way to cause a delay here.
         		//this could be confusing for the player.
         		boardButtons.guiOpponentAttacks();
@@ -172,18 +188,52 @@ public class Main extends Application {
         		if (currentHealth <= 0) {
         			loseMessage();
         		}
+        		
+        		//updates the player board here.
+        		try {
+					boardButtons.updatePlayerBoard();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+        		
+        		boardButtons.moveOpponentCardsUp();
         		boardButtons.disableBoardButtons();
             }
         });
     }
     
+    public void updateEnemyCards(StackPane root, CardGraphicBuilder cardGraphic, BoardButtons boardButtons) throws FileNotFoundException {
+    	ArrayList<Card> frontRow = new ArrayList<Card>(boardButtons.getFrontRowFromBoard());
+    	ArrayList<Card> secondRow = new ArrayList<Card>(boardButtons.getSecondRowFromBoard());
+    	//add front row
+    	for (int i = 0; i < 4; i++) {
+    		if (frontRow.get(i) == null) {
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
+    		}
+    	}
+    	
+    	//add second row
+    	for (int i = 0; i < 4; i++) {
+    		if (secondRow.get(i) == null) {
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
+    		}
+    	}
+    		
+    }
+    
     public void winMessage() {
-    	JOptionPane.showMessageDialog(null, "You win. Click 'OK' to exit.");
+    	JOptionPane.showMessageDialog(null, "You win!\nClick 'OK' to exit.");
     	System.exit(0);
     }
     
     public void loseMessage() {
-    	JOptionPane.showMessageDialog(null, "You lose. Click 'OK' to exit.");
+    	JOptionPane.showMessageDialog(null, "You lose.\nClick 'OK' to exit.");
     	System.exit(0);
     }
     

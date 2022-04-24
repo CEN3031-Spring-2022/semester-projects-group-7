@@ -10,9 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AdditionalGraphics {
+	Slider HPSlider;
+	Group enemyPositions;
 	
-		Slider HPSlider;
-		
 	public Group setCardSlotGraphics() throws FileNotFoundException {
 		/* Idle Positions are the top line of the board, where enemy cards are
 		 * "idling" until they reach the middle line to attack.
@@ -52,7 +52,7 @@ public class AdditionalGraphics {
 
 		//Board slots are grouped and moved to match Player card slots ////////////////////////////////////////
 				
-		Group enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
+		enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
 										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4);
 		
 		enemyPositions.setTranslateX(-275);
@@ -66,7 +66,6 @@ public class AdditionalGraphics {
 	    ImageView playerEmptySlot = new ImageView(PlayerSlotImage); 
     
 	    pos.setGraphic(playerEmptySlot);
-
 	}
 	
 	public void setAttackDeckGraphic(Button aButton) throws FileNotFoundException {
@@ -83,12 +82,8 @@ public class AdditionalGraphics {
 	    aButton.setGraphic(squirrelDeck);
 	}
 	
-	/* scaleGraphics() is of type "Rectangle" for placeholder purposes only
-	 * This either be removed or modified for the final product
-	 */
-	
 	public void initializeScaleGraphics() {
-		HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
+		HPSlider = new Slider(0, 10, 1); //have ticks at each num from 0 to 10
 		HPSlider.setShowTickMarks(true);
 		HPSlider.setShowTickLabels(true);
 		HPSlider.setMajorTickUnit(1);
@@ -103,7 +98,7 @@ public class AdditionalGraphics {
 		HPSlider.setTranslateY(-40);
 		
 		HPSlider.setDisable(true); //stops user from being able to move slider
-		}
+	}
 	
 	public void updateScale(int currentHealth) {
 		HPSlider.setValue(currentHealth);
@@ -112,5 +107,4 @@ public class AdditionalGraphics {
 	public Slider getScale() {
 		return HPSlider;
 	}
-
 }
