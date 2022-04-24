@@ -136,6 +136,13 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1200, 750));
         primaryStage.show();
         
+        try {
+			updateEnemyCards(root, cardGraphic, boardButtons);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
