@@ -145,9 +145,11 @@ public class Main extends Application {
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
         		
+        		
         		if (currentHealth >= 10) {
         			winMessage();
         		}
+        		
         		//we may want to find a way to cause a delay here.
         		//this could be confusing for the player.
         		boardButtons.guiOpponentAttacks();
@@ -157,18 +159,26 @@ public class Main extends Application {
         		if (currentHealth <= 0) {
         			loseMessage();
         		}
+        		
+        		//updates the player board here.
+        		try {
+					boardButtons.updatePlayerBoard();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+        		
         		boardButtons.disableBoardButtons();
             }
         });
     }
     
     public void winMessage() {
-    	JOptionPane.showMessageDialog(null, "You win. Click 'OK' to exit.");
+    	JOptionPane.showMessageDialog(null, "You win!\nClick 'OK' to exit.");
     	System.exit(0);
     }
     
     public void loseMessage() {
-    	JOptionPane.showMessageDialog(null, "You lose. Click 'OK' to exit.");
+    	JOptionPane.showMessageDialog(null, "You lose.\nClick 'OK' to exit.");
     	System.exit(0);
     }
 }

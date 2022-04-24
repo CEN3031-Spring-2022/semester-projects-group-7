@@ -10,8 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AdditionalGraphics {
-	
-		Slider HPSlider;
+	Slider HPSlider;
 		
 	public Group setCardSlotGraphics() throws FileNotFoundException {
 		/* Idle Positions are the top line of the board, where enemy cards are

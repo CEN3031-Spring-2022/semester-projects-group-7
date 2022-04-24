@@ -1,6 +1,7 @@
 package javascryption;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -138,6 +139,60 @@ public class BoardButtons {
 	
 	public int getBoardHealth() {
 		return board.getBoardHealth();
+	}
+	/*
+	public void updateEnemyBoard() {
+		
+	}
+	*/
+	
+	public void updatePlayerBoard() throws FileNotFoundException {
+		if (board.getPlayerCardByPos(0) == null)
+			additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1);
+		else
+			cardGraphic.setPlayerCardGraphic(board.getPlayerCardByPos(0), PlayerCardPosition1);
+		
+		if (board.getPlayerCardByPos(1) == null)
+			additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition2);
+		else
+			cardGraphic.setPlayerCardGraphic(board.getPlayerCardByPos(1), PlayerCardPosition2);
+		
+		if (board.getPlayerCardByPos(2) == null)
+			additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition3);
+		else
+			cardGraphic.setPlayerCardGraphic(board.getPlayerCardByPos(2), PlayerCardPosition3);
+		
+		if (board.getPlayerCardByPos(3) == null)
+			additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition4);
+		else
+			cardGraphic.setPlayerCardGraphic(board.getPlayerCardByPos(3), PlayerCardPosition4);
+	}
+	
+	public void updateOpponentBoard() {
+		updateOpponentFrontRow();
+		updateOpponentSecondRow();
+	}
+	
+	private void updateOpponentFrontRow() {
+		ArrayList<Card> frontRow = new ArrayList<Card>(getFrontRowFromBoard());
+		//if (frontRow.get(0) == null)
+			//additionalGraphics
+	}
+	
+	private void updateOpponentSecondRow() {
+		
+	}
+	
+	public ArrayList<Card> getFrontRowFromBoard(){
+		return board.getFrontRow();
+	}
+	
+	public ArrayList<Card> getPlayerRow(){
+		return board.getPlayerBoard();
+	}
+	
+	public ArrayList<Card> getSecondRowFromBoard(){
+		return board.getSecondRow();
 	}
 
 }
