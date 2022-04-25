@@ -82,6 +82,13 @@ public class AdditionalGraphics {
 	    aButton.setGraphic(squirrelDeck);
 	}
 	
+	public void setBellGraphic(Button aButton) throws FileNotFoundException {
+		Image bellImage = new Image(new FileInputStream("assets/Bell.png"));
+		ImageView bell = new ImageView(bellImage);
+		
+		aButton.setGraphic(bell);
+	}
+	
 	public void initializeScaleGraphics() {
 		HPSlider = new Slider(0, 10, 1); //have ticks at each num from 0 to 10
 		HPSlider.setShowTickMarks(true);
@@ -97,7 +104,8 @@ public class AdditionalGraphics {
 		HPSlider.setTranslateX(325);
 		HPSlider.setTranslateY(-40);
 		
-		HPSlider.setDisable(true); //stops user from being able to move slider
+		HPSlider.setMouseTransparent(true); //disables mouse from being able to move slider
+		HPSlider.setFocusTraversable(false); //Just to make sure disabled
 	}
 	
 	public void updateScale(int currentHealth) {

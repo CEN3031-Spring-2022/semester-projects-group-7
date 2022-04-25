@@ -21,12 +21,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class Main extends Application {
 	
@@ -62,12 +65,13 @@ public class Main extends Application {
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
-        BoardButtons boardButtons = new BoardButtons();
+		Board board = new Board();
+        BoardButtons boardButtons = new BoardButtons(board);
         boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
         additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
-        Bell.setText("Bell");
+        additionalGraphics.setBellGraphic(Bell);
         
         Hand hand = new Hand(boardButtons);
         boardButtons.setHandToModify(hand);
@@ -140,6 +144,9 @@ public class Main extends Application {
         Group gameLogPanel = new Group(gameLogScroll);
         gameLogPanel.setTranslateX(325);
         gameLogPanel.setTranslateY(-250);
+        Label gameLogIntro = new Label("Welcome to JavaScryption!");
+	    gameLogIntro.setFont(Font.font("Segue UI", FontWeight.BOLD, 18));
+        gameLogPanel.getChildren().add(gameLogIntro);
         
         root.getChildren().add(boardButtonsDisplay);
         root.getChildren().addAll(Deck);
@@ -169,12 +176,10 @@ public class Main extends Application {
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
         		//TESTING THIS
-        		Board temp = new Board();//THIS IS ONLY HERE AS A PLACE HOLDER UNTIL placeEnemyCards is implemented through the board used in the buttons.
         		try {
-        			placeEnemyCards(temp /*however we pass the current board through this*/);
+        			//placeEnemyCards(board);
 					updateEnemyCards(root, cardGraphic, boardButtons);
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
         		
@@ -274,7 +279,12 @@ public class Main extends Application {
         // update text of text field
         userDeckComboBox.addEventFilter(Event.ANY, e->textField.setText("User Deck: " + userDeckComboBox.getSelectionModel().getSelectedItem() + "\nEnemy Deck: " + enemyDeckComboBox.getSelectionModel().getSelectedItem()));
         // handle deck selection
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        
+        //The following was broken up to get program to run, pretty sure it makes EnemyDeck run
+        //off the same input as UserDeck though
+        //button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText())); 
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
