@@ -164,6 +164,10 @@ public class Board
 		return playerBoard;
 	}
 	
+	public ArrayList<ArrayList<Card>> getOpponentBoard(){
+		return opponentBoard;
+	}
+	
 	public ArrayList<Card> getFrontRow(){
 		ArrayList<Card> frontRow = new ArrayList<Card>();
 		for (int i=0; i<boardSizeX; i++)

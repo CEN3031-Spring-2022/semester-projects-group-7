@@ -168,6 +168,7 @@ public class Main extends Application {
         		boardButtons.guiPlayerAttacks();
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
+        		//TODO: PLAY ENEMY CARD
         		//TESTING THIS
         		try {
 					updateEnemyCards(root, cardGraphic, boardButtons);
@@ -257,20 +258,22 @@ public class Main extends Application {
     private Scene createDeckChoiceScene() {
     	
         Button button = new Button("Submit");
-        ComboBox<String> comboBox = new ComboBox<>();
-        comboBox.getItems().addAll("Custom","Default");
+        ComboBox<String> userDeckComboBox = new ComboBox<>();
+        userDeckComboBox.getItems().addAll("Custom","Default");
+        ComboBox<String> enemyDeckComboBox = new ComboBox<>();
+        enemyDeckComboBox.getItems().addAll("Custom","Default");
         VBox layout = new VBox(10);
         TextField textField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(comboBox, textField, button);
+        layout.getChildren().addAll(userDeckComboBox, enemyDeckComboBox, textField, button);
         
         
         deckScene = new Scene(layout, 300, 250);
-        comboBox.setPromptText("Select Deck");
+        userDeckComboBox.setPromptText("Select User Deck");
         // update text of text field
-        comboBox.addEventFilter(Event.ANY, e->textField.setText(comboBox.getSelectionModel().getSelectedItem()));
+        userDeckComboBox.addEventFilter(Event.ANY, e->textField.setText("User Deck: " + userDeckComboBox.getSelectionModel().getSelectedItem() + "\nEnemy Deck: " + enemyDeckComboBox.getSelectionModel().getSelectedItem()));
         // handle deck selection
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectDeck(comboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
@@ -278,7 +281,7 @@ public class Main extends Application {
     	return deckScene;
     }
 
-    private void selectDeck(int choice, String uInput) {
+    private void selectUserDeck(int choice, String uInput) {
     	try{
     		// write deck to file if default is not chosen
     		File file;
@@ -288,11 +291,11 @@ public class Main extends Application {
     		
     		switch(choice){
     		case 0:{
-    			file = new File("./CustomDeck.txt");
+    			file = new File("./CustomPlayerDeck.txt");
     			if(!file.exists()) {
     			file.createNewFile();
     			}
-    			path = "./CustomDeck.txt";
+    			path = "./CustomPlayerDeck.txt";
     			pWriter = new PrintWriter(path);
     			handleCustomDeckInput(pWriter,uInput);
     			selectedDeck.readDeckFromFile(path);
@@ -301,7 +304,7 @@ public class Main extends Application {
     			}
     		default:{
     			// read default file.
-    			path = "./DefaultDeck.txt";
+    			path = "./DefaultPlayerDeck.txt";
     			selectedDeck.readDeckFromFile(path);
     			}
     			break;
@@ -311,6 +314,75 @@ public class Main extends Application {
     		
     	} catch (IOException e) {
     		e.printStackTrace();
+    	}
+    }
+    
+    private void selectEnemyDeck(int choice, String uInput) {
+    	try{
+    		// write deck to file if default is not chosen
+    		File file;
+    		String path;
+    		PrintWriter pWriter;
+    		selectedDeck = new Deck();
+    		
+    		switch(choice){
+    		case 0:{
+    			file = new File("./CustomEnemyDeck.txt");
+    			if(!file.exists()) {
+    			file.createNewFile();
+    			}
+    			path = "./CustomEnemyDeck.txt";
+    			pWriter = new PrintWriter(path);
+    			handleCustomDeckInput(pWriter,uInput);
+    			selectedDeck.readDeckFromFile(path);
+    			pWriter.close();
+    			break;
+    			}
+    		default:{
+    			// read default file.
+    			path = "./DefaultEnemyDeck.txt";
+    			selectedDeck.readDeckFromFile(path);
+    			}
+    			break;
+    			
+    		}
+    		enemy.setDeck(selectedDeck);
+    		
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    //Not sure how the boardButtons and all are working so here is my idea of how it should work.
+    private void placeEnemyCards(Board _board)
+    {
+    	int maxSacrificeBloodAmount = 0;
+    	for(int i = 0; i < _board.getBoardSizeX(); i++)
+    	{
+    		maxSacrificeBloodAmount += _board.getOpponentCardByPosition(i).getBlood();
+    	}
+    	
+    	for(int i = 0; i < _board.getBoardSizeX(); i++)
+    	{
+    		if(_board.getOpponentCardByPosition(i) == null) 												//Find the first available slot on the opponents board.
+    		{
+    			for(int j = 0; j < enemy.getPlayerDeck().getSize(); j++)
+    			{
+    				if(enemy.getPlayerDeck().getCardByPosition(j).getBlood() <= maxSacrificeBloodAmount) 	//Finds the card that is able to be played.
+    				{
+    					_board.addOpponentCardtoBoard(enemy.getPlayerDeck().getCardByPosition(j), i); 		//Play card
+    					enemy.getPlayerDeck().deleteCardByPosition(j);										//Remove card from deck
+    				}
+    				break;
+    			}
+    			
+    			if(_board.getOpponentBoard().get(0).isEmpty())												//If the opponent board is still empty (meaning they were unable to play any card from their deck due to required blood being too high) then play a squirrel
+    			{
+		    		Card card = new Card("Squirrel", 0, 1, 0);
+		    		_board.addOpponentCardtoBoard(card, i);
+		    		break;
+    			}
+    		}
     	}
     }
     
