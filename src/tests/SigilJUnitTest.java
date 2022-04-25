@@ -72,13 +72,15 @@ class SigilJUnitTest {
 			int overkillDamage;
 			
 			ArrayList<Card> attackerAL = new ArrayList<Card>();
+			ArrayList<Card> defenderAL = new ArrayList<Card>();
 			attackerAL.add(attacker);
 			
-			overkillDamage = attacker.cardAttacks(attackerAL, null, 0);
+			overkillDamage = attacker.cardAttacks(attackerAL, defenderAL, 0);
 			
 			assertEquals(2, overkillDamage);
 		}
 		
+		@Test
 		void BifurcatedStrikeAttacksCorrectly() {
 			Card temp = new NormalCard();
 			Card attacker = new BifurcatedStrikeCard("weasel", 2, 2, 2); //card has 2 attack
