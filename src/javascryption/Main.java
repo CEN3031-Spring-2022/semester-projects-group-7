@@ -168,9 +168,10 @@ public class Main extends Application {
         		boardButtons.guiPlayerAttacks();
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
-        		//TODO: PLAY ENEMY CARD
         		//TESTING THIS
+        		Board temp = new Board();//THIS IS ONLY HERE AS A PLACE HOLDER UNTIL placeEnemyCards is implemented through the board used in the buttons.
         		try {
+        			placeEnemyCards(temp /*however we pass the current board through this*/);
 					updateEnemyCards(root, cardGraphic, boardButtons);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
@@ -354,6 +355,7 @@ public class Main extends Application {
     }
     
     //Not sure how the boardButtons and all are working so here is my idea of how it should work.
+    //This will be what the enemy uses to place their cards after the bell is pushed.
     private void placeEnemyCards(Board _board)
     {
     	int maxSacrificeBloodAmount = 0;
@@ -370,6 +372,16 @@ public class Main extends Application {
     			{
     				if(enemy.getPlayerDeck().getCardByPosition(j).getBlood() <= maxSacrificeBloodAmount) 	//Finds the card that is able to be played.
     				{
+    					int k = 0;
+    					int currentSacrificeBlood = 0;
+    					do
+    					{
+    						currentSacrificeBlood +=_board.getOpponentCardByPosition(k).getBlood();
+    						_board.removeOpponentCardFromBoard(k); 											//Sacrifice until have enough blood
+    					}
+    					while(currentSacrificeBlood < enemy.getPlayerDeck().getCardByPosition(j).getBlood());
+    					
+    					_board.getOpponentCardByPosition(i).getBlood();
     					_board.addOpponentCardtoBoard(enemy.getPlayerDeck().getCardByPosition(j), i); 		//Play card
     					enemy.getPlayerDeck().deleteCardByPosition(j);										//Remove card from deck
     				}
