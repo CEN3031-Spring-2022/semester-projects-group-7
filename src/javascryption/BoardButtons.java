@@ -15,13 +15,17 @@ public class BoardButtons {
     
     Group boardButtonGroup = new Group();
     
-    Board board = new Board();
+    Board board;
     CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
     Card activeCard;
     Hand hand;
     int cardPos;
     int bloodBank = 0;
     AdditionalGraphics additionalGraphics;
+    
+    public BoardButtons(Board aBoard) {
+    	board = aBoard;
+    }
 	
 	public void makeBoardButtons() throws FileNotFoundException {
 		additionalGraphics = new AdditionalGraphics();

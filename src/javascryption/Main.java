@@ -62,7 +62,8 @@ public class Main extends Application {
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
-        BoardButtons boardButtons = new BoardButtons();
+		Board board = new Board();
+        BoardButtons boardButtons = new BoardButtons(board);
         boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
@@ -169,9 +170,8 @@ public class Main extends Application {
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
         		//TESTING THIS
-        		Board temp = new Board();//THIS IS ONLY HERE AS A PLACE HOLDER UNTIL placeEnemyCards is implemented through the board used in the buttons.
         		try {
-        			placeEnemyCards(temp /*however we pass the current board through this*/);
+        			placeEnemyCards(board);
 					updateEnemyCards(root, cardGraphic, boardButtons);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
@@ -274,7 +274,12 @@ public class Main extends Application {
         // update text of text field
         userDeckComboBox.addEventFilter(Event.ANY, e->textField.setText("User Deck: " + userDeckComboBox.getSelectionModel().getSelectedItem() + "\nEnemy Deck: " + enemyDeckComboBox.getSelectionModel().getSelectedItem()));
         // handle deck selection
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        
+        //The following was broken up to get program to run, pretty sure it makes EnemyDeck run
+        //off the same input as UserDeck though
+        //button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText())); 
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
