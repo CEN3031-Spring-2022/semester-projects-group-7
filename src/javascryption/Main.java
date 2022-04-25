@@ -177,7 +177,11 @@ public class Main extends Application {
         		additionalGraphics.updateScale(currentHealth);
         		//TESTING THIS
         		try {
+<<<<<<< HEAD
         			//placeEnemyCards(board);
+=======
+        			placeEnemyCards(board);
+>>>>>>> 35b1daab2cab78a1368a6bdb559afaf433470f0d
 					updateEnemyCards(root, cardGraphic, boardButtons);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
