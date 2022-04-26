@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -175,18 +176,7 @@ public class Main extends Application {
         		boardButtons.guiPlayerAttacks();
         		int currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
-        		//TESTING THIS
-        		try {
-<<<<<<< HEAD
-        			//placeEnemyCards(board);
-=======
-        			placeEnemyCards(board);
->>>>>>> 35b1daab2cab78a1368a6bdb559afaf433470f0d
-					updateEnemyCards(root, cardGraphic, boardButtons);
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
-        		
+
         		if (currentHealth >= 10) {
         			winMessage();
         		}
@@ -270,25 +260,18 @@ public class Main extends Application {
         Button button = new Button("Submit");
         ComboBox<String> userDeckComboBox = new ComboBox<>();
         userDeckComboBox.getItems().addAll("Custom","Default");
-        ComboBox<String> enemyDeckComboBox = new ComboBox<>();
-        enemyDeckComboBox.getItems().addAll("Custom","Default");
         VBox layout = new VBox(10);
-        TextField textField = new TextField("");
+        TextField userTextField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(userDeckComboBox, enemyDeckComboBox, textField, button);
+        layout.getChildren().addAll(userDeckComboBox, userTextField, button);
         
         
         deckScene = new Scene(layout, 300, 250);
         userDeckComboBox.setPromptText("Select User Deck");
         // update text of text field
-        userDeckComboBox.addEventFilter(Event.ANY, e->textField.setText("User Deck: " + userDeckComboBox.getSelectionModel().getSelectedItem() + "\nEnemy Deck: " + enemyDeckComboBox.getSelectionModel().getSelectedItem()));
-        // handle deck selection
+        userDeckComboBox.addEventFilter(Event.ANY, e->userTextField.setText(userDeckComboBox.getSelectionModel().getSelectedItem()));
         
-        //The following was broken up to get program to run, pretty sure it makes EnemyDeck run
-        //off the same input as UserDeck though
-        //button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText())); 
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectEnemyDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), userTextField.getText())); 
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
@@ -331,86 +314,8 @@ public class Main extends Application {
     		e.printStackTrace();
     	}
     }
-    
-    private void selectEnemyDeck(int choice, String uInput) {
-    	try{
-    		// write deck to file if default is not chosen
-    		File file;
-    		String path;
-    		PrintWriter pWriter;
-    		selectedDeck = new Deck();
-    		
-    		switch(choice){
-    		case 0:{
-    			file = new File("./CustomEnemyDeck.txt");
-    			if(!file.exists()) {
-    			file.createNewFile();
-    			}
-    			path = "./CustomEnemyDeck.txt";
-    			pWriter = new PrintWriter(path);
-    			handleCustomDeckInput(pWriter,uInput);
-    			selectedDeck.readDeckFromFile(path);
-    			pWriter.close();
-    			break;
-    			}
-    		default:{
-    			// read default file.
-    			path = "./DefaultEnemyDeck.txt";
-    			selectedDeck.readDeckFromFile(path);
-    			}
-    			break;
-    			
-    		}
-    		enemy.setDeck(selectedDeck);
-    		
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    }
-    
-    //Not sure how the boardButtons and all are working so here is my idea of how it should work.
-    //This will be what the enemy uses to place their cards after the bell is pushed.
-    private void placeEnemyCards(Board _board)
-    {
-    	int maxSacrificeBloodAmount = 0;
-    	for(int i = 0; i < _board.getBoardSizeX(); i++)
-    	{
-    		maxSacrificeBloodAmount += _board.getOpponentCardByPosition(i).getBlood();
-    	}
-    	
-    	for(int i = 0; i < _board.getBoardSizeX(); i++)
-    	{
-    		if(_board.getOpponentCardByPosition(i) == null) 												//Find the first available slot on the opponents board.
-    		{
-    			for(int j = 0; j < enemy.getPlayerDeck().getSize(); j++)
-    			{
-    				if(enemy.getPlayerDeck().getCardByPosition(j).getBlood() <= maxSacrificeBloodAmount) 	//Finds the card that is able to be played.
-    				{
-    					int k = 0;
-    					int currentSacrificeBlood = 0;
-    					do
-    					{
-    						currentSacrificeBlood +=_board.getOpponentCardByPosition(k).getBlood();
-    						_board.removeOpponentCardFromBoard(k); 											//Sacrifice until have enough blood
-    					}
-    					while(currentSacrificeBlood < enemy.getPlayerDeck().getCardByPosition(j).getBlood());
-    					
-    					_board.getOpponentCardByPosition(i).getBlood();
-    					_board.addOpponentCardtoBoard(enemy.getPlayerDeck().getCardByPosition(j), i); 		//Play card
-    					enemy.getPlayerDeck().deleteCardByPosition(j);										//Remove card from deck
-    				}
-    				break;
-    			}
-    			
-    			if(_board.getOpponentBoard().get(0).isEmpty())												//If the opponent board is still empty (meaning they were unable to play any card from their deck due to required blood being too high) then play a squirrel
-    			{
-		    		Card card = new Card("Squirrel", 0, 1, 0);
-		    		_board.addOpponentCardtoBoard(card, i);
-		    		break;
-    			}
-    		}
-    	}
-    }
+
+
     
     private void handleCustomDeckInput(PrintWriter pW, String uInput) {
 		String[] splitText = uInput.split(",");
