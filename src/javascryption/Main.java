@@ -38,7 +38,6 @@ public class Main extends Application {
 	private Deck selectedDeck;
 	private int cardPos;
 	private Player player = new Player();
-	private Player enemy = new Player();
 	Deck cardLib = new Deck();
 	
     public static void main(String[] args) {
@@ -177,7 +176,7 @@ public class Main extends Application {
         		
         		//we may want to find a way to cause a delay here.
         		//this could be confusing for the player.
-        		board.addOpponentCardtoBoard(getEnemyCardToPlace(), 1);
+        		//board.addOpponentCardtoBoard(getEnemyCardToPlace(), 1);
         		boardButtons.guiOpponentAttacks();
         		currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
@@ -209,20 +208,20 @@ public class Main extends Application {
     	//add back row
     	for (int i = 0; i < 4; i++) {
     		if (secondRow.get(i) == null) {
-    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
     		}
     		else {
-    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 1, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
     		}
     	}
     	
     	//add front row
     	for (int i = 0; i < 4; i++) {
     		if (frontRow.get(i) == null) {
-    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
     		}
     		else {
-    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 0, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
     		}
     	}
     		
