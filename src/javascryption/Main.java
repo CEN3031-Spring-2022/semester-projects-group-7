@@ -63,8 +63,12 @@ public class Main extends Application {
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
-		Board board = new Board();
-        BoardButtons boardButtons = new BoardButtons(board);
+		//Board board = new Board();
+		//reading board input here.
+		BoardReader boardReader = new BoardReader();
+		boardReader.readInputFile("DefaultBoard.txt");		
+		
+        BoardButtons boardButtons = new BoardButtons(boardReader.getBoard());
         boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
@@ -157,7 +161,7 @@ public class Main extends Application {
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
 
-		
+        updateEnemyCards(root, cardGraphic, boardButtons);
 
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
