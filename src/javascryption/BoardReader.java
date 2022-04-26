@@ -30,6 +30,7 @@ public class BoardReader {
 					addCardToBoard(newCard, laneNumber, posY);
 				}
 				posY++;
+				boardToReturn.setBoardSizeY(posY+2);
 				currentLine = inputFile.readLine();
 			}
 			
