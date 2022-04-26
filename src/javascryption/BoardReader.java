@@ -22,13 +22,15 @@ public class BoardReader {
 			
 			while(currentLine != null) {
 				String[] text = currentLine.split(",");
-				for (int i = 0; i < text.length; i++) {
-					cardName = text[i];
-					Card newCard = makeCardFromLibrary(cardName);
-					i++;
-					laneNumber = Integer.parseInt(text[i]);
-					addCardToBoard(newCard, laneNumber, posY);
-				}
+				if(!text[0].contains("pass")) {
+					for (int i = 0; i < text.length; i++) {
+						cardName = text[i];
+						Card newCard = makeCardFromLibrary(cardName);
+						i++;
+						laneNumber = Integer.parseInt(text[i]);
+						addCardToBoard(newCard, laneNumber, posY);
+					}
+				} 
 				posY++;
 				boardToReturn.setBoardSizeY(posY+2);
 				currentLine = inputFile.readLine();
