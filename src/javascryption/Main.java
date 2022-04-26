@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -18,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -42,6 +39,7 @@ public class Main extends Application {
 	private int cardPos;
 	private Player player = new Player();
 	private Player enemy = new Player();
+	Deck cardLib = new Deck();
 	
     public static void main(String[] args) {
         launch(args);
@@ -159,17 +157,13 @@ public class Main extends Application {
         root.getChildren().add(additionalGraphics.getScale());
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
-        
-        try {
-			updateEnemyCards(root, cardGraphic, boardButtons);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
+		
 
         Bell.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            	boardButtons.moveOpponentCardsUp();
         		Deck.setDisable(false);
         		SquirrelDeck.setDisable(false);
             	//Call battle function
@@ -183,6 +177,7 @@ public class Main extends Application {
         		
         		//we may want to find a way to cause a delay here.
         		//this could be confusing for the player.
+        		board.addOpponentCardtoBoard(getEnemyCardToPlace(), 1);
         		boardButtons.guiOpponentAttacks();
         		currentHealth = boardButtons.getBoardHealth();
         		additionalGraphics.updateScale(currentHealth);
@@ -194,11 +189,15 @@ public class Main extends Application {
         		//updates the player board here.
         		try {
 					boardButtons.updatePlayerBoard();
+					
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-        		
-        		boardButtons.moveOpponentCardsUp();
+        		try {
+					updateEnemyCards(root, cardGraphic, boardButtons);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
         		boardButtons.disableBoardButtons();
             }
         });
@@ -207,23 +206,23 @@ public class Main extends Application {
     public void updateEnemyCards(StackPane root, CardGraphicBuilder cardGraphic, BoardButtons boardButtons) throws FileNotFoundException {
     	ArrayList<Card> frontRow = new ArrayList<Card>(boardButtons.getFrontRowFromBoard());
     	ArrayList<Card> secondRow = new ArrayList<Card>(boardButtons.getSecondRowFromBoard());
-    	//add front row
+    	//add back row
     	for (int i = 0; i < 4; i++) {
-    		if (frontRow.get(i) == null) {
+    		if (secondRow.get(i) == null) {
     			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
     		}
     		else {
-    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 1, i));
     		}
     	}
     	
-    	//add second row
+    	//add front row
     	for (int i = 0; i < 4; i++) {
-    		if (secondRow.get(i) == null) {
+    		if (frontRow.get(i) == null) {
     			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
     		}
     		else {
-    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 0, i));
     		}
     	}
     		
@@ -316,12 +315,18 @@ public class Main extends Application {
     }
 
 
-    
+
+    private int randNum;
+    private Card getEnemyCardToPlace(){
+    	Card cardToReturn = new Card();
+    	Random rand =  new Random();
+    	randNum = rand.nextInt(5);
+		cardToReturn.makeCard(randNum);
+    	return cardToReturn;
+    }
     private void handleCustomDeckInput(PrintWriter pW, String uInput) {
 		String[] splitText = uInput.split(",");
 		// map the card library to a deck
-		Deck cardLib = new Deck();
-		cardLib.readDeckFromFile("./CardLibrary.txt");
 		for(Card card : cardLib.getDeck()) {
 				//TODO: validate user input
 			for(String str : splitText) {
