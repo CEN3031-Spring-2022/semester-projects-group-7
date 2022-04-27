@@ -112,7 +112,7 @@ public class DeckTester {
 	@Test
 	void readingFromFile() {
 		// read deck file in
-		String path = "./DefaultDeck.txt";
+		String path = "./DefaultPlayerDeck.txt";
 		Deck sut = new Deck();
 		sut.readDeckFromFile(path);
 		// Card objects to compare to
@@ -121,7 +121,6 @@ public class DeckTester {
 		Card Adder = new Card("Adder",2,1,1);
 		Card RiverSnapper = new Card("River Snapper", 2,6,1);
 		Card Stoat = new Card("Stoat",1,2,1);
-		Card Squirrel = new Card("Squirrel",0,1,0);
 		// Add cards to a new deck
 		Deck compareDeck = new Deck();
 		compareDeck.addCard(Wolf);
@@ -129,14 +128,12 @@ public class DeckTester {
 		compareDeck.addCard(Adder);
 		compareDeck.addCard(RiverSnapper);
 		compareDeck.addCard(Stoat);
-		compareDeck.addCard(Squirrel);
 
 		assertEquals(sut.getCardByPosition(0).toString(), compareDeck.getCardByPosition(0).toString());
 		assertEquals(sut.getCardByPosition(1).toString(), compareDeck.getCardByPosition(1).toString());
 		assertEquals(sut.getCardByPosition(2).toString(), compareDeck.getCardByPosition(2).toString());
 		assertEquals(sut.getCardByPosition(3).toString(), compareDeck.getCardByPosition(3).toString());
 		assertEquals(sut.getCardByPosition(4).toString(), compareDeck.getCardByPosition(4).toString());
-		assertEquals(sut.getCardByPosition(5).toString(), compareDeck.getCardByPosition(5).toString());
 
 		
 	}
