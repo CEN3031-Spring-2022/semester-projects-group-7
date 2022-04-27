@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Card {
+public abstract class Card {
 	private String name; //name of the card
 	private int health; //amount of health. TODO: Delete card when it reaches 0.
 	private int attack; //amount of attack power.
@@ -77,22 +77,7 @@ public class Card {
 	}
 	
 	
-	public int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX) {
-		if (defenderAL.get(positionX) == null || attackerAL.get(positionX) == null)
-			return 0;
-		
-		int overkillDamage = 0;
-		int damage = attackerAL.get(positionX).getAttack();
-		int defenderHealth = defenderAL.get(positionX).getHealth();
-		defenderHealth -= damage;
-		
-		defenderAL.get(positionX).setHealth(defenderHealth);
-				
-		if(defenderHealth < 0)
-			overkillDamage = defenderHealth*-1;
-		
-		return overkillDamage;
-	}
+	public abstract int cardAttacks(ArrayList<Card> attackerAL, ArrayList<Card> defenderAL, int positionX);
 	
 	public void removeHealth(int damage) {
 		this.setHealth(this.getHealth()-damage);

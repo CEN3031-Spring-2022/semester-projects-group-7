@@ -112,7 +112,7 @@ public class Deck {
 			int blood;
 			int health;
 			int attack;
-			Card currCard;
+			Card currCard = null;
 			
 			while((line = in.readLine()) != null ){
 				
@@ -123,7 +123,21 @@ public class Deck {
 					blood = Integer.parseInt(textArr[++i]);
 					health = Integer.parseInt(textArr[++i]);
 					attack = Integer.parseInt(textArr[++i]);
-					currCard = new Card(name,blood,health,attack);
+					if(textArr.length >= 5)
+					{
+						switch(textArr[++i].toLowerCase())
+						{
+						case "touchofdeath":
+							currCard = new TouchOfDeathCard(name,blood,health,attack);
+							break;
+						case "bifurcatedstrike":
+							currCard = new BifurcatedStrikeCard(name,blood,health,attack);
+							break;
+						}
+					}
+					else {
+						currCard = new NormalCard(name,blood,health,attack);
+					}
 					addCard(currCard);
 				}
 			}

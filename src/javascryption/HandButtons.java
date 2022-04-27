@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 public class HandButtons{
 	
 	Button CardInHand = new Button();
-	Card handCard = new Card();
+	Card handCard = new NormalCard();
 	CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 	BoardButtons boardButtons;
 	int cardPos;
