@@ -22,7 +22,7 @@ public class BoardReader {
 			
 			while(currentLine != null) {
 				String[] text = currentLine.split(",");
-				if(!text[0].contains("pass")) {
+				if(!text[0].equalsIgnoreCase("pass")) {
 					for (int i = 0; i < text.length; i++) {
 						cardName = text[i];
 						Card newCard = makeCardFromLibrary(cardName);

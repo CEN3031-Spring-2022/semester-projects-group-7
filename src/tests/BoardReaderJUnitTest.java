@@ -23,12 +23,12 @@ public class BoardReaderJUnitTest {
 		sut.readInputFile("DefaultBoard.txt");
 		Board testboard = sut.getBoard();
 		
-		//make sure card at 0, 0 is a squirrel
-		assertEquals(testboard.getOpponentCardByPosition(0, 0).toString(), sut.makeCardFromLibrary("Squirrel").toString());
-		//make sure card at 1, 3 is a river snapper
-		assertEquals(testboard.getOpponentCardByPosition(1, 3).toString(), sut.makeCardFromLibrary("River Snapper").toString());
-		//make sure card at 3, 2 is a squirrel
-		assertEquals(testboard.getOpponentCardByPosition(3, 2).toString(), sut.makeCardFromLibrary("Squirrel").toString());
-
+		//make sure card at 0, 1 is a squirrel
+		assertEquals(testboard.getOpponentCardByPosition(0, 1).toString(), sut.makeCardFromLibrary("Squirrel").toString());
+		//make sure card at 1, 4 is a river snapper
+		assertEquals(testboard.getOpponentCardByPosition(1, 4).toString(), sut.makeCardFromLibrary("River Snapper").toString());
+		//make sure card at 3, 3 is a squirrel
+		assertEquals(testboard.getOpponentCardByPosition(3, 3).toString(), sut.makeCardFromLibrary("Squirrel").toString());
 		}
+	
 }
