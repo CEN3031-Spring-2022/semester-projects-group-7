@@ -330,6 +330,8 @@ public class Main extends Application {
     private void handleCustomDeckInput(PrintWriter pW, String uInput) {
 		String[] splitText = uInput.split(",");
 		// map the card library to a deck
+		Deck cardLib = new Deck();
+		cardLib.readDeckFromFile("./CardLibrary.txt");
 		for(Card card : cardLib.getDeck()) {
 				//TODO: validate user input
 			for(String str : splitText) {
