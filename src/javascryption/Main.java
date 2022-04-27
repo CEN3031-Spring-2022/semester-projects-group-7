@@ -298,8 +298,8 @@ public class Main extends Application {
     			path = "./CustomPlayerDeck.txt";
     			pWriter = new PrintWriter(path);
     			handleCustomDeckInput(pWriter,uInput);
-    			selectedDeck.readDeckFromFile(path);
     			pWriter.close();
+    			selectedDeck.readDeckFromFile(path);
     			break;
     			}
     		default:{
