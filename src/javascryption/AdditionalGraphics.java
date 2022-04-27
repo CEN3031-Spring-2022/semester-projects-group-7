@@ -8,11 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 
 public class AdditionalGraphics {
+	Slider HPSlider;
+	Group enemyPositions;
 	
 	public Group setCardSlotGraphics() throws FileNotFoundException {
 		/* Idle Positions are the top line of the board, where enemy cards are
@@ -20,9 +19,7 @@ public class AdditionalGraphics {
 		 * 
 		 * enemyPositions are the middle line of the board where enemy cards are
 		 * ready to attack when the bell is rung.
-		 */
-		
-		
+		 */		
 	    Image EnemySlot = new Image(new FileInputStream("assets/EnemyCardSlotEmpty.png"));
 	    
 	    ImageView enemyIdlePosition1 = new ImageView(EnemySlot); 
@@ -55,7 +52,7 @@ public class AdditionalGraphics {
 
 		//Board slots are grouped and moved to match Player card slots ////////////////////////////////////////
 				
-		Group enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
+		enemyPositions = new Group(enemyIdlePosition1, enemyIdlePosition2, enemyIdlePosition3, enemyIdlePosition4,
 										 enemyPosition1, enemyPosition2, enemyPosition3, enemyPosition4);
 		
 		enemyPositions.setTranslateX(-275);
@@ -64,18 +61,11 @@ public class AdditionalGraphics {
 		return enemyPositions;
 	}
 	
-	public void setPlayerEmptySlotGraphics(Button pos1, Button pos2, Button pos3, Button pos4) throws FileNotFoundException {
+	public void setPlayerEmptySlotGraphics(Button pos) throws FileNotFoundException {
 	    Image PlayerSlotImage = new Image(new FileInputStream("assets/PlayerCardSlotEmpty.png"));
-	    ImageView playerEmptySlot1 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot2 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot3 = new ImageView(PlayerSlotImage); 
-	    ImageView playerEmptySlot4 = new ImageView(PlayerSlotImage); 
-
-	    
-	    pos1.setGraphic(playerEmptySlot1);
-	    pos2.setGraphic(playerEmptySlot2);
-	    pos3.setGraphic(playerEmptySlot3);
-	    pos4.setGraphic(playerEmptySlot4);
+	    ImageView playerEmptySlot = new ImageView(PlayerSlotImage); 
+    
+	    pos.setGraphic(playerEmptySlot);
 	}
 	
 	public void setAttackDeckGraphic(Button aButton) throws FileNotFoundException {
@@ -92,12 +82,15 @@ public class AdditionalGraphics {
 	    aButton.setGraphic(squirrelDeck);
 	}
 	
-	/* scaleGraphics() is of type "Rectangle" for placeholder purposes only
-	 * This either be removed or modified for the final product
-	 */
+	public void setBellGraphic(Button aButton) throws FileNotFoundException {
+		Image bellImage = new Image(new FileInputStream("assets/Bell.png"));
+		ImageView bell = new ImageView(bellImage);
+		
+		aButton.setGraphic(bell);
+	}
 	
-	public Slider scaleGraphics() {
-		Slider HPSlider = new Slider(0, 10, 1); //have ticks at each num from 1 to 10
+	public void initializeScaleGraphics() {
+		HPSlider = new Slider(0, 10, 1); //have ticks at each num from 0 to 10
 		HPSlider.setShowTickMarks(true);
 		HPSlider.setShowTickLabels(true);
 		HPSlider.setMajorTickUnit(1);
@@ -111,9 +104,15 @@ public class AdditionalGraphics {
 		HPSlider.setTranslateX(325);
 		HPSlider.setTranslateY(-40);
 		
-		HPSlider.setDisable(true); //stops user from being able to move slider
-		
+		HPSlider.setMouseTransparent(true); //disables mouse from being able to move slider
+		HPSlider.setFocusTraversable(false); //Just to make sure disabled
+	}
+	
+	public void updateScale(int currentHealth) {
+		HPSlider.setValue(currentHealth);
+	}
+	
+	public Slider getScale() {
 		return HPSlider;
 	}
-
 }

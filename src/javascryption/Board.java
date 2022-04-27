@@ -1,8 +1,5 @@
 package javascryption;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board
@@ -165,6 +162,10 @@ public class Board
 	
 	public ArrayList<Card> getPlayerBoard(){
 		return playerBoard;
+	}
+	
+	public ArrayList<ArrayList<Card>> getOpponentBoard(){
+		return opponentBoard;
 	}
 	
 	public ArrayList<Card> getFrontRow(){

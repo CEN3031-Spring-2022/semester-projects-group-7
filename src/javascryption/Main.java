@@ -1,18 +1,16 @@
 package javascryption;
-	
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JOptionPane;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -21,20 +19,26 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
- 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 public class Main extends Application {
 	
 	private Stage primaryStage;
 	private Scene deckScene;
 	private Scene gameScene;
-	private StackPane root;
+	private StackPane root = new StackPane();
 	private Deck selectedDeck;
+	private int cardPos;
+	private Player player = new Player();
+	Deck cardLib = new Deck();
 	
     public static void main(String[] args) {
         launch(args);
@@ -48,112 +52,63 @@ public class Main extends Application {
     	primaryStage.show();
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
+
+        // REMOVE ME //
+        
+        Card card2 = new Card("Wolf", 2, 3, 2);
         CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
-        
-        
-        // REMOVE ME //
-        /*
-        Card card = new Card("Squirrel", 0, 1, 0);
-        Card card2 = new Card("Wolf", 2, 3, 2);
-        Card card3 = new Card("Stoat", 1, 2, 1);
-        */
-        
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
-        
-        Button PlayerCardPosition1 = new Button();
-        Button PlayerCardPosition2 = new Button();
-        Button PlayerCardPosition3 = new Button();
-        Button PlayerCardPosition4 = new Button();
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
+		//Board board = new Board();
+		//reading board input here.
+		BoardReader boardReader = new BoardReader();
+		boardReader.readInputFile("DefaultBoard.txt");		
+		
+        BoardButtons boardButtons = new BoardButtons(boardReader.getBoard());
+        boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
         additionalGraphics.setSquirrelDeckGraphic(SquirrelDeck);
-        additionalGraphics.setPlayerEmptySlotGraphics(PlayerCardPosition1, PlayerCardPosition2, 
-        											  PlayerCardPosition3, PlayerCardPosition4);
-        Bell.setText("Bell");
+        additionalGraphics.setBellGraphic(Bell);
+        
+        Hand hand = new Hand(boardButtons);
+        boardButtons.setHandToModify(hand);
+        Group boardButtonsDisplay = new Group();
+        boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
 
         //Action listeners ///////////////////////////////////////////////////////////////////////
         
-        PlayerCardPosition1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//TODO Copy card in board object, Sacrifice Card
-            	
-            	
-            	//Set button graphic when pressed
-            	/*
-				try {
-					cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition1);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-            	 */
-            }
-        });
-        PlayerCardPosition2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-				//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition2);
-
-            }
-        });
-        PlayerCardPosition3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition3);
-
-            }
-        });
-        PlayerCardPosition4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	//cardGraphic.setPlayerCardGraphic(card, PlayerCardPosition4);
-
-            }
-        });
         Deck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add random card from deck into hand
-            	System.out.println("Deck clicked!");
+            		cardPos++;
+            		//card2 should be replaced with a get next card from deck function
+            		if(cardPos < player.getPlayerDeck().getSize()) {
+            			hand.addCardToHand(player.getPlayerDeck().getCardByPosition(cardPos));
+            		}
+            		else {
+            			JOptionPane.showMessageDialog(null, "You are out of cards!");
+            		}
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //Add squirrel to hand
-            	System.out.println("Squirrel Deck clicked!");
+            		Card card = new Card("Squirrel", 0, 1, 0);
+            		hand.addCardToHand(card);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
             }
         });
-        Bell.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //Call battle function
-            	System.out.println("Bell clicked!");
-            }
-        });
+
         
         //Button size/position set ////////////////////////////////////////////////////
-        
-        PlayerCardPosition1.setTranslateX(-500);
-        PlayerCardPosition1.setTranslateY(75);        
-        PlayerCardPosition1.setPrefSize(100, 150);
-        
-        PlayerCardPosition2.setTranslateX(-350);
-        PlayerCardPosition2.setTranslateY(75);
-        PlayerCardPosition2.setPrefSize(100, 150);
-        
-        PlayerCardPosition3.setTranslateX(-200);
-        PlayerCardPosition3.setTranslateY(75);
-        PlayerCardPosition3.setPrefSize(100, 150);
-        
-        PlayerCardPosition4.setTranslateX(-50);
-        PlayerCardPosition4.setTranslateY(75);
-        PlayerCardPosition4.setPrefSize(100, 150);
         
         Deck.setTranslateX(275);
         Deck.setTranslateY(275);
@@ -167,12 +122,17 @@ public class Main extends Application {
         Bell.setTranslateY(120);
         Bell.setPrefSize(150, 100);
         
+        boardButtonsDisplay.setTranslateX(-276);
+        boardButtonsDisplay.setTranslateY(68);
+        
         //Window Creation ////////////////////////////////////////////////////////////
                 
         ScrollPane handScroll = new ScrollPane();
         handScroll.setPrefSize(700, 175);
         handScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
         handScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+        
+        handScroll.setContent(hand.getHandHBox());
         
         ScrollPane gameLogScroll = new ScrollPane();
         gameLogScroll.setPrefSize(500, 200);
@@ -186,42 +146,99 @@ public class Main extends Application {
         Group gameLogPanel = new Group(gameLogScroll);
         gameLogPanel.setTranslateX(325);
         gameLogPanel.setTranslateY(-250);
+        Label gameLogIntro = new Label("Welcome to JavaScryption!");
+	    gameLogIntro.setFont(Font.font("Segue UI", FontWeight.BOLD, 18));
+        gameLogPanel.getChildren().add(gameLogIntro);
         
-        root.getChildren().add(PlayerCardPosition1);
-        root.getChildren().add(PlayerCardPosition2);
-        root.getChildren().add(PlayerCardPosition3);
-        root.getChildren().add(PlayerCardPosition4);
+        root.getChildren().add(boardButtonsDisplay);
         root.getChildren().addAll(Deck);
         root.getChildren().add(SquirrelDeck);
         root.getChildren().add(Bell);
         
         root.getChildren().add(additionalGraphics.setCardSlotGraphics());
-        root.getChildren().add(additionalGraphics.scaleGraphics());
+        additionalGraphics.initializeScaleGraphics();
+        root.getChildren().add(additionalGraphics.getScale());
         root.getChildren().add(handPanel);
         root.getChildren().add(gameLogPanel);
 
-        // REMOVE ME //
-        /*
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 0, 0));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card3, 0, 2));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card, 2, 1));
-        root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(card2, 3, 2));
-		*/
-                
-        
+        updateEnemyCards(root, cardGraphic, boardButtons);
+
+        Bell.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	boardButtons.moveOpponentCardsUp();
+        		Deck.setDisable(false);
+        		SquirrelDeck.setDisable(false);
+            	//Call battle function
+        		boardButtons.guiPlayerAttacks();
+        		int currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+
+        		if (currentHealth >= 10) {
+        			winMessage();
+        		}
+        		
+        		//we may want to find a way to cause a delay here.
+        		//this could be confusing for the player.
+        		//board.addOpponentCardtoBoard(getEnemyCardToPlace(), 1);
+        		boardButtons.guiOpponentAttacks();
+        		currentHealth = boardButtons.getBoardHealth();
+        		additionalGraphics.updateScale(currentHealth);
+        		
+        		if (currentHealth <= 0) {
+        			loseMessage();
+        		}
+        		
+        		//updates the player board here.
+        		try {
+					boardButtons.updatePlayerBoard();
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+        		try {
+					updateEnemyCards(root, cardGraphic, boardButtons);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+        		boardButtons.disableBoardButtons();
+            }
+        });
     }
     
-    // used to test functionality of combo box 
-    private void printChoice(ComboBox comboBox){
-    	System.out.println(comboBox.getValue());
+    public void updateEnemyCards(StackPane root, CardGraphicBuilder cardGraphic, BoardButtons boardButtons) throws FileNotFoundException {
+    	ArrayList<Card> frontRow = new ArrayList<Card>(boardButtons.getFrontRowFromBoard());
+    	ArrayList<Card> secondRow = new ArrayList<Card>(boardButtons.getSecondRowFromBoard());
+    	//add back row
+    	for (int i = 0; i < 4; i++) {
+    		if (secondRow.get(i) == null) {
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
+    		}
+    	}
+    	
+    	//add front row
+    	for (int i = 0; i < 4; i++) {
+    		if (frontRow.get(i) == null) {
+    			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
+    		}
+    		else {
+    			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
+    		}
+    	}
+    		
     }
     
-    /*TODO
-     * validate input, write input to a file, and call read deck
-     */
-    private boolean writeDeckFile()
-    {
-    	return false;
+    public void winMessage() {
+    	JOptionPane.showMessageDialog(null, "You win!\nClick 'OK' to exit.");
+    	System.exit(0);
+    }
+    
+    public void loseMessage() {
+    	JOptionPane.showMessageDialog(null, "You lose.\nClick 'OK' to exit.");
+    	System.exit(0);
     }
     
     private Stage createPrimaryStage() {
@@ -237,27 +254,26 @@ public class Main extends Application {
     }
     
     private Scene createGameScene() {
-    	root = new StackPane();
     	gameScene = new Scene(root,1200,750);
     	return gameScene;
     }
     private Scene createDeckChoiceScene() {
     	
         Button button = new Button("Submit");
-        ComboBox<String> comboBox = new ComboBox<>();
-        comboBox.getItems().addAll("Custom","Default");
+        ComboBox<String> userDeckComboBox = new ComboBox<>();
+        userDeckComboBox.getItems().addAll("Custom","Default");
         VBox layout = new VBox(10);
-        TextField textField = new TextField("");
+        TextField userTextField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(comboBox, textField, button);
+        layout.getChildren().addAll(userDeckComboBox, userTextField, button);
         
         
         deckScene = new Scene(layout, 300, 250);
-        comboBox.setPromptText("Select Deck");
+        userDeckComboBox.setPromptText("Select User Deck");
         // update text of text field
-        comboBox.addEventFilter(Event.ANY, e->textField.setText(comboBox.getSelectionModel().getSelectedItem()));
-        // handle deck selection
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectDeck(comboBox.getSelectionModel().getSelectedIndex(), textField.getText()));
+        userDeckComboBox.addEventFilter(Event.ANY, e->userTextField.setText(userDeckComboBox.getSelectionModel().getSelectedItem()));
+        
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), userTextField.getText())); 
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
 
@@ -265,44 +281,52 @@ public class Main extends Application {
     	return deckScene;
     }
 
-    private void selectDeck(int choice, String uInput) {
+    private void selectUserDeck(int choice, String uInput) {
     	try{
     		// write deck to file if default is not chosen
     		File file;
     		String path;
     		PrintWriter pWriter;
-    		Player player = new Player();
-    		Deck deckToSet = new Deck();
+    		selectedDeck = new Deck();
     		
     		switch(choice){
     		case 0:{
-    			/*
-    			file = new File("./CustomDeck.txt");
+    			file = new File("./CustomPlayerDeck.txt");
     			if(!file.exists()) {
     			file.createNewFile();
-    			}*/
-    			path = "./CustomDeck.txt";
+    			}
+    			path = "./CustomPlayerDeck.txt";
     			pWriter = new PrintWriter(path);
     			handleCustomDeckInput(pWriter,uInput);
-    			deckToSet.readDeckFromFile(path);
+    			selectedDeck.readDeckFromFile(path);
     			pWriter.close();
     			break;
     			}
     		default:{
     			// read default file.
-    			path = "./DefaultDeck.txt";
-    			deckToSet.readDeckFromFile(path);
+    			path = "./DefaultPlayerDeck.txt";
+    			selectedDeck.readDeckFromFile(path);
     			}
     			break;
     			
     		}
-    		player.setDeck(deckToSet);
+    		player.setDeck(selectedDeck);
     		
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
     }
-    
+
+
+
+    private int randNum;
+    private Card getEnemyCardToPlace(){
+    	Card cardToReturn = new Card();
+    	Random rand =  new Random();
+    	randNum = rand.nextInt(5);
+		cardToReturn.makeCard(randNum);
+    	return cardToReturn;
+    }
     private void handleCustomDeckInput(PrintWriter pW, String uInput) {
 		String[] splitText = uInput.split(",");
 		// map the card library to a deck
