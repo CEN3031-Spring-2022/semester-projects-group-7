@@ -21,7 +21,9 @@ public class BoardReader {
 			int posY = 0;
 			
 			while(currentLine != null) {
+				boardToReturn.increaseBoardSizeY();
 				String[] text = currentLine.split(",");
+				
 				if(!text[0].equalsIgnoreCase("pass")) {
 					for (int i = 0; i < text.length; i++) {
 						cardName = text[i];
@@ -32,7 +34,7 @@ public class BoardReader {
 					}
 				} 
 				posY++;
-				boardToReturn.setBoardSizeY(posY+2);
+				boardToReturn.setBoardSizeY(posY);
 				currentLine = inputFile.readLine();
 			}
 			
