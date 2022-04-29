@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -35,7 +36,10 @@ public class Main extends Application {
 	private Deck selectedDeck;
 	private int cardPos;
 	private Player player = new Player();
-	
+	private BoardReader boardReader = new BoardReader();
+	private BoardButtons boardButtons;
+    CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -44,11 +48,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws FileNotFoundException {
     	
     	this.primaryStage = primaryStage;
+    	//createDeckChoiceScene();
+    	
     	createPrimaryStage();
     	primaryStage.show();
+    	
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-        CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
 
         //Buttons creation ///////////////////////////////////////////////////////////////////////
@@ -57,11 +63,10 @@ public class Main extends Application {
         Button Bell = new Button();
 
         //reading board input here
-		BoardReader boardReader = new BoardReader();
-		boardReader.readInputFile("DefaultBoard.txt");		
+		//boardReader.readInputFile("Enemy_Boards/DefaultBoard.txt");		
 		
 		//passing read board to boardButtons
-        BoardButtons boardButtons = new BoardButtons(boardReader.getBoard());
+        boardButtons = new BoardButtons(boardReader.getBoard());
         boardButtons.makeBoardButtons();
   
         additionalGraphics.setAttackDeckGraphic(Deck);
@@ -228,12 +233,12 @@ public class Main extends Application {
     private Stage createPrimaryStage() {
     	//primaryStage =  new Stage(StageStyle.DECORATED);
     	primaryStage.setTitle("Javascryption");
-    	
-    	createGameScene();
+
     	deckScene = createDeckChoiceScene();
-    	
     	primaryStage.setScene(deckScene);
     	
+    	createGameScene();
+
     	return primaryStage;
     }
     
@@ -249,22 +254,39 @@ public class Main extends Application {
         VBox layout = new VBox(10);
         TextField userTextField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(userDeckComboBox, userTextField, button);
         
+        ComboBox<String> enemyBoardBox = new ComboBox<>();
+        File listOfBoards = new File("Enemy_Boards");
+        String[] enemyBoards = listOfBoards.list();
+       	enemyBoardBox.setItems(FXCollections.observableArrayList(enemyBoards));
+       	enemyBoardBox.setPromptText("Select your opponent");
+       	
+        layout.getChildren().addAll(userDeckComboBox, userTextField, enemyBoardBox, button);
         
         deckScene = new Scene(layout, 300, 250);
         userDeckComboBox.setPromptText("Select User Deck");
+        
         // update text of text field
         userDeckComboBox.addEventFilter(Event.ANY, e->userTextField.setText(userDeckComboBox.getSelectionModel().getSelectedItem()));
         
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectUserDeck(userDeckComboBox.getSelectionModel().getSelectedIndex(), userTextField.getText())); 
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->selectOpponentDeck(enemyBoardBox.getSelectionModel().getSelectedItem()));
         // change the scene
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, e->primaryStage.setScene(gameScene));
-
+        
+        //select the board you wish to fight against:
         
     	return deckScene;
     }
-
+    
+    private void selectOpponentDeck(String path) {
+    	try {
+    		boardReader.readInputFile("Enemy_Boards/"+path);
+    		updateEnemyCards(root, cardGraphic, boardButtons);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
     private void selectUserDeck(int choice, String uInput) {
     	try{
     		// write deck to file if default is not chosen

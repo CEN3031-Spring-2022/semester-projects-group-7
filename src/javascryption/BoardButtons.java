@@ -143,11 +143,7 @@ public class BoardButtons {
 	public int getBoardHealth() {
 		return board.getBoardHealth();
 	}
-	/*
-	public void updateEnemyBoard() {
-		
-	}
-	*/
+
 	
 	public void updatePlayerBoard() throws FileNotFoundException {
 		if (board.getPlayerCardByPos(0) == null)
@@ -184,6 +180,10 @@ public class BoardButtons {
 	
 	public ArrayList<Card> getSecondRowFromBoard(){
 		return board.getSecondRow();
+	}
+	
+	public void setNewBoard(Board newBoard) {
+		board = newBoard;
 	}
 
 }
