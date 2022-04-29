@@ -13,22 +13,6 @@ public class HandTester {
 	}
 	
 	@Test
-	void testReturnHand() {
-		Deck sampleDeck = new Deck();		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);		
-		sampleDeck.addCard(wolf);
-		sampleDeck.addCard(badger);
-		sampleDeck.addCard(bee);		
-		Hand sut = new Hand();
-		
-		sut.setHand(sampleDeck.getDeck());
-		
-		assertEquals(sampleDeck.getDeck(), sut.getHand());	
-	}
-	
-	@Test
 	void testGetCardByPosition() {
 		Hand sut = new Hand();
 		Card wolf = new Card("Wolf", 1, 2, 3);
