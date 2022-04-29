@@ -248,4 +248,17 @@ class BoardJUnitTest {
 		assertEquals(previousboardHealth, sut.getBoardHealth()); //no damage was dealt to the board
 	}
 	
+	@Test
+	void increaseBoardSizeYTest() {
+		Board sut = new Board();
+		int[] originalSizes = new int[sut.getBoardSizeX()];
+		for (int i = 0; i < sut.getBoardSizeX(); i++)
+			originalSizes[i] = sut.getOpponentBoard().get(i).size();
+		
+		sut.increaseBoardSizeY();
+		
+		for (int i = 0; i < sut.getBoardSizeX(); i++)
+			assertEquals(originalSizes[i]+1, (sut.getOpponentBoard().get(i).size()));
+	}
+	
 }

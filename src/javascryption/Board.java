@@ -6,7 +6,7 @@ public class Board
 {
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
-	private int boardSizeY; //SET DYNAMICALLY IN THE FUTURE AS IT READS ENEMY INPUTS.
+	private int boardSizeY; 
 	private int boardSizeX; //might be cool to change this as a feature.
 	private int boardHealth; //gonna assume the player wins if they get it up to 10.
 	
@@ -16,15 +16,12 @@ public class Board
 		playerBoard = new ArrayList<Card>();
 		this.setBoardHealth(5); //starting board health at 5
 		this.setBoardSizeX(4);
-		this.setBoardSizeY(10); //THIS WILL NEED TO BE CHANGED TO BE DYNAMIC.
-								//THERE WILL BE PROBLEMS WHEN READING INPUT FROM A FILE.
-								//WE HAVEN'T GOTTEN TO A READING INPUT FILES YET, BUT WE
-								//WILL NEED TO CHANGE THIS TO AT LEAST (NUMBER OF LINES + 1 or 2).
+		this.setBoardSizeY(10);
 		initializeOpponentBoard();
 		initializePlayerBoard();
 		
 	}
-
+	
 	private void initializeOpponentBoard() {
 		for(int i=0; i<boardSizeX; i++)
 			opponentBoard.add(new ArrayList<Card>());
@@ -226,8 +223,8 @@ public class Board
 		return boardSizeY;
 	}
 
-	public void setBoardSizeY(int boardSizeY) {
-		this.boardSizeY = boardSizeY;
+	public void setBoardSizeY(int newBoardSizeY) {		
+		this.boardSizeY = newBoardSizeY;
 	}
 
 	public int getBoardSizeX() {
@@ -240,6 +237,19 @@ public class Board
 
 	public void setBoardHealth(int boardHealth) {
 		this.boardHealth = boardHealth;
+	}
+	
+	public void increaseBoardSizeY() {
+		/* it is necessary to use this while reading from a file.
+		 * if a file is too big, it would crash the program because 
+		 * not enough of the board is initialized. 
+		 * We make more room for other cards here.*/		
+		for (int i = boardSizeY; i < boardSizeY+1; i++) {
+			for (int j = 0; j < boardSizeX; j++) {
+				opponentBoard.get(j).add(i, null);
+			}
+		}
+		setBoardSizeY(boardSizeY++);
 	}
 }
 
