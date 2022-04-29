@@ -1,5 +1,0 @@
-Wolf,2,3,2
-Wolf,2,3,2
-Adder,2,1,1
-River Snapper,2,6,1
-Stoat,1,2,1
