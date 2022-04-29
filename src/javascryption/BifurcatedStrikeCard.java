@@ -50,6 +50,7 @@ public class BifurcatedStrikeCard extends Card{
 			defenderAL.get(positionX - 1).setHealth(defenderHealthLeft);
 			}
 		}
+		
 		else {
 			if(defenderAL.get(positionX + 1) == null) {
 				defenderHealthRight = damage*-1;

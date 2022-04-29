@@ -74,14 +74,42 @@ public class Board
 	
 	public void attack(int attackerPos, boolean playerIsAttacking) {
 		int overkillDamage;
-		
-		if (playerIsAttacking && this.getOpponentCardByPosition(attackerPos) == null) {
-			dealBoardDamage(playerBoard.get(attackerPos).getAttack());
-			return;
+		boolean isBifurcated = false;
+		if (playerIsAttacking)
+		{
+			isBifurcated = playerBoard.get(attackerPos).getClass().toString().equals("class javascryption.BifurcatedStrikeCard");
 		}
-		else if (!playerIsAttacking && this.getPlayerCardByPos(attackerPos) == null) {
-			dealBoardDamage((getOpponentCardByPosition(attackerPos).getAttack())*-1);
-			return;
+		
+		if (playerIsAttacking && isBifurcated)
+		{
+			if(attackerPos == 0)
+			{
+				if(this.getOpponentCardByPosition(attackerPos + 1) == null)
+					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+			}
+			if(attackerPos == 3)
+			{
+				if(this.getOpponentCardByPosition(attackerPos - 1) == null)
+					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+			}
+			else
+			{
+				if(this.getOpponentCardByPosition(attackerPos + 1) == null)
+					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+				if(this.getOpponentCardByPosition(attackerPos - 1) == null)
+					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+			}
+		}
+		else
+		{
+			if (playerIsAttacking && this.getOpponentCardByPosition(attackerPos) == null) {
+				dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+				return;
+			}
+			else if (!playerIsAttacking && this.getPlayerCardByPos(attackerPos) == null) {
+				dealBoardDamage((getOpponentCardByPosition(attackerPos).getAttack())*-1);
+				return;
+			}
 		}
 		
 		if(playerIsAttacking) { //if overkill damage is dealt, it is dealt to the card in the second row.
