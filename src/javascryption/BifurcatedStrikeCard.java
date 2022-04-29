@@ -26,30 +26,48 @@ public class BifurcatedStrikeCard extends Card{
 		
 		int overkillDamage = 0;
 		int damage = attackerAL.get(positionX).getAttack();
-		int defenderHealthLeft;
-		int defenderHealthRight;
+		int defenderHealthLeft = 0;
+		int defenderHealthRight = 0;
 		
 		//If card is on the far left it only attacks to the right
 		if(positionX == 0) {
+			if(defenderAL.get(positionX - 1) == null) {
+				defenderHealthLeft = damage*-1;
+			}
+			else {
 			defenderHealthRight = defenderAL.get(positionX + 1).getHealth() - damage;
 			defenderAL.get(positionX + 1).setHealth(defenderHealthRight);
+			}
 		}
 		
 		//If card is on the far right it only attacks to the left
 		if(positionX == 3) {
+			if(defenderAL.get(positionX - 1) == null) {
+				defenderHealthLeft = damage*-1;
+			}
+			else {
 			defenderHealthLeft = defenderAL.get(positionX - 1).getHealth() - damage;
 			defenderAL.get(positionX - 1).setHealth(defenderHealthLeft);
+			}
 		}
-		else
+		else {
+			if(defenderAL.get(positionX + 1) == null) {
+				defenderHealthRight = damage*-1;
+			}
+			if(defenderAL.get(positionX - 1) == null) {
+				defenderHealthLeft = damage*-1;
+			}
+			else {
 			defenderHealthLeft = defenderAL.get(positionX - 1).getHealth() - damage;
 			defenderHealthRight = defenderAL.get(positionX + 1).getHealth() - damage;	
 			defenderAL.get(positionX + 1).setHealth(defenderHealthRight);
 			defenderAL.get(positionX - 1).setHealth(defenderHealthLeft);
-		
+			}
+		}
 		if(defenderHealthLeft < 0)
-			overkillDamage = defenderHealthLeft*-1;
+			overkillDamage += defenderHealthLeft*-1;
 		if(defenderHealthRight < 0)
-			overkillDamage = defenderHealthRight*-1;
+			overkillDamage += defenderHealthRight*-1;
 		
 		return overkillDamage;
 		}
