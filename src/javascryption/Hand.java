@@ -5,9 +5,9 @@ import javafx.scene.layout.HBox;
 
 public class Hand {
 	private ArrayList<HandButtons> hand;
-	HBox handHBox = new HBox(20);
+	private HBox handHBox = new HBox(20);
 	private Deck playerDeck;
-	BoardButtons boardButtons;
+	private BoardButtons boardButtons;
 	
 	/*
 	 * Default constructor. Initializes an empty ArrayList of cards.

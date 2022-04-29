@@ -8,20 +8,20 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 
 public class BoardButtons {
-	Button PlayerCardPosition1 = new Button();
-    Button PlayerCardPosition2 = new Button();
-    Button PlayerCardPosition3 = new Button();
-    Button PlayerCardPosition4 = new Button();
+	private Button PlayerCardPosition1 = new Button();
+    private Button PlayerCardPosition2 = new Button();
+    private Button PlayerCardPosition3 = new Button();
+    private Button PlayerCardPosition4 = new Button();
+    private Group boardButtonGroup = new Group();
     
-    Group boardButtonGroup = new Group();
+    private Board board;
+    private CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+    private Card activeCard;
+    private Hand hand;
+    private AdditionalGraphics additionalGraphics;
     
-    Board board;
-    CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
-    Card activeCard;
-    Hand hand;
-    int cardPos;
-    int bloodBank = 0;
-    AdditionalGraphics additionalGraphics;
+    private int cardPos;
+    private int bloodBank = 0;
     
     public BoardButtons(Board aBoard) {
     	board = aBoard;
@@ -143,11 +143,7 @@ public class BoardButtons {
 	public int getBoardHealth() {
 		return board.getBoardHealth();
 	}
-	/*
-	public void updateEnemyBoard() {
-		
-	}
-	*/
+
 	
 	public void updatePlayerBoard() throws FileNotFoundException {
 		if (board.getPlayerCardByPos(0) == null)
@@ -184,6 +180,10 @@ public class BoardButtons {
 	
 	public ArrayList<Card> getSecondRowFromBoard(){
 		return board.getSecondRow();
+	}
+	
+	public void setNewBoard(Board newBoard) {
+		board = newBoard;
 	}
 
 }

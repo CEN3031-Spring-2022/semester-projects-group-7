@@ -7,7 +7,7 @@ public class Board
 	private ArrayList<ArrayList<Card>> opponentBoard;
 	private ArrayList<Card> playerBoard;
 	private int boardSizeY; 
-	private int boardSizeX; //might be cool to change this as a feature.
+	private int boardSizeX;
 	private int boardHealth; //gonna assume the player wins if they get it up to 10.
 	
 	public Board()
@@ -215,6 +215,19 @@ public class Board
 		boardHealth += damage;
 	}
 	
+	public void increaseBoardSizeY() {
+		/* it is necessary to use this while reading from a file.
+		 * if a file is too big, it would crash the program because 
+		 * not enough of the board is initialized. 
+		 * We make more room for other cards here.*/		
+		for (int i = boardSizeY; i < boardSizeY+1; i++) {
+			for (int j = 0; j < boardSizeX; j++) {
+				opponentBoard.get(j).add(i, null);
+			}
+		}
+		setBoardSizeY(boardSizeY++);
+	}
+	
 	public int getBoardHealth() {
 		return boardHealth;
 	}
@@ -237,19 +250,6 @@ public class Board
 
 	public void setBoardHealth(int boardHealth) {
 		this.boardHealth = boardHealth;
-	}
-	
-	public void increaseBoardSizeY() {
-		/* it is necessary to use this while reading from a file.
-		 * if a file is too big, it would crash the program because 
-		 * not enough of the board is initialized. 
-		 * We make more room for other cards here.*/		
-		for (int i = boardSizeY; i < boardSizeY+1; i++) {
-			for (int j = 0; j < boardSizeX; j++) {
-				opponentBoard.get(j).add(i, null);
-			}
-		}
-		setBoardSizeY(boardSizeY++);
 	}
 }
 

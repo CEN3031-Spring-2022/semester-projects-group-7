@@ -1,5 +1,0 @@
-Stoat, 1
-Wolf, 2
-Squirrel, 3
-Wolf, 2
-Wolf, 4

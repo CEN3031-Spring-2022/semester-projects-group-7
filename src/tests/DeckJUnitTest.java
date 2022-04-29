@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 
-public class DeckTester {
+public class DeckJUnitTest {
 	
 	@Test
 	void addingCardstoDeck() {
 		Deck sut = new Deck();
 		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);
 		
 		sut.addCard(wolf);
 		sut.addCard(badger);
@@ -27,9 +27,9 @@ public class DeckTester {
 	void checkingSizeOfDeck() {
 		Deck sut = new Deck();
 		
-		Card wolf = new Card("Wolf", 1, 2, 3);
-		Card badger = new Card("Badger", 1, 2, 3);
-		Card bee = new Card("Bee", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
+		Card badger = new NormalCard("Badger", 1, 2, 3);
+		Card bee = new NormalCard("Bee", 1, 2, 3);
 		
 		sut.addCard(wolf);
 		sut.addCard(badger);
@@ -40,7 +40,7 @@ public class DeckTester {
 	
 	@Test
 	void testingParameterizedConstructor() {
-		Card wolf = new Card("Wolf", 1, 2, 3);
+		Card wolf = new NormalCard("Wolf", 1, 2, 3);
 
 		ArrayList<Card> sampleList = new ArrayList<Card>();
 		
@@ -57,8 +57,8 @@ public class DeckTester {
 	void testDeletionOfCardsByPosition() {
 		//arrange
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
 		sut.addCard(obj1);
 		sut.addCard(obj2);
 
@@ -73,9 +73,9 @@ public class DeckTester {
 	void addingCardToFrontPosition() {
 		//arrange
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
-		Card obj3 = new Card("Cat", 0, 0, 0);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
+		Card obj3 = new NormalCard("Cat", 0, 0, 0);
 		sut.addCard(obj1);
 		sut.addCard(obj2);
 		
@@ -89,11 +89,11 @@ public class DeckTester {
 	@Test
 	void shuffleCardsKeepsAllCards() {
 		Deck sut = new Deck();
-		Card obj1 = new Card("wolf", 2, 2, 2);
-		Card obj2 = new Card("bee", 1, 1, 1);
-		Card obj3 = new Card("Cat", 0, 0, 0);
-		Card obj4 = new Card("Badger", 0, 0, 0);
-		Card obj5 = new Card("Elephant", 0, 0, 0);
+		Card obj1 = new NormalCard("wolf", 2, 2, 2);
+		Card obj2 = new NormalCard("bee", 1, 1, 1);
+		Card obj3 = new NormalCard("Cat", 0, 0, 0);
+		Card obj4 = new NormalCard("Badger", 0, 0, 0);
+		Card obj5 = new NormalCard("Elephant", 0, 0, 0);
 		
 		sut.addCard(obj1);
 		sut.addCard(obj2);
@@ -116,24 +116,23 @@ public class DeckTester {
 		Deck sut = new Deck();
 		sut.readDeckFromFile(path);
 		// Card objects to compare to
-		Card Wolf = new Card("Wolf",2,3,2);
-		Card Wolf2 = new Card("Wolf",2,3,2);
-		Card Adder = new Card("Adder",2,1,1);
-		Card RiverSnapper = new Card("River Snapper", 2,6,1);
-		Card Stoat = new Card("Stoat",1,2,1);
+		Card Wolf = new NormalCard("Wolf",2,3,2);
+		Card Adder = new TouchOfDeathCard("Adder",2,1,1);
+		Card Snapper = new NormalCard("Snapper", 2,6,1);
+
+		Card Stoat = new NormalCard("Stoat",1,2,1);
 		// Add cards to a new deck
 		Deck compareDeck = new Deck();
 		compareDeck.addCard(Wolf);
-		compareDeck.addCard(Wolf2);
 		compareDeck.addCard(Adder);
-		compareDeck.addCard(RiverSnapper);
+		compareDeck.addCard(Snapper);
 		compareDeck.addCard(Stoat);
-
+	
 		assertEquals(sut.getCardByPosition(0).toString(), compareDeck.getCardByPosition(0).toString());
 		assertEquals(sut.getCardByPosition(1).toString(), compareDeck.getCardByPosition(1).toString());
 		assertEquals(sut.getCardByPosition(2).toString(), compareDeck.getCardByPosition(2).toString());
 		assertEquals(sut.getCardByPosition(3).toString(), compareDeck.getCardByPosition(3).toString());
-		assertEquals(sut.getCardByPosition(4).toString(), compareDeck.getCardByPosition(4).toString());
+		//assertEquals(sut.getCardByPosition(4).toString(), compareDeck.getCardByPosition(4).toString());
 
 		
 	}
