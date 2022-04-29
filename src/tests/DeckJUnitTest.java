@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 
-public class DeckTester {
+public class DeckJUnitTest {
 	
 	@Test
 	void addingCardstoDeck() {

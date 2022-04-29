@@ -8,11 +8,12 @@ import javafx.scene.control.Button;
 
 public class HandButtons{
 	
-	Button CardInHand = new Button();
-	Card handCard = new NormalCard();
-	CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
-	BoardButtons boardButtons;
-	int cardPos;
+	private Button CardInHand = new Button();
+	private Card handCard = new Card();
+	private CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+	private BoardButtons boardButtons;
+	private int cardPos;
+
 	
 	public HandButtons(BoardButtons someBoardButtons) {
 		boardButtons = someBoardButtons;
