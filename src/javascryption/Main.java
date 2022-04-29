@@ -341,10 +341,19 @@ public class Main extends Application {
 					pW.print(card.getName()+",");
 					pW.print(card.getBlood()+",");
 					pW.print(card.getHealth()+",");
-					pW.print(card.getAttack()+"\n");
+					pW.print(card.getAttack());
+					if(card.getClass().toString().equals("class javascryption.BifurcatedStrikeCard"))
+					{
+						pW.print(",bifurcatedstrike\n");
+					}
+					else if(card.getClass().toString().equals("class javascryption.TouchOfDeathCard"))
+					{
+						pW.print(",touchofdeath\n");
+					}
+					else
+						pW.print("\n");
+					}
 				}
 			}
 		}
-    }
-    
 }

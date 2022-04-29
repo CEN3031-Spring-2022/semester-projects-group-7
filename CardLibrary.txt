@@ -3,3 +3,5 @@ Stoat,1,2,1
 Wolf,2,3,2
 Adder,2,1,1
 Snapper,2,6,1
+Mantis,1,1,1,bifurcatedstrike
+Wasp,1,1,-1,touchofdeath
