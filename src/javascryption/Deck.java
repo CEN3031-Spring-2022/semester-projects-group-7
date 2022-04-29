@@ -138,6 +138,7 @@ public class Deck {
 					else {
 						currCard = new NormalCard(name,blood,health,attack);
 					}
+
 					addCard(currCard);
 				}
 			}

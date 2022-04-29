@@ -136,7 +136,6 @@ public class Main extends Application {
         Deck.setOnAction(new EventHandler<ActionEvent>() { //when player deck button is pressed
             @Override
             public void handle(ActionEvent event) {
-            		cardPos++;
             		//card2 should be replaced with a get next card from deck function
             		if(cardPos < player.getPlayerDeck().getSize()) {
             			hand.addCardToHand(player.getPlayerDeck().getCardByPosition(cardPos));
@@ -144,6 +143,8 @@ public class Main extends Application {
             		else {
             			JOptionPane.showMessageDialog(null, "You are out of cards!");
             		}
+            		
+            		cardPos++;
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
             }
@@ -244,8 +245,9 @@ public class Main extends Application {
     	gameScene = new Scene(root,1200,750);
     	return gameScene;
     }
+    
     private Scene createDeckChoiceScene() {
-    	
+    	//input for player
         Button button = new Button("Submit");
         ComboBox<String> userDeckComboBox = new ComboBox<>();
         userDeckComboBox.getItems().addAll("Custom","Default");
@@ -253,6 +255,7 @@ public class Main extends Application {
         TextField userTextField = new TextField("");
         layout.setPadding(new Insets(20,20,20,20));
         
+        //input for enemy
         ComboBox<String> enemyBoardBox = new ComboBox<>();
         File listOfBoards = new File("Enemy_Boards");
         String[] enemyBoards = listOfBoards.list();
@@ -289,6 +292,7 @@ public class Main extends Application {
     		e.printStackTrace();
     	}
     }
+    
     private void selectUserDeck(int choice, String uInput) {
     	try{
     		// write deck to file if default is not chosen
@@ -340,7 +344,6 @@ public class Main extends Application {
 					pW.print(card.getAttack()+"\n");
 				}
 			}
-			
 		}
     }
     
