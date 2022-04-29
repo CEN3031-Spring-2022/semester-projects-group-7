@@ -12,7 +12,7 @@ class BoardJUnitTest {
 	@Test
 	void addsPlayerCardsToCorrectPosition() {
 		Board sut = new Board();
-		Card weasel = new Card();
+		Card weasel = new NormalCard();
 		
 		sut.addPlayerCardtoBoard(weasel, 0);
 		
@@ -22,7 +22,7 @@ class BoardJUnitTest {
 	@Test
 	void PlayerCardsAreRemoved() {
 		Board sut = new Board();
-		Card weasel = new Card();
+		Card weasel = new NormalCard();
 		sut.addPlayerCardtoBoard(weasel, 0);
 		
 		sut.removePlayerCardFromBoard(0);
@@ -33,9 +33,9 @@ class BoardJUnitTest {
 	@Test
 	void addsOpponentCardsToCorrectPosition() {
 		Board sut = new Board();
-		Card weasel = new Card();
-		Card beaver = new Card();
-		Card wolf = new Card();
+		Card weasel = new NormalCard();
+		Card beaver = new NormalCard();
+		Card wolf = new NormalCard();
 		
 		sut.addOpponentCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(beaver, 3);
@@ -49,9 +49,9 @@ class BoardJUnitTest {
 	@Test
 	void OpponentCardsMoveCorrectly() {
 		Board sut = new Board();
-		Card weasel = new Card();
-		Card beaver = new Card();
-		Card wolf = new Card();
+		Card weasel = new NormalCard();
+		Card beaver = new NormalCard();
+		Card wolf = new NormalCard();
 		
 		sut.addOpponentCardtoSpecificLocation(wolf, 0, 3);		
 		sut.addOpponentCardtoSpecificLocation(weasel, 3, 0);
@@ -70,7 +70,7 @@ class BoardJUnitTest {
 	@Test
 	void OpponentCardsAreRemoved() {
 		Board sut = new Board();
-		Card weasel = new Card();		
+		Card weasel = new NormalCard();		
 		sut.addOpponentCardtoBoard(weasel, 0);
 		sut.removeOpponentCardFromBoard(0);
 		
@@ -80,9 +80,9 @@ class BoardJUnitTest {
 	@Test
 	void correctlyGrabsFrontRow() {
 		Board sut = new Board();
-		Card weasel = new Card();
-		Card beaver = new Card();
-		Card wolf = new Card();
+		Card weasel = new NormalCard();
+		Card beaver = new NormalCard();
+		Card wolf = new NormalCard();
 		
 		sut.addOpponentCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(beaver, 1);
@@ -97,9 +97,9 @@ class BoardJUnitTest {
 	@Test
 	void correctlyGrabsSecondRow() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 1, 1, 1);
-		Card beaver = new Card();
-		Card wolf = new Card();
+		Card weasel = new NormalCard("Weasel", 1, 1, 1);
+		Card beaver = new NormalCard();
+		Card wolf = new NormalCard();
 		
 		sut.addOpponentCardtoSpecificLocation(weasel, 0, 1);
 		sut.addOpponentCardtoSpecificLocation(beaver, 1, 1);
@@ -114,8 +114,8 @@ class BoardJUnitTest {
 	@Test
 	void CardHealthIsRemovedCorrectly() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 4, 2);
-		Card wolf = new Card("Wolf", 3, 3, 3);	
+		Card weasel = new NormalCard("Weasel", 2, 4, 2);
+		Card wolf = new NormalCard("Wolf", 3, 3, 3);	
 		
 		sut.addPlayerCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(wolf, 0);
@@ -132,8 +132,8 @@ class BoardJUnitTest {
 	@Test
 	void PlayerCardsAreRemovedFromGameAfterHealthIsDepleted() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 1, 2); //one health
-		Card wolf = new Card("Wolf", 3, 3, 3);
+		Card weasel = new NormalCard("Weasel", 2, 1, 2); //one health
+		Card wolf = new NormalCard("Wolf", 3, 3, 3);
 		
 		sut.addPlayerCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(wolf, 0);
@@ -147,8 +147,8 @@ class BoardJUnitTest {
 	@Test
 	void OpponentCardsAreRemovedFromGameAfterHealthIsDepleted() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 1, 2); //one health
-		Card wolf = new Card("Wolf", 3, 3, 3);
+		Card weasel = new NormalCard("Weasel", 2, 1, 2); //one health
+		Card wolf = new NormalCard("Wolf", 3, 3, 3);
 		
 		sut.addPlayerCardtoBoard(wolf, 0);
 		sut.addOpponentCardtoBoard(weasel, 0);
@@ -162,9 +162,9 @@ class BoardJUnitTest {
 	@Test
 	void OverkillDamageIsAppliedToSecondRow() {
 		Board sut = new Board();
-		Card weasel = new Card("Weasel", 2, 2, 2); //two health
-		Card beaver = new Card("Beaver", 3, 3, 3); //three health
-		Card wolf = new Card("Wolf", 3, 3, 3); //three attack
+		Card weasel = new NormalCard("Weasel", 2, 2, 2); //two health
+		Card beaver = new NormalCard("Beaver", 3, 3, 3); //three health
+		Card wolf = new NormalCard("Wolf", 3, 3, 3); //three attack
 		sut.addPlayerCardtoBoard(wolf, 0);
 		sut.addOpponentCardtoBoard(weasel, 0);
 		sut.addOpponentCardtoBoard(beaver, 0); //beaver should be behind weasel
@@ -178,7 +178,7 @@ class BoardJUnitTest {
 	@Test
 	void BoardHealthIsProperlyModifiedWhenPlayerAttacks() {
 		Board sut = new Board(); //Board defaults to five health
-		Card weasel = new Card("Weasel", 2, 2, 2); //two attack
+		Card weasel = new NormalCard("Weasel", 2, 2, 2); //two attack
 		sut.addPlayerCardtoBoard(weasel, 0);
 		int previousBoardHealth = sut.getBoardHealth();
 		
@@ -190,7 +190,7 @@ class BoardJUnitTest {
 	@Test
 	void BoardHealthIsProperlyModifiedWhenOpponentAttacks() {
 		Board sut = new Board(); //Board defaults to five health
-		Card weasel = new Card("Weasel", 2, 2, 2); //two attack
+		Card weasel = new NormalCard("Weasel", 2, 2, 2); //two attack
 		sut.addOpponentCardtoBoard(weasel, 0);
 		int previousBoardHealth = sut.getBoardHealth();
 		
@@ -202,7 +202,7 @@ class BoardJUnitTest {
 	@Test
 	void AllPlayerCardsAttackWhenPlayerAttackIsCalled() {
 		Board sut = new Board(); //will be attacking empty board
-		Card weasel = new Card("Weasel", 1, 1, 1); //all cards have one attack
+		Card weasel = new NormalCard("Weasel", 1, 1, 1); //all cards have one attack
 		int previousBoardHealth = sut.getBoardHealth();
 		
 		for (int i=0; i<sut.getBoardSizeX(); i++)
@@ -216,7 +216,7 @@ class BoardJUnitTest {
 	@Test
 	void AllOpponentCardsAttackWhenOpponentAttackIsCalled() {
 		Board sut = new Board(); //will be attacking empty board
-		Card weasel = new Card("Weasel", 1, 1, 1); //all cards have one attack
+		Card weasel = new NormalCard("Weasel", 1, 1, 1); //all cards have one attack
 		int previousBoardHealth = sut.getBoardHealth();
 		
 		for (int i=0; i<sut.getBoardSizeX(); i++)
@@ -230,10 +230,10 @@ class BoardJUnitTest {
 	@Test
 	void OverkillDamageCanDefeatCardInSecondRow() {
 		Board sut = new Board(); //will be attacking empty board
-		Card lowHPFront = new Card("Weasel", 1, 1, 1); //card in front has
-		Card lowHPBack = new Card ("Bird", 1, 1, 1); //card has one health
-		Card farInTheBack = new Card("Hawk", 1, 1, 1); //this card is placed far in the third row. It shouldn't take damage.
-		Card HighAtk = new Card ("Lion", 4, 4, 4); //card has 4 attack.
+		Card lowHPFront = new NormalCard("Weasel", 1, 1, 1); //card in front has
+		Card lowHPBack = new NormalCard ("Bird", 1, 1, 1); //card has one health
+		Card farInTheBack = new NormalCard("Hawk", 1, 1, 1); //this card is placed far in the third row. It shouldn't take damage.
+		Card HighAtk = new NormalCard ("Lion", 4, 4, 4); //card has 4 attack.
 		int previousboardHealth = sut.getBoardHealth();
 		
 		sut.addPlayerCardtoBoard(HighAtk, 2); //for attacking opponent
