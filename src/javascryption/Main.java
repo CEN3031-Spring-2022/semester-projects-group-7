@@ -5,14 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Random;
-
 import javax.swing.JOptionPane;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -28,6 +23,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 
 public class Main extends Application {
 	
@@ -38,7 +35,6 @@ public class Main extends Application {
 	private Deck selectedDeck;
 	private int cardPos;
 	private Player player = new Player();
-	Deck cardLib = new Deck();
 	
     public static void main(String[] args) {
         launch(args);
@@ -52,10 +48,6 @@ public class Main extends Application {
     	primaryStage.show();
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
-
-        // REMOVE ME //
-        
-        Card card2 = new Card("Wolf", 2, 3, 2);
         CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
 
@@ -63,11 +55,12 @@ public class Main extends Application {
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
         Button Bell = new Button();
-		//Board board = new Board();
-		//reading board input here.
+
+        //reading board input here
 		BoardReader boardReader = new BoardReader();
 		boardReader.readInputFile("DefaultBoard.txt");		
 		
+		//passing read board to boardButtons
         BoardButtons boardButtons = new BoardButtons(boardReader.getBoard());
         boardButtons.makeBoardButtons();
   
@@ -79,33 +72,6 @@ public class Main extends Application {
         boardButtons.setHandToModify(hand);
         Group boardButtonsDisplay = new Group();
         boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
-
-        //Action listeners ///////////////////////////////////////////////////////////////////////
-        
-        Deck.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            		cardPos++;
-            		//card2 should be replaced with a get next card from deck function
-            		if(cardPos < player.getPlayerDeck().getSize()) {
-            			hand.addCardToHand(player.getPlayerDeck().getCardByPosition(cardPos));
-            		}
-            		else {
-            			JOptionPane.showMessageDialog(null, "You are out of cards!");
-            		}
-            		Deck.setDisable(true);
-            		SquirrelDeck.setDisable(true);
-            }
-        });
-        SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            		Card card = new Card("Squirrel", 0, 1, 0);
-            		hand.addCardToHand(card);
-            		Deck.setDisable(true);
-            		SquirrelDeck.setDisable(true);
-            }
-        });
 
         
         //Button size/position set ////////////////////////////////////////////////////
@@ -162,8 +128,35 @@ public class Main extends Application {
         root.getChildren().add(gameLogPanel);
 
         updateEnemyCards(root, cardGraphic, boardButtons);
-
-        Bell.setOnAction(new EventHandler<ActionEvent>() {
+        
+        //Action listeners ///////////////////////////////////////////////////////////////////////        
+        Deck.setOnAction(new EventHandler<ActionEvent>() { //when player deck button is pressed
+            @Override
+            public void handle(ActionEvent event) {
+            		cardPos++;
+            		//card2 should be replaced with a get next card from deck function
+            		if(cardPos < player.getPlayerDeck().getSize()) {
+            			hand.addCardToHand(player.getPlayerDeck().getCardByPosition(cardPos));
+            		}
+            		else {
+            			JOptionPane.showMessageDialog(null, "You are out of cards!");
+            		}
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
+            }
+        });
+        
+        SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() { //when squirrel deck is pressed
+            @Override
+            public void handle(ActionEvent event) {
+            		Card card = new Card("Squirrel", 0, 1, 0);
+            		hand.addCardToHand(card);
+            		Deck.setDisable(true);
+            		SquirrelDeck.setDisable(true);
+            }
+        });
+        
+        Bell.setOnAction(new EventHandler<ActionEvent>() { //when bell is pressed
             @Override
             public void handle(ActionEvent event) {
             	boardButtons.moveOpponentCardsUp();
@@ -189,14 +182,9 @@ public class Main extends Application {
         			loseMessage();
         		}
         		
-        		//updates the player board here.
+        		//updates the player board and enemy cards here.
         		try {
 					boardButtons.updatePlayerBoard();
-					
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
-        		try {
 					updateEnemyCards(root, cardGraphic, boardButtons);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -209,24 +197,20 @@ public class Main extends Application {
     public void updateEnemyCards(StackPane root, CardGraphicBuilder cardGraphic, BoardButtons boardButtons) throws FileNotFoundException {
     	ArrayList<Card> frontRow = new ArrayList<Card>(boardButtons.getFrontRowFromBoard());
     	ArrayList<Card> secondRow = new ArrayList<Card>(boardButtons.getSecondRowFromBoard());
-    	//add back row
+    	//get and display back row
     	for (int i = 0; i < 4; i++) {
-    		if (secondRow.get(i) == null) {
+    		if (secondRow.get(i) == null)
     			root.getChildren().add(cardGraphic.setEnemyCardEmpty(0, i));
-    		}
-    		else {
+    		else
     			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(secondRow.get(i), 0, i));
-    		}
     	}
     	
-    	//add front row
+    	//get and display front row
     	for (int i = 0; i < 4; i++) {
-    		if (frontRow.get(i) == null) {
+    		if (frontRow.get(i) == null)
     			root.getChildren().add(cardGraphic.setEnemyCardEmpty(1, i));
-    		}
-    		else {
+    		else 
     			root.getChildren().add(cardGraphic.setEnemyCardGraphicPositions(frontRow.get(i), 1, i));
-    		}
     	}
     		
     }
@@ -317,16 +301,6 @@ public class Main extends Application {
     	}
     }
 
-
-
-    private int randNum;
-    private Card getEnemyCardToPlace(){
-    	Card cardToReturn = new Card();
-    	Random rand =  new Random();
-    	randNum = rand.nextInt(5);
-		cardToReturn.makeCard(randNum);
-    	return cardToReturn;
-    }
     private void handleCustomDeckInput(PrintWriter pW, String uInput) {
 		String[] splitText = uInput.split(",");
 		// map the card library to a deck
