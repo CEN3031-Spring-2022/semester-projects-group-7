@@ -55,7 +55,7 @@ public class Main extends Application {
 
         // REMOVE ME //
         
-        Card card2 = new Card("Wolf", 2, 3, 2);
+        Card card2 = new NormalCard("Wolf", 2, 3, 2);
         CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
 
@@ -100,7 +100,7 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            		Card card = new Card("Squirrel", 0, 1, 0);
+            		Card card = new NormalCard("Squirrel", 0, 1, 0);
             		hand.addCardToHand(card);
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
@@ -321,7 +321,7 @@ public class Main extends Application {
 
     private int randNum;
     private Card getEnemyCardToPlace(){
-    	Card cardToReturn = new Card();
+    	Card cardToReturn = new NormalCard();
     	Random rand =  new Random();
     	randNum = rand.nextInt(5);
 		cardToReturn.makeCard(randNum);
