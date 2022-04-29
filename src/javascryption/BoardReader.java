@@ -53,17 +53,27 @@ public class BoardReader {
 		while(line != null) {
 		
 			String[] text = line.split(",");
-			for(int i = 0; i<text.length; i++) {
+			for(int i = 0; i<text.length; i++)
+			{
 				//System.out.println(text[i]);
 				//System.out.println(name);
 				if(text[i].equalsIgnoreCase(name)) {
 					blood = Integer.parseInt(text[++i]);
 					health = Integer.parseInt(text[++i]);
 					attack = Integer.parseInt(text[++i]);
-					return (new Card(name, blood, health, attack));
+					if(text.length >= 5)
+					{
+						switch(text[++i].toLowerCase())
+						{
+						case "touchofdeath":
+							return (new TouchOfDeathCard(name,blood,health,attack));
+						case "bifurcatedstrike":
+							return (new BifurcatedStrikeCard(name,blood,health,attack));
+						}
+					}
+					return (new NormalCard(name, blood, health, attack));
 				}
 			}
-			
 			line = cardLibrary.readLine();
 		}
 		

@@ -56,7 +56,6 @@ public class Main extends Application {
          
         AdditionalGraphics additionalGraphics = new AdditionalGraphics();
 
-
         //Buttons creation ///////////////////////////////////////////////////////////////////////
         Button Deck = new Button();
         Button SquirrelDeck = new Button();
@@ -77,7 +76,6 @@ public class Main extends Application {
         boardButtons.setHandToModify(hand);
         Group boardButtonsDisplay = new Group();
         boardButtonsDisplay.getChildren().add(boardButtons.getBoardButtons());
-
         
         //Button size/position set ////////////////////////////////////////////////////
         

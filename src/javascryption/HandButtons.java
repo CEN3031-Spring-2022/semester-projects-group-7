@@ -13,6 +13,7 @@ public class HandButtons{
 	private CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 	private BoardButtons boardButtons;
 	private int cardPos;
+
 	
 	public HandButtons(BoardButtons someBoardButtons) {
 		boardButtons = someBoardButtons;
