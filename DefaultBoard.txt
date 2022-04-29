@@ -1,5 +1,0 @@
-pass
-Squirrel,0,Stoat,2
-Squirrel,0,Squirrel,1
-Squirrel,3
-Snapper,1
