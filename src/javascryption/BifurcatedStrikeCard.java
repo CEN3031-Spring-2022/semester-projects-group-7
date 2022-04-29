@@ -31,7 +31,7 @@ public class BifurcatedStrikeCard extends Card{
 		
 		//If card is on the far left it only attacks to the right
 		if(positionX == 0) {
-			if(defenderAL.get(positionX - 1) == null) {
+			if(defenderAL.get(positionX + 1) == null) {
 				defenderHealthLeft = damage*-1;
 			}
 			else {
@@ -41,7 +41,7 @@ public class BifurcatedStrikeCard extends Card{
 		}
 		
 		//If card is on the far right it only attacks to the left
-		if(positionX == 3) {
+		else if(positionX == 3) {
 			if(defenderAL.get(positionX - 1) == null) {
 				defenderHealthLeft = damage*-1;
 			}

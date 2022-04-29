@@ -84,15 +84,17 @@ public class Board
 		{
 			if(attackerPos == 0)
 			{
-				if(this.getOpponentCardByPosition(attackerPos + 1) == null)
+				if(this.getOpponentCardByPosition(attackerPos + 1) == null) {
 					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+				}
 			}
 			if(attackerPos == 3)
 			{
-				if(this.getOpponentCardByPosition(attackerPos - 1) == null)
+				if(this.getOpponentCardByPosition(attackerPos - 1) == null) {
 					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
+				}
 			}
-			else
+			if(attackerPos == 2 || attackerPos == 1)
 			{
 				if(this.getOpponentCardByPosition(attackerPos + 1) == null)
 					dealBoardDamage(playerBoard.get(attackerPos).getAttack());
