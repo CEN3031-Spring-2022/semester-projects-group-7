@@ -152,7 +152,7 @@ public class Main extends Application {
         SquirrelDeck.setOnAction(new EventHandler<ActionEvent>() { //when squirrel deck is pressed
             @Override
             public void handle(ActionEvent event) {
-            		Card card = new Card("Squirrel", 0, 1, 0);
+            		Card card = new NormalCard("Squirrel", 0, 1, 0);
             		hand.addCardToHand(card);
             		Deck.setDisable(true);
             		SquirrelDeck.setDisable(true);
@@ -279,7 +279,11 @@ public class Main extends Application {
     
     private void selectOpponentDeck(String path) {
     	try {
-    		boardReader.readInputFile("Enemy_Boards/"+path);
+    		if (path != null)
+    			boardReader.readInputFile("Enemy_Boards/"+path);
+    		else
+    			boardReader.readInputFile("Enemy_Boards/DefaultBoard.txt");
+    		
     		updateEnemyCards(root, cardGraphic, boardButtons);
     	} catch (Exception e) {
     		e.printStackTrace();

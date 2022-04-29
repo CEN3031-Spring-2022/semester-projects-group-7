@@ -43,7 +43,7 @@ public class Player {
 	 * Removes card from top of the deck and adds it to hand.
 	 */
 	public void drawCard() {
-		Card newCard = playerDeck.getCardByPosition(0);
+		Card newCard = playerDeck.getCardByPosition(0);	
 		playerHand.addCardToHand(newCard);
 		playerDeck.deleteCardByPosition(0);
 	}
