@@ -322,6 +322,8 @@ public class Main extends Application {
     			break;
     			
     		}
+    		
+    		selectedDeck.shuffleCards();
     		player.setDeck(selectedDeck);
     		
     	} catch (IOException e) {
