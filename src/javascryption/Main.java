@@ -38,7 +38,7 @@ public class Main extends Application {
 	private Player player = new Player();
 	private BoardReader boardReader = new BoardReader();
 	private BoardButtons boardButtons;
-    CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
+    private CardGraphicBuilder cardGraphic = new CardGraphicBuilder();
 
     public static void main(String[] args) {
         launch(args);
